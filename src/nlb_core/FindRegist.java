@@ -14,99 +14,99 @@ import java.awt.Color;
 
 public class FindRegist {
 
-	private JFrame FindRegist;
-	private JTextField FindID_NameText;
-	private JTextField FindPW_IDText;
+   private JFrame FindRegist;
+   private JTextField FindID_NameText;
+   private JTextField FindPW_IDText;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FindRegist window = new FindRegist();
-					window.FindRegist.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+   /**
+    * Launch the application.
+    */
+   public static void main(String[] args) {
+      EventQueue.invokeLater(new Runnable() {
+         public void run() {
+            try {
+               FindRegist window = new FindRegist();
+               window.FindRegist.setVisible(true);
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+         }
+      });
+   }
 
-	/**
-	 * Create the application.
-	 */
-	public FindRegist() {
-		initialize();
-		FindRegist.setVisible(true);
-	}
+   /**
+    * Create the application.
+    */
+   public FindRegist() {
+      initialize();
+      FindRegist.setVisible(true);
+   }
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		FindRegist = new JFrame();
-		FindRegist.setTitle("Next Level Bank_Find");
-		FindRegist.setBounds(100, 100, 410, 463);
-		FindRegist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		FindRegist.getContentPane().setLayout(null);
-		
-		JLabel IDLabel = new JLabel("ÏïÑÏù¥Îîî Ï∞æÍ∏∞");
-		IDLabel.setBounds(12, 10, 74, 15);
-		FindRegist.getContentPane().add(IDLabel);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(12, 29, 370, 135);
-		FindRegist.getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		JButton FindID_btn = new JButton("Ï∞æÍ∏∞");
-		FindID_btn.setBounds(261, 36, 97, 59);
-		panel.add(FindID_btn);
-		
-		JLabel FindID_Namelabel = new JLabel("Ïù¥Î¶Ñ");
-		FindID_Namelabel.setBounds(48, 44, 57, 15);
-		panel.add(FindID_Namelabel);
-		
-		FindID_NameText = new JTextField();
-		FindID_NameText.setBounds(102, 41, 116, 21);
-		panel.add(FindID_NameText);
-		FindID_NameText.setColumns(10);
-		
-		JLabel PWLabel = new JLabel("ÎπÑÎ∞ÄÎ≤àÌò∏ Ï∞æÍ∏∞");
-		PWLabel.setBounds(12, 174, 92, 15);
-		FindRegist.getContentPane().add(PWLabel);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setLayout(null);
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setBounds(12, 194, 370, 135);
-		FindRegist.getContentPane().add(panel_1);
-		
-		JButton FindPW_btn = new JButton("Ï∞æÍ∏∞");
-		FindPW_btn.setBounds(261, 36, 97, 59);
-		panel_1.add(FindPW_btn);
-		
-		JLabel FindPW_IDlabel = new JLabel("ÏïÑÏù¥Îîî");
-		FindPW_IDlabel.setBounds(48, 44, 57, 15);
-		panel_1.add(FindPW_IDlabel);
-		
-		FindPW_IDText = new JTextField();
-		FindPW_IDText.setColumns(10);
-		FindPW_IDText.setBounds(102, 41, 116, 21);
-		panel_1.add(FindPW_IDText);
-		
-		JButton Back_LoginFrame_btn = new JButton("ÎèåÏïÑÍ∞ÄÍ∏∞");
-		Back_LoginFrame_btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				FindRegist.setVisible(false);
-				new LoginFrame();
-			}
-		});
-		Back_LoginFrame_btn.setBounds(150, 361, 97, 41);
-		FindRegist.getContentPane().add(Back_LoginFrame_btn);
-		FindRegist.setResizable(false);
-	}
+   /**
+    * Initialize the contents of the frame.
+    */
+   private void initialize() {
+      FindRegist = new JFrame();
+      FindRegist.setTitle("Next Level Bank_Find");
+      FindRegist.setBounds(100, 100, 410, 463);
+      FindRegist.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      FindRegist.getContentPane().setLayout(null);
+      
+      JLabel IDLabel = new JLabel("æ∆¿Ãµ √£±‚");
+      IDLabel.setBounds(12, 10, 74, 15);
+      FindRegist.getContentPane().add(IDLabel);
+      
+      JPanel panel = new JPanel();
+      panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+      panel.setBounds(12, 29, 370, 135);
+      FindRegist.getContentPane().add(panel);
+      panel.setLayout(null);
+      
+      JButton FindID_btn = new JButton("√£±‚");
+      FindID_btn.setBounds(261, 36, 97, 59);
+      panel.add(FindID_btn);
+      
+      JLabel FindID_Namelabel = new JLabel("¿Ã∏ß");
+      FindID_Namelabel.setBounds(48, 44, 57, 15);
+      panel.add(FindID_Namelabel);
+      
+      FindID_NameText = new JTextField();
+      FindID_NameText.setBounds(102, 41, 116, 21);
+      panel.add(FindID_NameText);
+      FindID_NameText.setColumns(10);
+      
+      JLabel PWLabel = new JLabel("∫Òπ–π¯»£ √£±‚");
+      PWLabel.setBounds(12, 174, 92, 15);
+      FindRegist.getContentPane().add(PWLabel);
+      
+      JPanel panel_1 = new JPanel();
+      panel_1.setLayout(null);
+      panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+      panel_1.setBounds(12, 194, 370, 135);
+      FindRegist.getContentPane().add(panel_1);
+      
+      JButton FindPW_btn = new JButton("√£±‚");
+      FindPW_btn.setBounds(261, 36, 97, 59);
+      panel_1.add(FindPW_btn);
+      
+      JLabel FindPW_IDlabel = new JLabel("æ∆¿Ãµ");
+      FindPW_IDlabel.setBounds(48, 44, 57, 15);
+      panel_1.add(FindPW_IDlabel);
+      
+      FindPW_IDText = new JTextField();
+      FindPW_IDText.setColumns(10);
+      FindPW_IDText.setBounds(102, 41, 116, 21);
+      panel_1.add(FindPW_IDText);
+      
+      JButton Back_LoginFrame_btn = new JButton("µπæ∆∞°±‚");
+      Back_LoginFrame_btn.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            FindRegist.setVisible(false);
+            new LoginFrame();
+         }
+      });
+      Back_LoginFrame_btn.setBounds(150, 361, 97, 41);
+      FindRegist.getContentPane().add(Back_LoginFrame_btn);
+      FindRegist.setResizable(false);
+   }
 }
