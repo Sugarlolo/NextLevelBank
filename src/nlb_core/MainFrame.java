@@ -54,29 +54,23 @@ public class MainFrame {
 	 */
 	private void initialize() {
 		frmKakaobank = new JFrame();
-		frmKakaobank.setTitle("Next Level Bank");
+		frmKakaobank.getContentPane().setBackground(new Color(255, 255, 255));
+		frmKakaobank.setTitle("Next Level Bank MAIN");
 		frmKakaobank.setBounds(100, 100, 450, 700);
 		frmKakaobank.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmKakaobank.getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(29, 75, 374, 285);
+		scrollPane.setBounds(12, 115, 410, 516);
 		frmKakaobank.getContentPane().add(scrollPane);
 		
-		JPanel panel_2 = new JPanel();
-		scrollPane.setViewportView(panel_2);
-		panel_2.setLayout(new GridLayout(0, 1, 0, 0));
+		JPanel panel = new JPanel();
+		scrollPane.setColumnHeaderView(panel);
+		panel.setLayout(null);
 		
-		JLabel lblNewLabel_2 = new JLabel("New label3");
-		panel_2.add(lblNewLabel_2);
-		
-		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3);
-		
-		JPanel panel_4 = new JPanel();
-		panel_2.add(panel_4);
-		
-		JPanel panel_5 = new JPanel();
-		panel_2.add(panel_5);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 211, 0));
+		panel_1.setBounds(40, 34, 328, 175);
+		panel.add(panel_1);
 	}
 }
