@@ -1,4 +1,4 @@
-package nlb_core;
+package beans;
 
 public class MemberBean {
 	private String memberID;
