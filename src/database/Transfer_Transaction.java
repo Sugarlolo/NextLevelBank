@@ -42,7 +42,7 @@ public class Transfer_Transaction {
 			pstmt.setInt(2,tb.getTransfer_Balance());
 			pstmt.setInt(3,tb.getTransfer_Take_Account());
 			pstmt.setString(4, currentTimestamp);
-			pstmt.setString(5, )
+//			pstmt.setString(5, );
 			
 			int cnt = pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -73,11 +73,7 @@ public class Transfer_Transaction {
 		} finally {
 			pool.freeConnection(con, pstmt, rs);
 		}
-		return;
-		
-	}
-	
-	public static void main(String[] args) {
+		return false;
 		
 	}
 }
