@@ -39,7 +39,7 @@ import java.util.Vector;
 public class DBConnectionMgr {
     private Vector connections = new Vector(10);
     private String _driver = "com.mysql.cj.jdbc.Driver",
-    _url = "jdbc:mysql://hxlab.co.kr:13306/mydb?characterEncoding=UTF-8&serverTimezone=UTC",
+    _url = "jdbc:mysql://hxlab.co.kr:13306/nlb_db?characterEncoding=UTF-8&serverTimezone=UTC",
     _user = "root",
     _password = "1234";
     
@@ -216,6 +216,14 @@ public class DBConnectionMgr {
     public void freeConnection(Connection c, Statement s) {
         try {
             if (s != null) s.close();
+            freeConnection(c);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void freeConnection(Connection c, CallableStatement c1) {
+        try {
+            if (c1 != null) c1.close();
             freeConnection(c);
         } catch (SQLException e) {
             e.printStackTrace();

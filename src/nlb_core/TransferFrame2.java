@@ -5,13 +5,19 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import database.TransferMgr;
 
 public class TransferFrame2 extends JFrame implements ActionListener{
 	final String[] buttonLabels = new String[] {
@@ -23,6 +29,7 @@ public class TransferFrame2 extends JFrame implements ActionListener{
 	JTextField textField_money;
 	String number="";
 	JButton buttons[];
+	JButton admit,plus1,plus5,plus10,plusAll;
 	public TransferFrame2() {
 		frame = new JFrame();
 		frame.getContentPane().setForeground(new Color(255, 255, 255));
@@ -36,11 +43,19 @@ public class TransferFrame2 extends JFrame implements ActionListener{
 		frame.getContentPane().add(lblNewLabel);
 		
 		textField_account = new JTextField();
-		textField_account.setText("\uACC4\uC88C\uBC88\uD638");
+		textField_account.setText("계좌번호");
 		textField_account.setFont(new Font("굴림", Font.PLAIN, 17));
 		textField_account.setBounds(30, 82, 425, 46);
 		frame.getContentPane().add(textField_account);
 		textField_account.setColumns(10);
+		textField_account.addActionListener(this);
+		
+		textField_account.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textField_account.setText("");
+			}
+		});
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(30, 290, 425, 394);
@@ -56,24 +71,25 @@ public class TransferFrame2 extends JFrame implements ActionListener{
 		}
 
 		
-		JButton btnNewButton = new JButton("\uB2E4\uC74C");
-		btnNewButton.setFont(new Font("굴림", Font.PLAIN, 20));
-		btnNewButton.setBounds(30, 709, 425, 32);
-		frame.getContentPane().add(btnNewButton);
+		admit = new JButton("다음");
+		admit.setFont(new Font("굴림", Font.PLAIN, 20));
+		admit.setBounds(30, 709, 425, 32);
+		frame.getContentPane().add(admit);
+		admit.addActionListener(this);
 		
-		JButton btnNewButton_1 = new JButton("+1\uB9CC");
+		JButton btnNewButton_1 = new JButton("+1만");
 		btnNewButton_1.setBounds(30, 242, 97, 23);
 		frame.getContentPane().add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("+5\uB9CC");
+		JButton btnNewButton_2 = new JButton("+5만");
 		btnNewButton_2.setBounds(139, 242, 97, 23);
 		frame.getContentPane().add(btnNewButton_2);
 		
-		JButton btnNewButton_3 = new JButton("+10\uB9CC");
+		JButton btnNewButton_3 = new JButton("+10만");
 		btnNewButton_3.setBounds(248, 242, 97, 23);
 		frame.getContentPane().add(btnNewButton_3);
 		
-		JButton btnNewButton_4 = new JButton("\uC804\uC561");
+		JButton btnNewButton_4 = new JButton("전액");
 		btnNewButton_4.setBounds(358, 242, 97, 23);
 		frame.getContentPane().add(btnNewButton_4);
 		
@@ -95,7 +111,10 @@ public class TransferFrame2 extends JFrame implements ActionListener{
 		for (int i = 0; i<buttons.length; i++) {
 			if (buttons[i]==obj) {
 				String btnText = buttons[i].getText();
-				
+				if (obj==buttons[9] || obj==buttons[10]) {
+					if (number.isEmpty())
+						continue;
+				}
 				if (!(btnText.equals("지우기"))){
 					number+=btnText;
 					textField_money.setText(number);
@@ -104,6 +123,21 @@ public class TransferFrame2 extends JFrame implements ActionListener{
 					textField_money.setText(number);
 				}
 			}
+		}
+		if ( obj == admit) {
+			int account_num = Integer.parseInt(textField_account.getText());
+			System.out.println(account_num);
+			TransferMgr tMgr = new TransferMgr();
+			boolean flag = false;
+			
+			flag = tMgr.Transaction_CheckAccount(account_num);
+			
+			if (flag!=false) {
+				System.out.println("맞는 계좌입니다.");
+				
+			} else
+				System.out.println("틀린 계좌입니다.");
+			
 		}
 	}
 	

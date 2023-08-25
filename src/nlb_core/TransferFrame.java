@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TransferFrame{
 
@@ -60,6 +62,11 @@ public class TransferFrame{
 		frame.getContentPane().add(lblNewLabel);
 		
 		textField = new JTextField();
+		textField.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		textField.setText("\uACC4\uC88C\uBC88\uD638");
 		textField.setFont(new Font("±¼¸²", Font.PLAIN, 17));
 		textField.setBounds(30, 82, 425, 46);
