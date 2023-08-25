@@ -33,7 +33,7 @@ public class TransferMgr {
 	
 	//이체 화면에서 이체 대상의 계좌번호가 일치하는지 검사하는 메소드
 	
-	public boolean Transaction_CheckAccount(int account) {
+	public boolean Transfer_CheckAccount(int account) {
 		//불러와야 할 정보 - 거래 대상의 계좌번호
 		Connection con = null;
 		CallableStatement cstmt = null;
@@ -52,7 +52,6 @@ public class TransferMgr {
 			int result = cstmt.getInt(2);
 			System.out.println("result :" + result);
 			flag = result;
-			System.out.println("계좌 여부 :"+result);
 //			rs = pstmt.executeQuery();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -63,6 +62,44 @@ public class TransferMgr {
 			return true;
 		} else
 			return false;
+	}
+
+	
+	public boolean Transfer_CheckBalance(int account,int amount) {
+		Connection con = null;
+		CallableStatement cstmt = null;
+		String sql = null;
+		AccountsBean ab = new AccountsBean();
+//		int account = ab.getACCOUNT_NUM();
+//		int balance = ab.getACCOUNT_BALANCE();
+		int flag = 0;
+		
+		try {
+			con = pool.getConnection();
+			sql = "{call CheckAccountBalance(?,?,?)}";
+			cstmt = con.prepareCall(sql);
+//			cstmt.setInt(1,ab.getACCOUNT_NUM());
+			cstmt.setInt(1,account);
+			cstmt.setInt(2, amount);
+			cstmt.registerOutParameter(3,java.sql.Types.INTEGER);
+			cstmt.execute();
+			
+			int result = cstmt.getInt(3);
+			flag = result;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, cstmt);
+		}
+		if (flag!=0) {
+			return true;
+		} else
+			return false;
+	}
+	
+	public void Transfer_Transaction() {
+		
 	}
 	
 	public void Transfer_bean() {
