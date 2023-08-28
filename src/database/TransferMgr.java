@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,15 +22,6 @@ public class TransferMgr {
 	public TransferMgr() {
 		pool = DBConnectionMgr.getInstance();
 	}
-
-	public void Transaction_Do(int balance) {
-
-	}
-
-	public void Transaction_Take() {
-
-	}
-
 	
 	//이체 화면에서 이체 대상의 계좌번호가 일치하는지 검사하는 메소드
 	
@@ -64,7 +56,7 @@ public class TransferMgr {
 			return false;
 	}
 
-	
+	// 보내려는 금액과 현재 내 계좌내 잔액을 비교해서 true, false를 반환하는 메소드 
 	public boolean Transfer_CheckBalance(int account,int amount) {
 		Connection con = null;
 		CallableStatement cstmt = null;
@@ -98,27 +90,30 @@ public class TransferMgr {
 			return false;
 	}
 	
-	public void Transfer_Transaction() {
-		
-	}
-	
-	public void Transfer_bean() {
+	public boolean Transfer_Transaction() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		String sql = null;
+		boolean flag = false;
+		AccountsBean bean;
 		try {
 			con = pool.getConnection();
-			sql = "SELECT ";
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
+			con.setAutoCommit(false);
+			sql = ("UPDATE ACCOUNTS SET "
+					+ "(?,?) VALUES "
+					+ "(?,?)");
+			pstmt.setTimestamp(0, Timestamp(now()));
+			pstmt.executeUpdate(sql);
+			int cnt = pstmt.executeUpdate();
+			if (cnt == 1) {
+				flag = true;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			pool.freeConnection(con, pstmt, rs);
+			pool.freeConnection(con, pstmt);
 		}
-		return;
+		return flag;
 	}
 	
 //	public static void main(String[] args) {

@@ -5,6 +5,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -13,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -28,6 +32,7 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 	String number = "";
 	JButton buttons[];
 	JButton admit, plus1, plus5, plus10, plusAll;
+	boolean isNotEmpty=false;
 
 	public TransferFrame2() {
 		frame = new JFrame();
@@ -46,15 +51,27 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 		textField_account.setFont(new Font("굴림", Font.PLAIN, 17));
 		textField_account.setBounds(30, 82, 425, 46);
 		frame.getContentPane().add(textField_account);
-		textField_account.setColumns(10);
+		textField_account.setColumns(9);
 		textField_account.addActionListener(this);
 
 		textField_account.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				textField_account.setText("");
+				if (isNotEmpty==false) {
+					textField_account.setText("");
+					isNotEmpty=true;
+				}
 			}
 		});
+		
+		textField_account.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent ke) {
+				if (textField_account.getText().length() >=9) {
+					ke.consume();
+				}
+			}
+		});
+		
 
 		JPanel panel = new JPanel();
 		panel.setBounds(30, 290, 425, 394);
@@ -102,6 +119,7 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 		frame.setVisible(true);
 	}
 
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -122,6 +140,7 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 				}
 			}
 		}
+		
 		if (obj == admit) {
 			int account_num = Integer.parseInt(textField_account.getText());
 			System.out.println(account_num);
@@ -138,13 +157,18 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 				System.out.println("맞는 계좌입니다.");
 				// 테스트 계좌
 				int acc = 185526101;
-
+				
 				if (tMgr.Transfer_CheckBalance(acc, amount) != false) {
 					System.out.println("송금이 가능합니다.");
-				} else
+					JOptionPane.showMessageDialog(frame, "송금이 가능합니다.");
+				} else {
 					System.out.println("송금이 불가능합니다.");
-			} else
+					JOptionPane.showMessageDialog(frame, "송금이 불가능합니다.");
+				}
+			} else {
 				System.out.println("틀린 계좌입니다.");
+				JOptionPane.showMessageDialog(frame, "존재하지 않는 계좌입니다.");
+			}
 		}
 	}
 

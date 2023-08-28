@@ -10,6 +10,8 @@ public class AccountsBean {
 	private String ACCOUNT_CATEGORY;
 	private int ACCOUNT_BALANCE;
 	
+	
+	
 	public int getACCOUNT_NUM() {
 		return ACCOUNT_NUM;
 	}
