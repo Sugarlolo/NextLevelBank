@@ -21,6 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import beans.AccountsBean;
+import beans.MemberBean;
+import beans.TransferBean;
 import database.TransferMgr;
 
 public class TransferFrame2 extends JFrame implements ActionListener {
@@ -33,7 +36,10 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 	JButton buttons[];
 	JButton admit, plus1, plus5, plus10, plusAll;
 	boolean isNotEmpty=false;
-
+	
+	TransferBean tBean;
+	AccountsBean aBean;
+	MemberBean mBean;
 	public TransferFrame2() {
 		frame = new JFrame();
 		frame.getContentPane().setForeground(new Color(255, 255, 255));
@@ -111,7 +117,7 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 		textField_money = new JTextField();
 		textField_money.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField_money.setFont(new Font("굴림", Font.PLAIN, 17));
-		textField_money.setColumns(15);
+		textField_money.setColumns(20);
 		textField_money.setBounds(30, 154, 425, 46);
 		frame.getContentPane().add(textField_money);
 
@@ -146,29 +152,50 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 			System.out.println(account_num);
 			TransferMgr tMgr = new TransferMgr();
 			boolean flag = false;
+			boolean check = false;
 			number = textField_money.getText();
 			int amount = 0;
-
+			
+			tBean = new TransferBean();
+			aBean = new AccountsBean();
+			mBean = new MemberBean();
 			if (!(number.isEmpty())) {
-				amount = Integer.parseInt(textField_money.getText());
-			}
-			flag = tMgr.Transfer_CheckAccount(account_num);
-			if (flag != false) {
-				System.out.println("맞는 계좌입니다.");
-				// 테스트 계좌
-				int acc = 185526101;
+				amount = Integer.parseInt(number);
 				
-				if (tMgr.Transfer_CheckBalance(acc, amount) != false) {
-					System.out.println("송금이 가능합니다.");
-					JOptionPane.showMessageDialog(frame, "송금이 가능합니다.");
+				flag = tMgr.Transfer_CheckAccount(account_num);
+				if (flag != false) {
+					System.out.println("맞는 계좌입니다.");
+					// 테스트 계좌
+					int acc = 185526101;
+					
+					if (tMgr.Transfer_CheckBalance(acc, amount) != false) {
+						System.out.println("송금이 가능합니다.");
+						JOptionPane.showMessageDialog(frame, "송금이 가능합니다.");
+						
+						String memo = JOptionPane.showInputDialog(frame,"메모를 입력하세요. (입력하지 않으면 본인 이름이 표시됩니다. 최대 10자)");
+						
+						if (memo.length()>10) {
+							JOptionPane.showMessageDialog(frame, "메모는 10자를 초과할 수 없습니다.");
+						} else if (memo=="" || memo.length()<=10) {
+							if (memo=="") {
+								tBean.setTransfer_Memo(mBean.getMEMBER_Name());
+								check = tMgr.Transfer_Transaction(aBean, tBean, aBean.getACCOUNT_NUM(), account_num, amount);
+							} else
+								tBean.setTransfer_Memo(memo);
+								check = tMgr.Transfer_Transaction(aBean, tBean, aBean.getACCOUNT_NUM(), account_num, amount);
+						}
+						
+					} else {
+						System.out.println("송금이 불가능합니다.");
+						JOptionPane.showMessageDialog(frame, "송금이 불가능합니다.");
+					}
 				} else {
-					System.out.println("송금이 불가능합니다.");
-					JOptionPane.showMessageDialog(frame, "송금이 불가능합니다.");
+					System.out.println("틀린 계좌입니다.");
+					JOptionPane.showMessageDialog(frame, "존재하지 않는 계좌입니다. 계좌번호를 확인하세요.");
 				}
-			} else {
-				System.out.println("틀린 계좌입니다.");
-				JOptionPane.showMessageDialog(frame, "존재하지 않는 계좌입니다.");
-			}
+			} else
+				JOptionPane.showMessageDialog(frame, "금액을 입력해야 합니다.");
+			
 		}
 	}
 

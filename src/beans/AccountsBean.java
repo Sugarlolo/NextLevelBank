@@ -9,7 +9,7 @@ public class AccountsBean {
 	private Timestamp ACCOUNT_LAST_DATE;
 	private String ACCOUNT_CATEGORY;
 	private int ACCOUNT_BALANCE;
-	
+	private String ACCOUNT_PURPOSE;
 	
 	
 	public int getACCOUNT_NUM() {
@@ -47,5 +47,11 @@ public class AccountsBean {
 	}
 	public void setACCOUNT_BALANCE(int aCCOUNT_BALANCE) {
 		ACCOUNT_BALANCE = aCCOUNT_BALANCE;
+	}
+	public String getACCOUNT_PURPOSE() {
+		return ACCOUNT_PURPOSE;
+	}
+	public void setACCOUNT_PURPOSE(String aCCOUNT_PURPOSE) {
+		ACCOUNT_PURPOSE = aCCOUNT_PURPOSE;
 	}
 }

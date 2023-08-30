@@ -1,14 +1,15 @@
 package beans;
 
+import java.sql.Timestamp;
+
 public class TransferBean {
 	public int transfer_No;
 	public int transfer_Do_Account;
 	public int transfer_Balance;
 	public int transfer_Take_Account;
-	public String transfer_Date;
+	public Timestamp transfer_Date;
 	public String transfer_Category;
 	public String transfer_Memo;
-	
 	public int getTransfer_No() {
 		return transfer_No;
 	}
@@ -33,10 +34,10 @@ public class TransferBean {
 	public void setTransfer_Take_Account(int transfer_Take_Account) {
 		this.transfer_Take_Account = transfer_Take_Account;
 	}
-	public String getTransfer_Date() {
+	public Timestamp getTransfer_Date() {
 		return transfer_Date;
 	}
-	public void setTransfer_Date(String transfer_Date) {
+	public void setTransfer_Date(Timestamp transfer_Date) {
 		this.transfer_Date = transfer_Date;
 	}
 	public String getTransfer_Category() {
@@ -51,4 +52,5 @@ public class TransferBean {
 	public void setTransfer_Memo(String transfer_Memo) {
 		this.transfer_Memo = transfer_Memo;
 	}
+
 }
