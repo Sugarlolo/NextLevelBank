@@ -166,7 +166,7 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 				if (flag != false) {
 					System.out.println("맞는 계좌입니다.");
 					// 테스트 계좌
-					int acc = 185526101;
+					int acc = aBean.getACCOUNT_NUM();
 					
 					if (tMgr.Transfer_CheckBalance(acc, amount) != false) {
 						System.out.println("송금이 가능합니다.");
@@ -182,7 +182,7 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 							} else
 								tBean.setTransfer_Memo(memo);
 							
-							check = tMgr.Transfer_Transaction(aBean, tBean, aBean.getACCOUNT_NUM(), account_num, amount);
+							check = tMgr.Transfer_Transaction(acc, account_num, amount);
 							
 							if (check==true) {
 								JOptionPane.showMessageDialog(frame, "이체가 완료되었습니다.");
