@@ -1,6 +1,8 @@
 package nlb_core;
 
 import beans.MemberBean;
+import member.MemberDB;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -20,7 +22,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 
-public class IDFind {
+public class IdFindFrame {
 // 기능1 : LoginFrame의 중간에 화면 띄우기
 // 기능2 : ID 찾기 버튼 누루면 로그인 창의 아이디 입력칸에 자동 입력되도록 OR 아이디가 메시지 창에 뜨도록
 	private JFrame FindRegist;
@@ -70,7 +72,7 @@ public class IDFind {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IDFind window = new IDFind();
+					IdFindFrame window = new IdFindFrame();
 					window.FindRegist.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -82,7 +84,7 @@ public class IDFind {
 	/**
 	 * Create the application.
 	 */
-	public IDFind() {
+	public IdFindFrame() {
 		initialize();
 		FindRegist.setVisible(true);
 	}
