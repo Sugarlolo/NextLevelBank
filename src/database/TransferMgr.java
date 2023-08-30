@@ -17,7 +17,8 @@ import database.DBConnectionMgr;
 public class TransferMgr {
 
 	private DBConnectionMgr pool;
-
+	public AccountsBean aBean;
+	public TransferBean tBean;
 //	TransferBean tb = 
 	public TransferMgr() {
 		pool = DBConnectionMgr.getInstance();
@@ -90,24 +91,46 @@ public class TransferMgr {
 			return false;
 	}
 	
-	public boolean Transfer_Transaction() {
+	public boolean Transfer_Transaction(int transferCash, int takeAccount) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
+		String sql2 = null;
 		boolean flag = false;
-		AccountsBean bean;
+		
 		try {
 			con = pool.getConnection();
 			con.setAutoCommit(false);
-			sql = ("UPDATE ACCOUNTS SET "
-					+ "(?,?) VALUES "
-					+ "(?,?)");
-			pstmt.setTimestamp(0, Timestamp(now()));
-			pstmt.executeUpdate(sql);
+			
+			try {
+				sql = ("UPDATE ACCOUNTS SET "
+						+ "ACCOUNT_LAST_DATE, "
+						+ "ACCOUNT_BALANCE VALUES "
+						+ "(NOW(),?) WHERE MEMBER_ID = ?");
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1,	aBean.getACCOUNT_BALANCE()-transferCash);
+				pstmt.setInt(2, aBean.getACCOUNT_NUM());
+				
+				sql2 = ("INSERT INTO TRANSFER (null,?,?,?,now(),?,?,?,?");
+				pstmt.setInt(1, aBean.getACCOUNT_NUM());
+				pstmt.setInt(2, transferCash);
+				pstmt.setInt(3, takeAccount);
+				pstmt.setString(4, tBean.getTransfer_Category());
+				pstmt.setString(5, tBean.getTransfer_Memo());
+				pstmt.setInt(6, aBean.getACCOUNT_BALANCE() - transferCash);
+//				pstmt.setInt(7, )
+//				pstmt.executeUpdate(sql);
+				con.commit();
+			} catch (Exception e) {
+				con.rollback();
+				e.printStackTrace();
+			}
+			
 			int cnt = pstmt.executeUpdate();
 			if (cnt == 1) {
 				flag = true;
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -116,9 +139,37 @@ public class TransferMgr {
 		return flag;
 	}
 	
-//	public static void main(String[] args) {
-//		int account = 185526101;
-//		TransferMgr tMgr = new TransferMgr();
-//		System.out.println(tMgr.Transaction_CheckAccount(account));
-//	}
+	public void Transfer_Refresh(int account) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "SELECT ACCOUNT_LAST_DATE, ACCOUNT_BALANCE "
+					+ "FROM ACCOUNTS "
+					+ "WHERE ACCOUNT_NUM=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,account);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				aBean.setACCOUNT_LAST_DATE(rs.getTimestamp(1));
+				aBean.setACCOUNT_BALANCE(rs.getInt(2));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return;
+	}
+
+	public static void main(String[] args) {
+		TransferMgr tMgr = new TransferMgr();
+		AccountsBean ab = new AccountsBean();
+		tMgr.Transfer_Refresh(185526101);
+		System.out.println("최근 거래일자: "+ab.getACCOUNT_LAST_DATE());
+		System.out.println("계좌 잔액: "+ab.getACCOUNT_BALANCE());
+	}
 }
