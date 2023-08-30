@@ -179,10 +179,15 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 						} else if (memo=="" || memo.length()<=10) {
 							if (memo=="") {
 								tBean.setTransfer_Memo(mBean.getMEMBER_Name());
-								check = tMgr.Transfer_Transaction(aBean, tBean, aBean.getACCOUNT_NUM(), account_num, amount);
 							} else
 								tBean.setTransfer_Memo(memo);
-								check = tMgr.Transfer_Transaction(aBean, tBean, aBean.getACCOUNT_NUM(), account_num, amount);
+							
+							check = tMgr.Transfer_Transaction(aBean, tBean, aBean.getACCOUNT_NUM(), account_num, amount);
+							
+							if (check==true) {
+								JOptionPane.showMessageDialog(frame, "이체가 완료되었습니다.");
+							} else
+								JOptionPane.showMessageDialog(frame, "이체가 실패하였습니다.");
 						}
 						
 					} else {
