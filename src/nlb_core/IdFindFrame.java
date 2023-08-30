@@ -1,7 +1,7 @@
 package nlb_core;
 
 import beans.MemberBean;
-import member.MemberDB;
+import database.MemberDB;
 
 import java.awt.EventQueue;
 

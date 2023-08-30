@@ -25,7 +25,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import beans.MemberBean;
-import member.MemberDB;
+import database.MemberDB;
 
 import java.awt.Color;
 import java.awt.Dimension;

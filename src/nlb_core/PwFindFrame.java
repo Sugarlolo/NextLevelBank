@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import member.MemberDB;
+import database.MemberDB;
 
 import java.awt.Color;
 import java.awt.Dimension;

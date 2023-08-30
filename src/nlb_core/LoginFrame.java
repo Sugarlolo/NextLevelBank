@@ -11,7 +11,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
-import member.MemberDB;
+import database.MemberDB;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
