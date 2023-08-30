@@ -8,7 +8,7 @@ public class MemberBean {
 	private String MEMBER_Name;
 	private String TEL_Num;
 	private String ADDR;
-	private int SOCIAL_NUMBER;
+	private String SOCIAL_NUMBER;
 	private String hashedPassword;
 	private String Salt;
 	private Timestamp REG_DATE;
@@ -43,10 +43,10 @@ public class MemberBean {
 	public void setADDR(String aDDR) {
 		ADDR = aDDR;
 	}
-	public int getSOCIAL_NUMBER() {
+	public String getSOCIAL_NUMBER() {
 		return SOCIAL_NUMBER;
 	}
-	public void setSOCIAL_NUMBER(int sOCIAL_NUMBER) {
+	public void setSOCIAL_NUMBER(String sOCIAL_NUMBER) {
 		SOCIAL_NUMBER = sOCIAL_NUMBER;
 	}
 	public String getHashedPassword() {

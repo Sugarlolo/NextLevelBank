@@ -1,4 +1,4 @@
-package nlb_core;
+package member;
 
 import beans.MemberBean;
 import database.DBConnectionMgr;
@@ -19,12 +19,11 @@ public class MemberDB {
 		
 	}
 	public boolean logincheck(String id, String pw) {
-
+		// db에 저장된 id, pw를 비교해서 로그인
 		Connection con = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
-		MemberBean bean = new MemberBean();
 		boolean flag = false;
 		try {
 			con = pool.getConnection();
@@ -45,13 +44,12 @@ public class MemberDB {
 		return flag;
 	}
 
-	public boolean joinCheck(String id, String pw, String name, String pn, String ad, String social, String pay) {
-
+	public MemberBean joinCheck(String id, String pw, String name, String pn, String ad, String jsonum, String pay) {
+		// 회원정보 db에 insert
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
 		MemberBean bean = new MemberBean();
-		boolean flag = false;
 		try {
 			con = pool.getConnection();
 			sql = "INSERT INTO MEMBER(MEMBER_ID, MEMBER_PW, MEMBER_NAME, TEL_NUMBER, " + 
@@ -62,27 +60,32 @@ public class MemberDB {
 			pstmt.setString(3, name);
 			pstmt.setString(4, pn);
 			pstmt.setString(5, ad);
-			pstmt.setString(6, social);
+			pstmt.setString(6, jsonum);
 			pstmt.setString(7, pay);
 			int rowslnserted = pstmt.executeUpdate();
 
 			if(rowslnserted>0) {
-				flag = true;
+				bean.setMEMBER_ID(id);
+				bean.setMEMBER_PW(pw);;
+				bean.setMEMBER_Name(name);;
+				bean.setTEL_Num(pn);
+				bean.setADDR(ad);
+				bean.setSOCIAL_NUMBER(jsonum);
+				bean.setHashedPassword(pay);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
-		return flag;
+		return bean;
 	}
 	
-	public boolean idduplicationCheck(String id) {
+	public boolean idDuplicationCheck(String id) { // 아이디 중복체크
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
 		ResultSet rs = null;
-		MemberBean bean = new MemberBean();
 		boolean flag = false;
 		try {
 			con = pool.getConnection();
@@ -102,7 +105,7 @@ public class MemberDB {
 		return flag;
 	}
 	
-	public MemberBean getFindId(String name, String pn) {
+	public MemberBean getFindId(String name, String pn) { // 아이디 찾기
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -128,7 +131,7 @@ public class MemberDB {
 		return bean;
 	}
 	
-	public MemberBean getFindPw(String name, String id) {
+	public MemberBean getFindPw(String name, String id) { // 비밀번호 찾기
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -153,4 +156,5 @@ public class MemberDB {
 		}
 		return bean;
 	}
+	
 }

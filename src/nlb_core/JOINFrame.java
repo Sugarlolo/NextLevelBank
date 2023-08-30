@@ -24,6 +24,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import beans.MemberBean;
+import member.MemberDB;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -168,6 +171,7 @@ public class JOINFrame {
 	private void initialize() {
 
 		MemberDB db = new MemberDB();
+		
 		IdKeyListener idkey = new IdKeyListener();
 		NameListener namekey = new NameListener();
 		DigitListener digitkey = new DigitListener();
@@ -208,7 +212,7 @@ public class JOINFrame {
 					JOptionPane.showMessageDialog(null, "사용하실 아이디를 입력하세요", "", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (db.idduplicationCheck(chkid)) {
+				if (db.idDuplicationCheck(chkid)) {
 					JOptionPane.showMessageDialog(null, "이미 사용중인 아이디입니다.", "", JOptionPane.ERROR_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, "사용 가능한 아이디입니다.");
@@ -308,7 +312,7 @@ public class JOINFrame {
 					JOptionPane.showMessageDialog(null, "회원 정보를 모두 기입 해주세요.", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (db.idduplicationCheck(jid)) { // 입력된 id가 DB에 이미 존재할 경우 중복
+				if (db.idDuplicationCheck(jid)) { // 입력된 id가 DB에 이미 존재할 경우 중복
 					JOptionPane.showMessageDialog(null, "ID 중복체크를 해주세요.", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
 					return;
 				} 
@@ -317,7 +321,7 @@ public class JOINFrame {
 					boolean payLength = jpay.length() == desiredPayLength;
 					
 					if(numLength && payLength) { /* 전화번호와 주민등록번호의 길이는 각각 11자리, 6자리여야 함 && 결제비밀번호는 6자리여야 함 */
-						if(db.joinCheck(jid, jpw, jname, jtel, jadd, jsonum, jpay)) {
+						if(db.joinCheck(jid, jpw, jname, jtel, jadd, jsonum, jpay) != null) {
 							JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다.");
 							frmNextLevelBank2.dispose();
 							new LoginFrame();

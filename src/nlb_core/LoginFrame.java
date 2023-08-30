@@ -11,6 +11,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
+import member.MemberDB;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -186,7 +188,7 @@ public class LoginFrame {
       findIDBtn.setBackground(new Color(255, 228, 0));
       findIDBtn.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            new IDFind();
+            new IdFindFrame();
          }
       });
       findIDBtn.setBounds(210, 480, 80, 20);
@@ -211,7 +213,7 @@ public class LoginFrame {
       frmNextLevelBank.getContentPane().add(findPwBtn);
       findPwBtn.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
-             new PWFind();
+             new PwFindFrame();
           }
        });
    }
