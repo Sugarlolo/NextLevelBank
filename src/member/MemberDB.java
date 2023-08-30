@@ -81,7 +81,7 @@ public class MemberDB {
 		return bean;
 	}
 	
-	public boolean idDuplicationCheck(String id) { // 아이디 중복체크
+	public boolean idDuplicationCheck(String id) { // 아이디 중복체크 메소드
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -131,7 +131,7 @@ public class MemberDB {
 		return bean;
 	}
 	
-	public MemberBean getFindPw(String name, String id) { // 비밀번호 찾기
+	public MemberBean getFindPw(String name, String id) { // 비밀번호 찾기 메소드
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
