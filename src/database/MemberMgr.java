@@ -18,30 +18,29 @@ public class MemberMgr {
 		pool = DBConnectionMgr.getInstance();
 		
 	}
-	public boolean logincheck(String id, String pw) {
+	public MemberBean logincheck(MemberBean bean) {
 		// db에 저장된 id, pw를 비교해서 로그인
 		Connection con = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
-		boolean flag = false;
 		try {
 			con = pool.getConnection();
-			sql = "SELECT MEMBER_PW FROM MEMBER WHERE MEMBER_ID=? AND MEMBER_PW =?";
+			sql = "SELECT MEMBER_ID, MEMBER_PW FROM MEMBER WHERE MEMBER_ID=? AND MEMBER_PW =?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, id);
-			pstmt.setString(2, pw);
+			pstmt.setString(1, bean.getMEMBER_ID());
+			pstmt.setString(2, bean.getMEMBER_PW());
 			rs = pstmt.executeQuery();
-
 			if(rs.next()) {
-				flag = true;
+				bean.setMEMBER_ID(rs.getString(1));
+				bean.setMEMBER_PW(rs.getString(2));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt, rs);
 		}
-		return flag;
+		return bean;
 	}
 
 	public MemberBean joinCheck(String id, String pw, String name, String pn, String ad, String jsonum, String pay) {
@@ -156,5 +155,16 @@ public class MemberMgr {
 		}
 		return bean;
 	}
+	
+//	public static void main(String[] args) {
+//		MemberMgr membermgr = new MemberMgr();
+//		MemberBean memberbean = new MemberBean();
+//		memberbean.setMEMBER_ID("test1");
+//		memberbean.setMEMBER_PW("1234");
+//		System.out.println(membermgr.logincheck(memberbean).getMEMBER_ID()+" "+
+//				memberbean.getMEMBER_PW());
+//		System.out.println(memberbean.getMEMBER_ID());
+//		System.out.println(memberbean.getMEMBER_PW());
+//	}
 	
 }

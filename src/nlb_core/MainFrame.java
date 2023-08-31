@@ -7,21 +7,25 @@ import java.security.PublicKey;
 import javax.swing.*;  
 import java.util.Vector;
 import beans.AccountsBean;
+import beans.MemberBean;
 import database.AccountsMgr;
 
 public class MainFrame {
-
+	
     private JFrame frame;
     private DefaultListModel<String> model;
     private JList<String> accountList; 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
-    String memberId = "test4"; //회원아이디
+    
     int nomalAccountIndex = 0;
     int publicAccountIndex = 0;
     int sumAccountIndex=0;
     int listSeletedIndex = 0;
     int seletedAccountNum =0;
     AccountsBean bean1;
+    MemberBean mbean;
+    String memberId="";
+
     Vector<AccountsBean> accountList1;
     Vector<AccountsBean> accountList2;
 
@@ -61,12 +65,15 @@ public class MainFrame {
 
     public MainFrame() {
     	frameMgr = FrameManager.getInstance();
+    	
         initialize();
     }
         
 
     private void initialize() {
-
+    	mbean = new MemberBean();
+        memberId = mbean.getMEMBER_ID(); //회원아이디
+        System.out.println(mbean.getMEMBER_ID());
     	// mainframe - frame
         frame = new JFrame();
         frame.setSize(500, 800); //프레임 사이즈
@@ -117,7 +124,7 @@ public class MainFrame {
         panel.add(transferHistoryBTN);
 
         //회원아이디 라벨
-        JLabel memberIDLabel = new JLabel(memberId);
+        JLabel memberIDLabel = new JLabel();
         memberIDLabel.setFont(new Font("나눔바른고딕", Font.BOLD, 20));
         memberIDLabel.setBounds(115, 80, 60, 40);
         panel.add(memberIDLabel);
