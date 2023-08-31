@@ -92,7 +92,7 @@ public class AccountPlusFrame {
 		frmAccountPlusFrame.getContentPane().add(title_label);
 		
         // ·Î°í
-        ImageIcon nlb_logo_icon = new ImageIcon(MainFrame.class.getResource("/member2/NLB_LOGO.png"));
+        ImageIcon nlb_logo_icon = new ImageIcon(MainFrame.class.getResource("NLB_LOGO.png"));
         Image nlb_logo_img = nlb_logo_icon.getImage();
         Image change_nlb_logo_img = nlb_logo_img.getScaledInstance(80, 120, Image.SCALE_SMOOTH);
         ImageIcon change_nlb_logo_icon = new ImageIcon(change_nlb_logo_img);

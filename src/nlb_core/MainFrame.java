@@ -129,7 +129,7 @@ public class MainFrame {
         panel.add(greetingLabel);
 
         // 로고
-        ImageIcon nlb_logo_icon = new ImageIcon(MainFrame.class.getResource("/member2/NLB_LOGO.png"));
+        ImageIcon nlb_logo_icon = new ImageIcon(MainFrame.class.getResource("NLB_LOGO.png"));
         Image nlb_logo_img = nlb_logo_icon.getImage();
         Image change_nlb_logo_img = nlb_logo_img.getScaledInstance(70, 100, Image.SCALE_SMOOTH);
         ImageIcon change_nlb_logo_icon = new ImageIcon(change_nlb_logo_img);
@@ -138,7 +138,7 @@ public class MainFrame {
         panel.add(nlbLogoLabel);
 
         // 프로필 form 라벨
-        ImageIcon profile_top_icon = new ImageIcon(MainFrame.class.getResource("/member2/profile_top.png"));
+        ImageIcon profile_top_icon = new ImageIcon(MainFrame.class.getResource("profile_top.png"));
         Image profile_top_img = profile_top_icon.getImage();
         Image change_profile_top_img = profile_top_img.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
         ImageIcon change_profile_top_icon = new ImageIcon(change_profile_top_img);
@@ -147,7 +147,7 @@ public class MainFrame {
         panel.add(profileTopLabel);
 
         // 프로필 라벨
-        ImageIcon profileIcon = new ImageIcon(MainFrame.class.getResource("/member2/profile1.png"));
+        ImageIcon profileIcon = new ImageIcon(MainFrame.class.getResource("profile1.png"));
         Image profileImg = profileIcon.getImage();
         Image changeProfileImg = profileImg.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
         ImageIcon changeProfileIcon = new ImageIcon(changeProfileImg);

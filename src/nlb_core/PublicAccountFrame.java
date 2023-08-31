@@ -145,7 +145,7 @@ public class PublicAccountFrame {
 		panel.add(plusBtn);
 		
         // 검색 버튼
-        ImageIcon searchIcon = new ImageIcon(MainFrame.class.getResource("/member2/searchIcon.png"));
+        ImageIcon searchIcon = new ImageIcon(MainFrame.class.getResource("searchIcon.png"));
         Image searchImg = searchIcon.getImage();
         Image changeSearchImg = searchImg.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         ImageIcon changeSearchIcon = new ImageIcon(changeSearchImg);
