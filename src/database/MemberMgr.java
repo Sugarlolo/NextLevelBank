@@ -18,13 +18,8 @@ public class MemberMgr {
 		pool = DBConnectionMgr.getInstance();
 		
 	}
-<<<<<<< HEAD
 	public MemberBean logincheck(MemberBean bean) {
-		// db¿¡ ÀúÀåµÈ id, pw¸¦ ºñ±³ÇØ¼­ ·Î±×ÀÎ
-=======
-	public boolean logincheck(String id, String pw) {
-		// dbï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ id, pwï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Î±ï¿½ï¿½ï¿½
->>>>>>> branch 'main' of https://github.com/Sugarlolo/NextLevelBank.git
+
 		Connection con = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -160,7 +155,6 @@ public class MemberMgr {
 		}
 		return bean;
 	}
-<<<<<<< HEAD
 	
 //	public static void main(String[] args) {
 //		MemberMgr membermgr = new MemberMgr();
@@ -172,8 +166,6 @@ public class MemberMgr {
 //		System.out.println(memberbean.getMEMBER_ID());
 //		System.out.println(memberbean.getMEMBER_PW());
 //	}
-	
-=======
 	public MemberBean getMemberByID(String memberID) {
 	    Connection con = null;
 	    PreparedStatement pstmt = null;
@@ -197,5 +189,37 @@ public class MemberMgr {
 
 	    return member;
 	}
->>>>>>> branch 'main' of https://github.com/Sugarlolo/NextLevelBank.git
+	
+	public MemberBean getMeberInfo(MemberBean bean) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "SELECT * FROM MEMBER WHERE MEMBER_ID =?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bean.getMEMBER_ID());
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				bean.setMEMBER_ID(rs.getString(1));
+				bean.setMEMBER_PW(rs.getString(2));
+				bean.setMEMBER_Name(rs.getString(3));
+				bean.setTEL_Num(rs.getString(4));
+				bean.setADDR(rs.getString(5));
+				bean.setSOCIAL_NUMBER(rs.getString(6));
+				bean.setPAYPW(rs.getInt(7));
+				bean.setREG_DATE(rs.getTimestamp(8));
+				bean.setMEMBER_STATUS(rs.getString(9));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		
+		return bean;
+	}
 }

@@ -156,7 +156,8 @@ public class LoginFrame {
 					System.out.println("beans 체크-pw : "+bean.getMEMBER_PW());
 					if (bean.getMEMBER_ID().equals(uid) && bean.getMEMBER_PW().equals(upw)) {
 						JOptionPane.showMessageDialog(frmNextLevelBank, "로그인에 성공하였습니다.");
-						MainFrame mf = new MainFrame();
+						bean = mMgr.getMeberInfo(bean);
+						MainFrame mf = new MainFrame(bean);
 						mf.getFrame().setVisible(true);
 						frmNextLevelBank.dispose();
 					} else {

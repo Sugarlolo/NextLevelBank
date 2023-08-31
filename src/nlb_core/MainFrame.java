@@ -3,6 +3,7 @@ package nlb_core;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Member;
 import java.security.PublicKey;
 import javax.swing.*;  
 import java.util.Vector;
@@ -16,11 +17,7 @@ public class MainFrame {
     private DefaultListModel<String> model;
     private JList<String> accountList; 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
-<<<<<<< HEAD
-    
-=======
-    String memberId = "test1"; //회원아이디
->>>>>>> branch 'main' of https://github.com/Sugarlolo/NextLevelBank.git
+
     int nomalAccountIndex = 0;
     int publicAccountIndex = 0;
     int sumAccountIndex=0;
@@ -41,19 +38,13 @@ public class MainFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                	final FrameManager frameMgr;
-                    MainFrame window = new MainFrame();
-                    window.frame.setVisible(true);
-
-                    frameMgr = FrameManager.getInstance();
-                    frameMgr.setMainFrame(window);
-                    
+ 
                 	AccountPlusFrame frame2 = new AccountPlusFrame();
                 	//PublicAccountFrame frame3 = new PublicAccountFrame();
                     frame2.getFrame().setVisible(false);
                     //frame3.getFrame().setVisible(false);
                   
-                    frameMgr.setAccountPlusFrame(frame2);
+                    //frameMgr.setAccountPlusFrame(frame2);
                    // frameMgr.setPublicAccountFrame(frame3);
                     
                   //PublicAccountFrame frame3 = new PublicAccountFrame();
@@ -67,15 +58,19 @@ public class MainFrame {
         });
     }
 
-    public MainFrame() {
+    public MainFrame(MemberBean bean) {
+    	AccountPlusFrame frame2 = new AccountPlusFrame();
     	frameMgr = FrameManager.getInstance();
     	
+        frameMgr.setMainFrame(this);
+    	frameMgr.setAccountPlusFrame(frame2);
+        
+    	this.mbean = bean;
         initialize();
     }
         
 
     private void initialize() {
-    	mbean = new MemberBean();
         memberId = mbean.getMEMBER_ID(); //회원아이디
         System.out.println(mbean.getMEMBER_ID());
     	// mainframe - frame
@@ -129,7 +124,7 @@ public class MainFrame {
         panel.add(transferHistoryBTN);
 
         //회원아이디 라벨
-        JLabel memberIDLabel = new JLabel();
+        JLabel memberIDLabel = new JLabel(mbean.getMEMBER_Name());
         memberIDLabel.setFont(new Font("나눔바른고딕", Font.BOLD, 20));
         memberIDLabel.setBounds(115, 80, 60, 40);
         panel.add(memberIDLabel);

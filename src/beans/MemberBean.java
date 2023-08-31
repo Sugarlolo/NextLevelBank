@@ -13,6 +13,13 @@ public class MemberBean {
 	private String Salt;
 	private Timestamp REG_DATE;
 	private String MEMBER_STATUS;
+	private int PAYPW;
+	public int getPAYPW() {
+		return PAYPW;
+	}
+	public void setPAYPW(int pAYPW) {
+		PAYPW = pAYPW;
+	}
 	public String getMEMBER_ID() {
 		return MEMBER_ID;
 	}
