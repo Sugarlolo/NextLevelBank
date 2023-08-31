@@ -9,8 +9,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.mysql.cj.protocol.Resultset;
-
 import beans.MemberBean;
 import beans.TransferBean;
 import beans.AccountsBean;
@@ -334,6 +332,36 @@ public class TransferMgr {
 			pool.freeConnection(con, pstmt, rs);
 		}
 		return bean;
+	}
+	
+	public boolean PayPassword_check(String member_ID , int payPassword) {
+		Connection con = null;
+		CallableStatement cstmt = null;
+		String sql = null;
+		int ischecked = 0;
+		try {
+			con = pool.getConnection();
+			// 저장 프로시저 호출
+			sql = "{CALL CheckPayPW(?,?,?);";
+			cstmt = con.prepareCall(sql);
+			cstmt.setString(1, member_ID);
+			System.out.println("입력된 아이디: "+member_ID);
+			cstmt.setInt(2, payPassword);
+			System.out.println("입력된 비밀번호: "+payPassword);
+			cstmt.registerOutParameter(3,java.sql.Types.INTEGER);
+			cstmt.execute();
+			
+			ischecked = cstmt.getInt(3);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, cstmt);
+		}
+		if (ischecked!=0) {
+			return true;
+		} else
+			return false;
 	}
 	
 //	public static void main(String[] args) {

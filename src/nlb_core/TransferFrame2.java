@@ -155,7 +155,7 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 			boolean check = false;
 			number = textField_money.getText();
 			int amount = 0;
-			
+			int count = 0;
 			tBean = new TransferBean();
 			aBean = new AccountsBean();
 			mBean = new MemberBean();
@@ -167,7 +167,6 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 					System.out.println("맞는 계좌입니다.");
 					// 테스트 계좌
 					int acc = aBean.getACCOUNT_NUM();
-					
 					if (tMgr.Transfer_CheckBalance(acc, amount) != false) {
 						System.out.println("송금이 가능합니다.");
 						JOptionPane.showMessageDialog(frame, "송금이 가능합니다.");
@@ -180,8 +179,12 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 							if (memo=="") {
 								tBean.setTransfer_Memo(mBean.getMEMBER_Name());
 							} else
-								tBean.setTransfer_Memo(memo);
+								tBean.setTransfer_Memo(memo.trim());
 							
+							while (count>3) {
+								String payPassword = JOptionPane.showInputDialog(frame, "결제 비밀번호를 입력하세요.");
+								tMgr.PayPassword_check(mBean.getMEMBER_ID(), Integer.parseInt(payPassword));
+							}
 							check = tMgr.Transfer_Transaction(acc, account_num, amount);
 							
 							if (check==true) {

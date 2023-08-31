@@ -24,7 +24,7 @@ public class AccountsMgr {
 	}
 
 
-	// ¸â¹öid, °èÁÂÅ¸ÀÔ ÅëÇÑ °èÁÂÁ¸ÀçÈ®ÀÎ ¹× °èÁÂ Á¤º¸ ºÒ·¯¿À±â
+	// ï¿½ï¿½ï¿½id, ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 		public Vector<AccountsBean> getAccount_num(AccountsBean bean) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -33,10 +33,7 @@ public class AccountsMgr {
 			Vector<AccountsBean> vlist = new Vector<AccountsBean>();
 			try {
 				con = pool.getConnection();
-				sql = "select a.* "
-						+ "from nlb_db.member m , nlb_db.accounts a "
-						+ "where a.member_id = m.MEMBER_ID AND m.member_id= ? "
-						+ "AND a.account_category = ?";
+				sql = "SELECT a.* FROM MEMBER m, ACCOUNTS a WHERE a.MEMBER_ID = m.MEMBER_ID AND m.MEMBER_ID=? AND a.ACCOUNT_CATEGORY = ?";
 				
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, bean.getMEMBER_ID()); 
@@ -63,7 +60,7 @@ public class AccountsMgr {
 		
 		
 
-		// ¸â¹ö ÀÌ¸§°ú, ÀüÈ­¹øÈ£·Î °èÁÂ¹øÈ£ ºÒ·¯¿À±â
+		// ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½, ï¿½ï¿½È­ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½Â¹ï¿½È£ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 			public Vector<AccountsBean> getAccount_num(MemberBean bean1) {
 				Connection con = null;
 				PreparedStatement pstmt = null;
@@ -101,7 +98,7 @@ public class AccountsMgr {
 			}
 
 
-		// °èÁÂ¹øÈ£·Î ÀÜ¾×ºÒ·¯¿À±â
+		// ï¿½ï¿½ï¿½Â¹ï¿½È£ï¿½ï¿½ ï¿½Ü¾×ºÒ·ï¿½ï¿½ï¿½ï¿½ï¿½
 		public AccountsBean getAccount_balance(AccountsBean bean)  {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -130,10 +127,10 @@ public class AccountsMgr {
 			return bean;
 		} 
 		
-	// °èÁÂ °³¼³ÇÏ±â
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		public boolean InsertAccount(AccountsBean bean) {
 			
-			int account; //·£´ý °èÁÂ ¹øÈ£ »ý¼º
+			int account; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½
 			String str="";
 			str+= random.nextInt(1,10);
 			for(int i =0;i<8;i++) {
@@ -173,8 +170,8 @@ public class AccountsMgr {
 		
 		public static void main(String[] args) {
 			AccountsMgr mgr = new AccountsMgr(); 
-			//System.out.println(mgr.getAccount_num("test1","ÀÏ¹Ý"));
-			//System.out.println(mgr.InsertAccount("test4","°øµ¿°èÁÂ","±Þ¿© ¹× ¾Æ¸£¹ÙÀÌÆ®"));
+			//System.out.println(mgr.getAccount_num("test1","ï¿½Ï¹ï¿½"));
+			//System.out.println(mgr.InsertAccount("test4","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½Þ¿ï¿½ ï¿½ï¿½ ï¿½Æ¸ï¿½ï¿½ï¿½ï¿½ï¿½Æ®"));
 			//System.out.println(mgr.InsertAccountPublic("test1","test2"));
 		}
 		
