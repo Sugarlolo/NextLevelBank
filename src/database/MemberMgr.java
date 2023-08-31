@@ -19,7 +19,7 @@ public class MemberMgr {
 		
 	}
 	public boolean logincheck(String id, String pw) {
-		// db¿¡ ÀúÀåµÈ id, pw¸¦ ºñ±³ÇØ¼­ ·Î±×ÀÎ
+		// dbï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ id, pwï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Î±ï¿½ï¿½ï¿½
 		Connection con = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -45,7 +45,7 @@ public class MemberMgr {
 	}
 
 	public MemberBean joinCheck(String id, String pw, String name, String pn, String ad, String jsonum, String pay) {
-		// È¸¿øÁ¤º¸ db¿¡ insert
+		// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ dbï¿½ï¿½ insert
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -53,7 +53,7 @@ public class MemberMgr {
 		try {
 			con = pool.getConnection();
 			sql = "INSERT INTO MEMBER(MEMBER_ID, MEMBER_PW, MEMBER_NAME, TEL_NUMBER, " + 
-			"ADDRESS, SOCIAL_NUMBER, PAY_PW, REG_DATETIME, MEMBER_STATUS) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), 'È°¼º')";
+			"ADDRESS, SOCIAL_NUMBER, PAY_PW, REG_DATETIME, MEMBER_STATUS) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), 'È°ï¿½ï¿½')";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
@@ -81,7 +81,7 @@ public class MemberMgr {
 		return bean;
 	}
 	
-	public boolean idDuplicationCheck(String id) { // ¾ÆÀÌµð Áßº¹Ã¼Å© ¸Þ¼Òµå
+	public boolean idDuplicationCheck(String id) { // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ßºï¿½Ã¼Å© ï¿½Þ¼Òµï¿½
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -105,7 +105,7 @@ public class MemberMgr {
 		return flag;
 	}
 	
-	public MemberBean getFindId(String name, String pn) { // ¾ÆÀÌµð Ã£±â
+	public MemberBean getFindId(String name, String pn) { // ï¿½ï¿½ï¿½Ìµï¿½ Ã£ï¿½ï¿½
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -131,7 +131,7 @@ public class MemberMgr {
 		return bean;
 	}
 	
-	public MemberBean getFindPw(String name, String id) { // ºñ¹Ð¹øÈ£ Ã£±â ¸Þ¼Òµå
+	public MemberBean getFindPw(String name, String id) { // ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -156,5 +156,27 @@ public class MemberMgr {
 		}
 		return bean;
 	}
-	
+	public MemberBean getMemberByID(String memberID) {
+	    Connection con = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    MemberBean member = new MemberBean();
+	    try {
+	        con = pool.getConnection();
+	        String sql = "SELECT MEMBER_NAME FROM MEMBER WHERE MEMBER_ID = ?";
+	        pstmt = con.prepareStatement(sql);
+	        pstmt.setString(1, memberID);
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            member.setMEMBER_Name(rs.getString("Member_Name"));
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Close resources here
+	    }
+
+	    return member;
+	}
 }

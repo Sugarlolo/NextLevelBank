@@ -15,7 +15,7 @@ public class MainFrame {
     private DefaultListModel<String> model;
     private JList<String> accountList; 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
-    String memberId = "test4"; //회원아이디
+    String memberId = "test1"; //회원아이디
     int nomalAccountIndex = 0;
     int publicAccountIndex = 0;
     int sumAccountIndex=0;
@@ -108,6 +108,7 @@ public class MainFrame {
         transferBTN.setBackground(new Color(255, 228, 0));
         transferBTN.setBounds(30, 150, 140, 40);
         panel.add(transferBTN);
+        
 
         //이체내역 버튼
         JButton transferHistoryBTN = new JButton("이체내역");
