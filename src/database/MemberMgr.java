@@ -209,7 +209,7 @@ public class MemberMgr {
 				bean.setTEL_Num(rs.getString(4));
 				bean.setADDR(rs.getString(5));
 				bean.setSOCIAL_NUMBER(rs.getString(6));
-				bean.setPAYPW(rs.getInt(7));
+				bean.setPAYPW(rs.getString(7));
 				bean.setREG_DATE(rs.getTimestamp(8));
 				bean.setMEMBER_STATUS(rs.getString(9));
 			}

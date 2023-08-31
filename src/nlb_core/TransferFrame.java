@@ -40,7 +40,11 @@ public class TransferFrame extends JFrame implements ActionListener {
 	TransferBean tBean;
 	AccountsBean aBean;
 	MemberBean mBean;
-	public TransferFrame() {
+	public TransferFrame(AccountsBean abean, MemberBean mbean) {
+		this.aBean = abean;
+		this.mBean = mbean;
+		System.out.println(abean.getACCOUNT_NUM()+" "+abean.getACCOUNT_BALANCE());
+		
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.getContentPane().setForeground(new Color(255, 255, 255));
@@ -169,8 +173,6 @@ public class TransferFrame extends JFrame implements ActionListener {
 			int amount = 0;
 			int count = 0;
 			tBean = new TransferBean();
-			aBean = new AccountsBean();
-			mBean = new MemberBean();
 			if (!(number.isEmpty())) {
 				amount = Integer.parseInt(number);
 				
@@ -179,6 +181,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 					System.out.println("맞는 계좌입니다.");
 					// 테스트 계좌
 					int acc = aBean.getACCOUNT_NUM();
+					System.out.println("내 계좌번호 "+acc);
 					if (tMgr.Transfer_CheckBalance(acc, amount) != false) {
 						System.out.println("송금이 가능합니다.");
 						JOptionPane.showMessageDialog(frame, "송금이 가능합니다.");
@@ -200,7 +203,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 								}
 								String payPw = JOptionPane.showInputDialog(frame, "결제 비밀번호를 입력해주세요. "+count+"회 입력하셨습니다.");
 								
-								if (tMgr.PayPassword_check(mBean.getMEMBER_ID(), Integer.parseInt(payPw)) == true) {
+								if (tMgr.PayPassword_check(mBean.getMEMBER_ID(), payPw) == true) {
 									check = tMgr.Transfer_Transaction(acc, account_num, amount);
 
 									if (check == true) {
@@ -229,8 +232,8 @@ public class TransferFrame extends JFrame implements ActionListener {
 		}
 	}
 
-	public static void main(String[] args) {
-		
-		new TransferFrame();
-	}
+//	public static void main(String[] args) {
+//		
+//		new TransferFrame();
+//	}
 }

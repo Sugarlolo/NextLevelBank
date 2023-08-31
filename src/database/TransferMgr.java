@@ -257,10 +257,7 @@ public class TransferMgr {
 			} catch (Exception e) {
 				con.rollback();
 				e.printStackTrace();
-			} finally {
-				flag=true;
 			}
-			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -334,7 +331,7 @@ public class TransferMgr {
 		return bean;
 	}
 	
-	public boolean PayPassword_check(String member_ID , int payPassword) {
+	public boolean PayPassword_check(String member_ID , String payPassword) {
 		Connection con = null;
 		CallableStatement cstmt = null;
 		String sql = null;
@@ -342,11 +339,11 @@ public class TransferMgr {
 		try {
 			con = pool.getConnection();
 			// 저장 프로시저 호출
-			sql = "{CALL CheckPayPW(?,?,?);";
+			sql = "{CALL CheckPayPW(?,?,?)}";
 			cstmt = con.prepareCall(sql);
 			cstmt.setString(1, member_ID);
 			System.out.println("입력된 아이디: "+member_ID);
-			cstmt.setInt(2, payPassword);
+			cstmt.setString(2, payPassword);
 			System.out.println("입력된 비밀번호: "+payPassword);
 			cstmt.registerOutParameter(3,java.sql.Types.INTEGER);
 			cstmt.execute();

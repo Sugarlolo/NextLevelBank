@@ -23,7 +23,7 @@ public class MainFrame {
     int sumAccountIndex=0;
     int listSeletedIndex = 0;
     int seletedAccountNum =0;
-    AccountsBean bean1;
+    AccountsBean abean;
     MemberBean mbean;
     String memberId="";
 
@@ -178,7 +178,8 @@ public class MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) { 
             	System.out.println(seletedAccountNum());
-                
+                TransferFrame tf = new TransferFrame(abean,mbean);
+                tf.setVisible(true);
             }
         }); 
         
@@ -245,11 +246,11 @@ public class MainFrame {
         AccountsMgr mgr = new AccountsMgr();
         String category1 = "일반";
         String category2 = "공동계좌";
-        bean1 = new AccountsBean();
+        abean = new AccountsBean();
         
-        bean1.setMEMBER_ID(memberId);
-        bean1.setACCOUNT_CATEGORY("일반");
-        accountList1 = mgr.getAccount_num(bean1);
+        abean.setMEMBER_ID(memberId);
+        abean.setACCOUNT_CATEGORY("일반");
+        accountList1 = mgr.getAccount_num(abean);
         for(AccountsBean accountsBean1 : accountList1) {
         	model.addElement("계좌번호(입출금 통장) : "+accountsBean1.getACCOUNT_NUM());
         	model.addElement("잔액 : "+accountsBean1.getACCOUNT_BALANCE());
@@ -260,9 +261,9 @@ public class MainFrame {
         //System.out.println(accountList1.get(0).getAccount_num()); //0번째 리스트의 계좌번호 출력
         
 
-        bean1.setMEMBER_ID(memberId);
-        bean1.setACCOUNT_CATEGORY("공동계좌");
-        accountList2 = mgr.getAccount_num(bean1);
+        abean.setMEMBER_ID(memberId);
+        abean.setACCOUNT_CATEGORY("공동계좌");
+        accountList2 = mgr.getAccount_num(abean);
         for(AccountsBean accountsBean2 : accountList2) {
         	model.addElement("계좌번호(모임 통장) : "+accountsBean2.getACCOUNT_NUM());
         	model.addElement("잔액 : "+accountsBean2.getACCOUNT_BALANCE());
