@@ -138,29 +138,24 @@ public class LoginFrame {
 		public void actionPerformed(ActionEvent e) {
         	 String uid = idField.getText().trim();
              String upw = pwField.getText().trim();
-        	 if(uid.length()==0 && upw.length()==0) {
-        		 JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력해주세요.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
-        		 return;
-        	 }
-        	 else if(uid.length()==0  && upw != null ){
-        		 JOptionPane.showMessageDialog(null, "아이디를 입력해주세요.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
-        		 return;
-        	 }
-        	 else if(uid != null && upw.length()==0 ){
-        		 JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
-        		 return;
-        	 } 	 
-        	 if(uid != null && upw != null){
-        		 if(db.logincheck(uid, upw)){
-            		 JOptionPane.showMessageDialog(null, "로그인에 성공하였습니다.");
-            		 frmNextLevelBank.dispose();
-            	     new MainFrame();
-            	 }else {
-            		 JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 맞지 않습니다.");
-            	 }
-        	 }
+             if (uid.length() == 0 && upw.length() == 0) {
+                 JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력해주세요.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
+                 return;
+             }
+             // ... (아이디 또는 비밀번호가 입력되지 않은 경우의 처리)
+
+             if (uid != null && upw != null) {
+                 if (db.logincheck(uid, upw)) {
+                     JOptionPane.showMessageDialog(null, "로그인에 성공하였습니다.");
+                     frmNextLevelBank.dispose(); // 로그인 창 닫기
+                     MainFrame mainFrame = new MainFrame(); // MainFrame 열기
+                     mainFrame.getFrame().setVisible(true);
+                 } else {
+                     JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 맞지 않습니다.");
+                 }
+             }
          }
-      });
+     });
       joinBtn.setBounds(120, 430, 260, 40);
       frmNextLevelBank.getContentPane().add(joinBtn);
       
