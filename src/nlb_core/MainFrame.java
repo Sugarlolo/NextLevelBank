@@ -57,6 +57,7 @@ public class MainFrame {
                 }
             }
         });
+        
     }
 
     public MainFrame(MemberBean bean) {
@@ -181,7 +182,7 @@ public class MainFrame {
             	System.out.println("mainframe 이체버튼 계좌: "+seletedAccountNum());
                 System.out.println("mainframe 이체 계좌 잔고: "+abean.getACCOUNT_BALANCE());
             	TransferFrame tf = new TransferFrame(seletedAccountNum,abean,mbean);
-                tf.setVisible(true);
+
             }
         }); 
         
@@ -258,10 +259,10 @@ public class MainFrame {
         	model.addElement("잔액 : "+accountsBean1.getACCOUNT_BALANCE());
         	model.addElement(" ");
         	nomalAccountIndex++;
-        	 
         }
-        //System.out.println(accountList1.get(0).getAccount_num()); //0번째 리스트의 계좌번호 출력
-        
+        System.out.println(accountList1.get(0).getACCOUNT_NUM()); //0번째 리스트의 계좌번호 출력
+        System.out.println(accountList1.get(1).getACCOUNT_NUM());
+        System.out.println(accountList1.get(2).getACCOUNT_NUM());
 
         abean.setMEMBER_ID(memberId);
         abean.setACCOUNT_CATEGORY("공동계좌");
@@ -271,12 +272,12 @@ public class MainFrame {
         	model.addElement("잔액 : "+accountsBean2.getACCOUNT_BALANCE());
         	model.addElement(" ");
         	publicAccountIndex++;
-        	 
         }
         
         sumAccountIndex = nomalAccountIndex + publicAccountIndex;
-        //System.out.println(sumAccountIndex);
-        //System.out.println(accountList.get(1).getAccount_balance());
+//        System.out.println(sumAccountIndex);
+//        System.out.println(accountList1.get(0).getACCOUNT_NUM());
+
         
     }
 }

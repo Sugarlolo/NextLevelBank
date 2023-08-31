@@ -209,6 +209,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 
 									if (check == true) {
 										JOptionPane.showMessageDialog(frame, "이체가 완료되었습니다.");
+										frame.dispose();
 									} else
 										JOptionPane.showMessageDialog(frame, "이체가 실패하였습니다.");
 									break;

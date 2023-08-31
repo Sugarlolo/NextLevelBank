@@ -39,15 +39,16 @@ public class AccountsMgr {
 				pstmt.setString(1, bean.getMEMBER_ID()); 
 				pstmt.setString(2, bean.getACCOUNT_CATEGORY()); 
 				rs = pstmt.executeQuery();
-				while(rs.next()) { 
-					bean.setACCOUNT_NUM(rs.getInt("account_num"));
-					bean.setMEMBER_ID(rs.getString("member_id"));
-					bean.setACCOUNT_REG_DATE(rs.getTimestamp("account_reg_date"));
-					bean.setACCOUNT_LAST_DATE(rs.getTimestamp("account_last_date"));
-					bean.setACCOUNT_CATEGORY(rs.getString("account_category"));
-					bean.setACCOUNT_BALANCE(rs.getInt("account_balance"));
-					bean.setACCOUNT_PURPOSE(rs.getString("ACCOUNT_PURPOSE"));
-					vlist.addElement(bean);
+				while(rs.next()) {
+					AccountsBean bean2 = new AccountsBean();
+					bean2.setACCOUNT_NUM(rs.getInt("account_num"));
+					bean2.setMEMBER_ID(rs.getString("member_id"));
+					bean2.setACCOUNT_REG_DATE(rs.getTimestamp("account_reg_date"));
+					bean2.setACCOUNT_LAST_DATE(rs.getTimestamp("account_last_date"));
+					bean2.setACCOUNT_CATEGORY(rs.getString("account_category"));
+					bean2.setACCOUNT_BALANCE(rs.getInt("account_balance"));
+					bean2.setACCOUNT_PURPOSE(rs.getString("ACCOUNT_PURPOSE"));
+					vlist.addElement(bean2);
 					//System.out.println(bean.getAccount_num());
 				}
 			} catch (Exception e) {
@@ -61,7 +62,7 @@ public class AccountsMgr {
 		
 
 		// ��� �̸���, ��ȭ��ȣ�� ���¹�ȣ �ҷ�����
-			public Vector<AccountsBean> getAccount_num(MemberBean bean1) {
+			public Vector<AccountsBean> getAccount_num2(MemberBean bean1) {
 				Connection con = null;
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
@@ -169,10 +170,18 @@ public class AccountsMgr {
 	
 		
 		public static void main(String[] args) {
-			AccountsMgr mgr = new AccountsMgr(); 
+			AccountsMgr mgr = new AccountsMgr();
+			AccountsBean bean1 = new AccountsBean();
 			//System.out.println(mgr.getAccount_num("test1","�Ϲ�"));
 			//System.out.println(mgr.InsertAccount("test4","��������","�޿� �� �Ƹ�����Ʈ"));
 			//System.out.println(mgr.InsertAccountPublic("test1","test2"));
+			bean1.setMEMBER_ID("test1");
+			bean1.setACCOUNT_CATEGORY("일반");
+			System.out.println(mgr.getAccount_num(bean1).get(0).getACCOUNT_NUM());
+			System.out.println(mgr.getAccount_num(bean1).get(1).getACCOUNT_NUM());
+			System.out.println(mgr.getAccount_num(bean1).get(2).getACCOUNT_NUM());
+			
+			
 		}
 		
 }
