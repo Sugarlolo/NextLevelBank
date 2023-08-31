@@ -174,7 +174,7 @@ public class TransferMgr {
 //		return flag;
 //	}
 	
-	public boolean Transfer_Transaction(int d_account, int t_account, int transferCash) {
+	public boolean Transfer_Transaction(TransferBean tBean, int d_account, int t_account, int transferCash) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -189,14 +189,11 @@ public class TransferMgr {
 			con = pool.getConnection();
 			con.setAutoCommit(false);
 			try {
-				AccountsBean aBean = new AccountsBean();
-				TransferBean tBean = new TransferBean();
 				// 1. 보내는 사람의 계좌 정보를 불러온 후 계좌 잔액을 갱신
-				tMgr.Account_refresh(d_account);
 				sql = ("UPDATE ACCOUNTS SET ACCOUNT_LAST_DATE = NOW(), "
 						+ "ACCOUNT_BALANCE = ? WHERE ACCOUNT_NUM = ?" );
 				pstmt = con.prepareStatement(sql);
-				int r1 = aBean.getACCOUNT_BALANCE() - transferCash;
+				int r1 = tMgr.Account_refresh(d_account).getACCOUNT_BALANCE() - transferCash;
 				pstmt.setInt(1,	r1);
 				System.out.println("1번 트랜잭션 - 잔고 값 :"+r1);
 				pstmt.setInt(2, d_account);
@@ -211,7 +208,7 @@ public class TransferMgr {
 				sql2 = ("UPDATE ACCOUNTS SET ACCOUNT_LAST_DATE = NOW(),"
 						+ "ACCOUNT_BALANCE = ? WHERE ACCOUNT_NUM = ?" );
 				pstmt = con.prepareStatement(sql2);
-				int r2 = aBean.getACCOUNT_BALANCE()+transferCash;
+				int r2 = tMgr.Account_refresh(t_account).getACCOUNT_BALANCE()+transferCash;
 				pstmt.setInt(1,	r2);
 				System.out.println("2번 트랜잭션 - 받는 돈: "+r2);
 				pstmt.setInt(2, t_account);
@@ -244,7 +241,7 @@ public class TransferMgr {
 				pstmt.setInt(1, d_account);
 				pstmt.setInt(2, transferCash);
 				pstmt.setInt(3, t_account);
-				pstmt.setString(4, tBean.getTransfer_Category());
+				pstmt.setString(4, "일반");
 				pstmt.setString(5, tBean.getTransfer_Memo());
 				pstmt.setInt(6, d_balance);
 				pstmt.setInt(7, t_balance);

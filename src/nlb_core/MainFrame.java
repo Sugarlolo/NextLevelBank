@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Member;
+import java.nio.channels.SelectableChannel;
 import java.security.PublicKey;
 import javax.swing.*;  
 import java.util.Vector;
@@ -177,8 +178,9 @@ public class MainFrame {
         transferBTN.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
-            	System.out.println(seletedAccountNum());
-                TransferFrame tf = new TransferFrame(abean,mbean);
+            	System.out.println("mainframe 이체버튼 계좌: "+seletedAccountNum());
+                System.out.println("mainframe 이체 계좌 잔고: "+abean.getACCOUNT_BALANCE());
+            	TransferFrame tf = new TransferFrame(seletedAccountNum,abean,mbean);
                 tf.setVisible(true);
             }
         }); 
@@ -237,7 +239,7 @@ public class MainFrame {
 	   	 tmpAccountsBeans.addAll(accountList2);
 	   	 
 	   	seletedAccountNum= tmpAccountsBeans.get(listSeletedIndex).getACCOUNT_NUM(); //transfer frame 으로 넘길 계좌번호
-
+	   	System.out.println("선택한 계좌번호: "+seletedAccountNum);
 	   	return seletedAccountNum;
 	   	
     }

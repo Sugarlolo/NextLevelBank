@@ -40,7 +40,9 @@ public class TransferFrame extends JFrame implements ActionListener {
 	TransferBean tBean;
 	AccountsBean aBean;
 	MemberBean mBean;
-	public TransferFrame(AccountsBean abean, MemberBean mbean) {
+	int my_account;
+	public TransferFrame(int selectedAccount,AccountsBean abean, MemberBean mbean) {
+		this.my_account = selectedAccount;
 		this.aBean = abean;
 		this.mBean = mbean;
 		System.out.println(abean.getACCOUNT_NUM()+" "+abean.getACCOUNT_BALANCE());
@@ -165,7 +167,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 		
 		if (obj == admit) {
 			int account_num = Integer.parseInt(textField_account.getText());
-			System.out.println(account_num);
+			System.out.println("입력한 계좌번호:"+account_num);
 			TransferMgr tMgr = new TransferMgr();
 			boolean flag = false;
 			boolean check = false;
@@ -175,14 +177,13 @@ public class TransferFrame extends JFrame implements ActionListener {
 			tBean = new TransferBean();
 			if (!(number.isEmpty())) {
 				amount = Integer.parseInt(number);
-				
+				//이체 대상의 계좌번호와 입력한 계좌번호가 일치하는지 검사.
 				flag = tMgr.Transfer_CheckAccount(account_num);
 				if (flag != false) {
 					System.out.println("맞는 계좌입니다.");
 					// 테스트 계좌
-					int acc = aBean.getACCOUNT_NUM();
-					System.out.println("내 계좌번호 "+acc);
-					if (tMgr.Transfer_CheckBalance(acc, amount) != false) {
+					System.out.println("내 계좌번호 "+my_account);
+					if (tMgr.Transfer_CheckBalance(my_account, amount) != false) {
 						System.out.println("송금이 가능합니다.");
 						JOptionPane.showMessageDialog(frame, "송금이 가능합니다.");
 						
@@ -204,7 +205,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 								String payPw = JOptionPane.showInputDialog(frame, "결제 비밀번호를 입력해주세요. "+count+"회 입력하셨습니다.");
 								
 								if (tMgr.PayPassword_check(mBean.getMEMBER_ID(), payPw) == true) {
-									check = tMgr.Transfer_Transaction(acc, account_num, amount);
+									check = tMgr.Transfer_Transaction(tBean, my_account, account_num, amount);
 
 									if (check == true) {
 										JOptionPane.showMessageDialog(frame, "이체가 완료되었습니다.");
