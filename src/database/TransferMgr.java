@@ -253,9 +253,10 @@ public class TransferMgr {
 				pstmt.close();
 				
 				con.commit();
-				
+				flag= true;
 			} catch (Exception e) {
 				con.rollback();
+				flag=false;
 				e.printStackTrace();
 			}
 			
