@@ -29,8 +29,6 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import database.AccountsMgr;
 
-import database.*;
-
 public class PublicAccountFrame {
 
 	private JFrame frmAddfriend;

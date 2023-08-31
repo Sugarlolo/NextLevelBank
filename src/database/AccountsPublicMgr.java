@@ -3,7 +3,7 @@ package database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Vector;
-import database.DBConnectionMgr;
+
 import beans.AccountsBean;
 import beans.AccountsPublicBean;
 

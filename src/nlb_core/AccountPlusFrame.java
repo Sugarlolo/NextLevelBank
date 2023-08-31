@@ -41,8 +41,6 @@ import javax.swing.JPasswordField;
 import database.AccountsMgr;
 import beans.AccountsBean;
 
-import database.*;
-
 public class AccountPlusFrame {
 	private Font defaultFont; // 기본 폰트
 	private JFrame frmAccountPlusFrame;

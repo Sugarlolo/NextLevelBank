@@ -24,7 +24,7 @@ public class AccountsMgr {
 	}
 
 
-	// 占쏙옙占퐄d, 占쏙옙占쏙옙타占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙확占쏙옙 占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쌀뤄옙占쏙옙占쏙옙
+	// ���id, ����Ÿ�� ���� ��������Ȯ�� �� ���� ���� �ҷ�����
 		public Vector<AccountsBean> getAccount_num(AccountsBean bean) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -60,7 +60,7 @@ public class AccountsMgr {
 		
 		
 
-		// 占쏙옙占� 占싱몌옙占쏙옙, 占쏙옙화占쏙옙호占쏙옙 占쏙옙占승뱄옙호 占쌀뤄옙占쏙옙占쏙옙
+		// ��� �̸���, ��ȭ��ȣ�� ���¹�ȣ �ҷ�����
 			public Vector<AccountsBean> getAccount_num(MemberBean bean1) {
 				Connection con = null;
 				PreparedStatement pstmt = null;
@@ -98,7 +98,7 @@ public class AccountsMgr {
 			}
 
 
-		// 占쏙옙占승뱄옙호占쏙옙 占쌤액불뤄옙占쏙옙占쏙옙
+		// ���¹�ȣ�� �ܾ׺ҷ�����
 		public AccountsBean getAccount_balance(AccountsBean bean)  {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -127,10 +127,10 @@ public class AccountsMgr {
 			return bean;
 		} 
 		
-	// 占쏙옙占쏙옙 占쏙옙占쏙옙占싹깍옙
+	// ���� �����ϱ�
 		public boolean InsertAccount(AccountsBean bean) {
 			
-			int account; //占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙호 占쏙옙占쏙옙
+			int account; //���� ���� ��ȣ ����
 			String str="";
 			str+= random.nextInt(1,10);
 			for(int i =0;i<8;i++) {
@@ -168,11 +168,11 @@ public class AccountsMgr {
 		}
 	
 		
-//		public static void main(String[] args) {
-//			AccountsMgr mgr = new AccountsMgr(); 
-//			//System.out.println(mgr.getAccount_num("test1","占싹뱄옙"));
-//			//System.out.println(mgr.InsertAccount("test4","占쏙옙占쏙옙占쏙옙占쏙옙","占쌨울옙 占쏙옙 占싣몌옙占쏙옙占쏙옙트"));
-//			//System.out.println(mgr.InsertAccountPublic("test1","test2"));
-//		}
+		public static void main(String[] args) {
+			AccountsMgr mgr = new AccountsMgr(); 
+			//System.out.println(mgr.getAccount_num("test1","�Ϲ�"));
+			//System.out.println(mgr.InsertAccount("test4","��������","�޿� �� �Ƹ�����Ʈ"));
+			//System.out.println(mgr.InsertAccountPublic("test1","test2"));
+		}
 		
 }
