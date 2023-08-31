@@ -181,16 +181,26 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 							} else
 								tBean.setTransfer_Memo(memo.trim());
 							
-							while (count>3) {
-								String payPassword = JOptionPane.showInputDialog(frame, "결제 비밀번호를 입력하세요.");
-								tMgr.PayPassword_check(mBean.getMEMBER_ID(), Integer.parseInt(payPassword));
+							for (int i = 0; i<4; i++) {
+								if (count==3) {
+									JOptionPane.showMessageDialog(frame, "입력 횟수를 초과했습니다.");
+									break;
+								}
+								String payPw = JOptionPane.showInputDialog(frame, "결제 비밀번호를 입력해주세요. "+count+"회 입력하셨습니다.");
+								
+								if (tMgr.PayPassword_check(mBean.getMEMBER_ID(), Integer.parseInt(payPw)) == true) {
+									check = tMgr.Transfer_Transaction(acc, account_num, amount);
+
+									if (check == true) {
+										JOptionPane.showMessageDialog(frame, "이체가 완료되었습니다.");
+									} else
+										JOptionPane.showMessageDialog(frame, "이체가 실패하였습니다.");
+									break;
+								} else {
+									count++;
+									continue;
+								}
 							}
-							check = tMgr.Transfer_Transaction(acc, account_num, amount);
-							
-							if (check==true) {
-								JOptionPane.showMessageDialog(frame, "이체가 완료되었습니다.");
-							} else
-								JOptionPane.showMessageDialog(frame, "이체가 실패하였습니다.");
 						}
 						
 					} else {
