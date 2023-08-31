@@ -25,7 +25,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import beans.MemberBean;
-import database.MemberDB;
+import database.MemberMgr;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -170,7 +170,7 @@ public class JOINFrame {
 
 	private void initialize() {
 
-		MemberDB db = new MemberDB();
+		MemberMgr db = new MemberMgr();
 		
 		IdKeyListener idkey = new IdKeyListener();
 		NameListener namekey = new NameListener();

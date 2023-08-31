@@ -1,7 +1,7 @@
 package nlb_core;
 
 import beans.MemberBean;
-import database.MemberDB;
+import database.MemberMgr;
 
 import java.awt.EventQueue;
 
@@ -94,7 +94,7 @@ public class IdFindFrame {
 	 */
 	private void initialize() {
 
-		MemberDB db = new MemberDB();
+		MemberMgr db = new MemberMgr();
 		MemberBean bean = new MemberBean();
 		FindRegist = new JFrame();
 		FindRegist.getContentPane().setBackground(new Color(255, 228, 0));

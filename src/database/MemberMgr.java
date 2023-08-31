@@ -11,10 +11,10 @@ import java.sql.Timestamp;
 
 import javax.swing.JOptionPane;
 
-public class MemberDB {
+public class MemberMgr {
 	
 	DBConnectionMgr pool;
-	public MemberDB() {
+	public MemberMgr() {
 		pool = DBConnectionMgr.getInstance();
 		
 	}

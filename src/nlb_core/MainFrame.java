@@ -1,176 +1,273 @@
 package nlb_core;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import javax.swing.JLayeredPane;
-import javax.swing.JLabel;
-import java.awt.Font;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
-import javax.swing.SwingConstants;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.border.LineBorder;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.FlowLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.security.PublicKey;
+import javax.swing.*;  
+import java.util.Vector;
+import beans.AccountsBean;
+import database.AccountsMgr;
 
 public class MainFrame {
 
-	private JFrame frmKakaobank;
-	private JTextField textField;
+    private JFrame frame;
+    private DefaultListModel<String> model;
+    private JList<String> accountList; 
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
+    String memberId = "test4"; //회원아이디
+    int nomalAccountIndex = 0;
+    int publicAccountIndex = 0;
+    int sumAccountIndex=0;
+    int listSeletedIndex = 0;
+    int seletedAccountNum =0;
+    AccountsBean bean1;
+    Vector<AccountsBean> accountList1;
+    Vector<AccountsBean> accountList2;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainFrame window = new MainFrame();
-					window.frmKakaobank.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	public final FrameManager frameMgr;
+
+    int i = 1;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                	final FrameManager frameMgr;
+                    MainFrame window = new MainFrame();
+                    window.frame.setVisible(true);
+
+                    frameMgr = FrameManager.getInstance();
+                    frameMgr.setMainFrame(window);
+                    
+                	AccountPlusFrame frame2 = new AccountPlusFrame();
+                	//PublicAccountFrame frame3 = new PublicAccountFrame();
+                    frame2.getFrame().setVisible(false);
+                    //frame3.getFrame().setVisible(false);
+                  
+                    frameMgr.setAccountPlusFrame(frame2);
+                   // frameMgr.setPublicAccountFrame(frame3);
+                    
+                  //PublicAccountFrame frame3 = new PublicAccountFrame();
+                    //frame3.getFrame().setVisible(false);
+                    // frameMgr.setPublicAccountFrame(frame3);
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public MainFrame() {
+    	frameMgr = FrameManager.getInstance();
+        initialize();
+    }
+        
+
+    private void initialize() {
+
+    	// mainframe - frame
+        frame = new JFrame();
+        frame.setSize(500, 800); //프레임 사이즈
+	    int centerX = (screenSize.width - frame.getWidth()) / 2; // 창 중앙에 frame
+	    int centerY = (screenSize.height - frame.getHeight()) / 2;
+	    frame.setLocation(centerX,centerY);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
+
+        // main panel
+        JPanel panel = new JPanel();
+        frame.getContentPane().add(panel);
+        panel.setLayout(null);
+
+        // scrollPane
+        JScrollPane scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBounds(30, 200, 430, 430);
+        panel.add(scrollPane);
+
+        // account_list
+        model = new DefaultListModel<>();       
+        accountList = new JList<>(model);
+        accountList.setFont(new Font("나눔바른고딕", Font.BOLD, 18));
+        scrollPane.setViewportView(accountList);
+        accountList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //accountList 하나만 선택 될 수 있도록
+        accountList.setSelectionBackground(new Color(255,225,0));
+
+        //계좌 개설 버튼
+        JButton accountPlusBTN = new JButton("+");
+        accountPlusBTN.setBackground(new Color(255, 255, 255));
+        accountPlusBTN.setFont(new Font("나눔바른고딕", Font.BOLD, 20));
+        accountPlusBTN.setBounds(34, 648, 419, 55);
+        panel.add(accountPlusBTN);
+
+        //이체하기 버튼
+        JButton transferBTN = new JButton("이체하기");
+        transferBTN.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
+        transferBTN.setBackground(new Color(255, 228, 0));
+        transferBTN.setBounds(30, 150, 140, 40);
+        panel.add(transferBTN);
+
+        //이체내역 버튼
+        JButton transferHistoryBTN = new JButton("이체내역");
+        transferHistoryBTN.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
+        transferHistoryBTN.setBackground(new Color(255, 228, 0));
+        transferHistoryBTN.setBounds(175, 150, 140, 40);
+        panel.add(transferHistoryBTN);
+
+        //회원아이디 라벨
+        JLabel memberIDLabel = new JLabel(memberId);
+        memberIDLabel.setFont(new Font("나눔바른고딕", Font.BOLD, 20));
+        memberIDLabel.setBounds(115, 80, 60, 40);
+        panel.add(memberIDLabel);
+
+        // 인사 라벨
+        JLabel greetingLabel = new JLabel("님 반갑습니다.");
+        greetingLabel.setFont(new Font("나눔바른고딕", Font.BOLD, 15));
+        greetingLabel.setBounds(175, 82, 100, 40);
+        panel.add(greetingLabel);
+
+        // 로고
+        ImageIcon nlb_logo_icon = new ImageIcon(MainFrame.class.getResource("/member2/NLB_LOGO.png"));
+        Image nlb_logo_img = nlb_logo_icon.getImage();
+        Image change_nlb_logo_img = nlb_logo_img.getScaledInstance(70, 100, Image.SCALE_SMOOTH);
+        ImageIcon change_nlb_logo_icon = new ImageIcon(change_nlb_logo_img);
+        JLabel nlbLogoLabel = new JLabel(change_nlb_logo_icon); // 라벨 생성
+        nlbLogoLabel.setBounds(30, 20, 70, 100);
+        panel.add(nlbLogoLabel);
+
+        // 프로필 form 라벨
+        ImageIcon profile_top_icon = new ImageIcon(MainFrame.class.getResource("/member2/profile_top.png"));
+        Image profile_top_img = profile_top_icon.getImage();
+        Image change_profile_top_img = profile_top_img.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+        ImageIcon change_profile_top_icon = new ImageIcon(change_profile_top_img);
+        JLabel profileTopLabel = new JLabel(change_profile_top_icon); // 라벨 생성
+        profileTopLabel.setBounds(380, 45, 80, 80);
+        panel.add(profileTopLabel);
+
+        // 프로필 라벨
+        ImageIcon profileIcon = new ImageIcon(MainFrame.class.getResource("/member2/profile1.png"));
+        Image profileImg = profileIcon.getImage();
+        Image changeProfileImg = profileImg.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+        ImageIcon changeProfileIcon = new ImageIcon(changeProfileImg);
+        JLabel profileImageLabel = new JLabel(changeProfileIcon);
+        profileImageLabel.setBounds(380, 45, 80, 80);
+        panel.add(profileImageLabel);
+        
+        //모임통장 친구추가 버튼
+        JButton publicMemberPlusBTN = new JButton("<html>모임통장<br>친구추가</html>");
+        publicMemberPlusBTN.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
+        publicMemberPlusBTN.setBackground(new Color(255, 228, 0));
+        publicMemberPlusBTN.setBounds(320, 150, 140, 40);
+        panel.add(publicMemberPlusBTN);
+        
+        showAccountList(); //DB계좌 정보 list에 뿌리기
+        
+        //accountList.getSelectedIndex();
+           
+        //이체하기 버튼 액션 리스너
+        transferBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { 
+            	System.out.println(seletedAccountNum());
+                
+            }
+        }); 
+        
+        //이체내역 버튼 액션리스너
+        transferHistoryBTN.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(seletedAccountNum());
+	               
 			}
 		});
-	}
+        
+        //모임통장 친구추가 버튼
+        publicMemberPlusBTN.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 if(seletedAccountNum()>accountList1.size()){ //모임통장 선택했을때만
+					
+	                  PublicAccountFrame frame3 = new PublicAccountFrame();
+	                    frame3.getFrame().setVisible(false);
+	                     frameMgr.setPublicAccountFrame(frame3);
+					 frameMgr.CustomSetVisible("publicAccountFrame");
+				 }
+			}
+		});
+        
+        // 계좌개설 버튼 액션리스너
+        accountPlusBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	frameMgr.CustomSetVisible("account");
+            }
+        }); 
 
-	/**
-	 * Create the application.
-	 */
-	public MainFrame() {
-		initialize();
-		frmKakaobank.setVisible(true);
-	}
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+//    public int getMemberAccountNum() {
+//		return seletedAccountNum;
+//	}
+    public JFrame getFrame() {
+    	return frame;
+    }
+    
+    public void deleteAccountList() {
+    	model.clear();
+    	
+    }
+    public int seletedAccountNum() { // 선택된 리스트 계좌번호
+	   	 
+	   	listSeletedIndex = accountList.getSelectedIndex();
+	   	listSeletedIndex /= 3; 
+	   	 
+	   	 Vector<AccountsBean> tmpAccountsBeans = accountList1;
+	   	 tmpAccountsBeans.addAll(accountList2);
+	   	 
+	   	seletedAccountNum= tmpAccountsBeans.get(listSeletedIndex).getACCOUNT_NUM(); //transfer frame 으로 넘길 계좌번호
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frmKakaobank = new JFrame();
-		frmKakaobank.getContentPane().setBackground(new Color(255, 255, 255));
-		frmKakaobank.setTitle("Next Level Bank Main");
-		frmKakaobank.setBounds(100, 100, 450, 700);
-		frmKakaobank.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmKakaobank.getContentPane().setLayout(null);
-		
-		//가로 항상 표시, 세로 금지 : JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-		JScrollPane scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(15, 80, 400, 550);
-		frmKakaobank.getContentPane().add(scrollPane);
-		
+	   	return seletedAccountNum;
+	   	
+    }
+    public void showAccountList() {   //계좌 정보 디비에서 읽어서 뿌리기
+        
+        AccountsMgr mgr = new AccountsMgr();
+        String category1 = "일반";
+        String category2 = "공동계좌";
+        bean1 = new AccountsBean();
+        
+        bean1.setMEMBER_ID(memberId);
+        bean1.setACCOUNT_CATEGORY("일반");
+        accountList1 = mgr.getAccount_num(bean1);
+        for(AccountsBean accountsBean1 : accountList1) {
+        	model.addElement("계좌번호(입출금 통장) : "+accountsBean1.getACCOUNT_NUM());
+        	model.addElement("잔액 : "+accountsBean1.getACCOUNT_BALANCE());
+        	model.addElement(" ");
+        	nomalAccountIndex++;
+        	 
+        }
+        //System.out.println(accountList1.get(0).getAccount_num()); //0번째 리스트의 계좌번호 출력
+        
 
-		JPanel ACCOUNT_SHOW_PANEL = new JPanel();
-		ACCOUNT_SHOW_PANEL.setBackground(new Color(255, 255, 255));
-		scrollPane.setViewportView(ACCOUNT_SHOW_PANEL);
-		ACCOUNT_SHOW_PANEL.setLayout(null);
-		
-		JPanel ACCOUNT1_PANEL = new JPanel();
-		ACCOUNT1_PANEL.setBackground(new Color(255, 228, 0)); // NLB 기본 컬러
-		ACCOUNT1_PANEL.setBorder(new LineBorder(null, 1, true));
-		ACCOUNT1_PANEL.setBounds(25, 25, 350, 110);
-		// 계좌 x=25고정 y = 25+(계좌n-1)*(height_110 + 10)  /계좌 사이 y간격 10
-		// width : 350, height : 110 고정
-		ACCOUNT_SHOW_PANEL.add(ACCOUNT1_PANEL);
-		ACCOUNT1_PANEL.setLayout(null);
-		
-		//핀 이미지 라벨
-
-		ImageIcon PIN_logo_icon = new ImageIcon(LoginFrame.class.getResource("/nlb_core/PIN.png"));
-		Image PIN_logo_img = PIN_logo_icon.getImage();
-		Image change_PIN_logo_img = PIN_logo_img.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
-		ImageIcon change_PIN_logo_icon = new ImageIcon(change_PIN_logo_img); 
-		
-
-		JLabel MAIN_ACCOUNT_PIN_LABEL = new JLabel(change_PIN_logo_icon);
-		
-		MAIN_ACCOUNT_PIN_LABEL.setBounds(20, 20, 15, 15);
-		ACCOUNT1_PANEL.add(MAIN_ACCOUNT_PIN_LABEL);
-		
-		JLabel ACCOUNT1_MEMBER_ID_LABEL = new JLabel("OOO");
-		ACCOUNT1_MEMBER_ID_LABEL.setFont(new Font("나눔바른고딕", Font.PLAIN, 12));
-		ACCOUNT1_MEMBER_ID_LABEL.setBounds(50, 20, 30, 15);
-		ACCOUNT1_PANEL.add(ACCOUNT1_MEMBER_ID_LABEL);
-		
-		//ACCOUNT1_BALANCE_LABEL X=50 고정 WIDTH = 금액자리수 * 20
-		// 금액의 WIDTH 자동 설정 함수 필요
-		JLabel ACCOUNT1_BALANCE_LABEL = new JLabel("O"); 
-		// 금액 한글자당 가로 +=20, 금액 최대 자리수 7자리, 8자리 넘어가면 글자수 줄어들 필요 및 글자당 가로 크기 변경 필요
-		ACCOUNT1_BALANCE_LABEL.setFont(new Font("나눔바른고딕", Font.BOLD, 25));
-		ACCOUNT1_BALANCE_LABEL.setBounds(50, 40, 20, 25);
-		ACCOUNT1_PANEL.add(ACCOUNT1_BALANCE_LABEL);
-		
-		JButton ACCOUNT1_TRANSFER_DO_BTN = new JButton("\uC774\uCCB4");
-		ACCOUNT1_TRANSFER_DO_BTN.setForeground(new Color(64, 0, 64));
-		ACCOUNT1_TRANSFER_DO_BTN.setBackground(new Color(240, 218, 0));
-		ACCOUNT1_TRANSFER_DO_BTN.setFont(new Font("나눔바른고딕", Font.BOLD, 15));
-		ACCOUNT1_TRANSFER_DO_BTN.setBounds(230, 20, 90, 30); //버튼 x=230, y = 20, width: 90  고정 
-		ACCOUNT1_PANEL.add(ACCOUNT1_TRANSFER_DO_BTN);
-		
-		JButton TRANSFER_HISTROY_BTN = new JButton("\uC774\uCCB4\uB0B4\uC5ED");  //버튼 x=230, y = 20, width: 90 고정
-		TRANSFER_HISTROY_BTN.setBackground(new Color(240, 218, 0));
-		TRANSFER_HISTROY_BTN.setFont(new Font("나눔바른고딕", Font.BOLD, 15));
-		TRANSFER_HISTROY_BTN.setBounds(230, 60, 90, 30); // y = 버튼1_y + 30 + 10
-		ACCOUNT1_PANEL.add(TRANSFER_HISTROY_BTN);
-		
-		JLabel ACCOUNT1_ID_AFTER_LABEL = new JLabel("\uC758 \uD1B5\uC7A5");
-		ACCOUNT1_ID_AFTER_LABEL.setFont(new Font("나눔바른고딕", Font.PLAIN, 12));
-		ACCOUNT1_ID_AFTER_LABEL.setBounds(80, 20, 80, 15);
-		ACCOUNT1_PANEL.add(ACCOUNT1_ID_AFTER_LABEL);
-		
-		//ACCOUNT1_WON_LABEL 의 X = ACCOUNT1_BALANCE_LABEL(X)+ACCOUNT1_BALANCE_LABEL(WIDTH) 
-		// 원의 X 좌표 자동 설정 함수 필요
-		JLabel ACCOUNT1_WON_LABEL = new JLabel("\uC6D0");
-		ACCOUNT1_WON_LABEL.setFont(new Font("나눔바른고딕", Font.BOLD, 25));
-		ACCOUNT1_WON_LABEL.setBounds(70, 40, 25, 25);
-		ACCOUNT1_PANEL.add(ACCOUNT1_WON_LABEL);
-		
-		JButton NEW_ACCOUNT_ADD_BTN = new JButton("+");
-		NEW_ACCOUNT_ADD_BTN.setBackground(new Color(246, 246, 246));
-		NEW_ACCOUNT_ADD_BTN.setFont(new Font("나눔바른고딕", Font.BOLD, 20));
-		NEW_ACCOUNT_ADD_BTN.setBounds(25, 145, 350, 40);
-		ACCOUNT_SHOW_PANEL.add(NEW_ACCOUNT_ADD_BTN);
-		
-		textField = new JTextField();
-		textField.setBounds(25, 501, 330, 186);
-		ACCOUNT_SHOW_PANEL.add(textField);
-		textField.setColumns(10);
-//		
-//		//스크롤팬 작동 확인용 버튼~
-//		for(int i = 0 ; i<10;i++) {
-//			JButton NEW_ACCOUNT_ADD_BTNi = new JButton("+");
-//			NEW_ACCOUNT_ADD_BTNi.setBackground(new Color(246, 246, 246));
-//			NEW_ACCOUNT_ADD_BTNi.setFont(new Font("나눔바른고딕", Font.BOLD, 20));
-//			NEW_ACCOUNT_ADD_BTNi.setBounds(25, 145+(10+40)*i, 350, 40);
-//			ACCOUNT_SHOW_PANEL.add(NEW_ACCOUNT_ADD_BTNi);
-//		}
-//		//~스크롤팬 작동 확인용 버튼
-		
-		JLabel MEMBER_ID_LABEL = new JLabel("OOO");
-		MEMBER_ID_LABEL.setFont(new Font("나눔바른고딕", Font.BOLD, 20));
-		MEMBER_ID_LABEL.setBounds(26, 37, 57, 22);
-		frmKakaobank.getContentPane().add(MEMBER_ID_LABEL);
-		
-		JLabel GREETING_LABEL = new JLabel("\uB2D8 \uBC18\uAC11\uC2B5\uB2C8\uB2E4.");
-		GREETING_LABEL.setFont(new Font("나눔바른고딕", Font.BOLD, 16));
-		GREETING_LABEL.setBounds(78, 40, 102, 15);
-		frmKakaobank.getContentPane().add(GREETING_LABEL);
-		
-		JButton MY_ACCOUNT_BTN = new JButton("\uB0B4 \uACC4\uC88C");
-		MY_ACCOUNT_BTN.setBackground(new Color(255, 255, 255));
-		MY_ACCOUNT_BTN.setFont(new Font("나눔바른고딕", Font.BOLD, 12));
-		MY_ACCOUNT_BTN.setBounds(180, 37, 79, 23);
-		frmKakaobank.getContentPane().add(MY_ACCOUNT_BTN);
-	}
+        bean1.setMEMBER_ID(memberId);
+        bean1.setACCOUNT_CATEGORY("공동계좌");
+        accountList2 = mgr.getAccount_num(bean1);
+        for(AccountsBean accountsBean2 : accountList2) {
+        	model.addElement("계좌번호(모임 통장) : "+accountsBean2.getACCOUNT_NUM());
+        	model.addElement("잔액 : "+accountsBean2.getACCOUNT_BALANCE());
+        	model.addElement(" ");
+        	publicAccountIndex++;
+        	 
+        }
+        
+        sumAccountIndex = nomalAccountIndex + publicAccountIndex;
+        //System.out.println(sumAccountIndex);
+        //System.out.println(accountList.get(1).getAccount_balance());
+        
+    }
 }
+  

@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import database.MemberDB;
+import database.MemberMgr;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -93,7 +93,7 @@ public class PwFindFrame {
     * Initialize the contents of the frame.
     */
    private void initialize() {
-	  MemberDB db = new MemberDB();
+	  MemberMgr db = new MemberMgr();
       FindRegist = new JFrame();
       FindRegist.getContentPane().setBackground(new Color(255, 228, 0));
       FindRegist.setTitle("Next Level Bank PW Find");

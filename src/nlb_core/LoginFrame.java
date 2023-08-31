@@ -11,7 +11,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
-import database.MemberDB;
+import database.MemberMgr;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -128,7 +128,7 @@ public class LoginFrame {
       frmNextLevelBank.getContentPane().add(pwField);
       pwField.setColumns(10);
       
-      MemberDB db = new MemberDB();
+      MemberMgr db = new MemberMgr();
       
       JButton joinBtn = new JButton("·Î±×ÀÎ");
       joinBtn.setForeground(new Color(0, 0, 0));

@@ -1,5 +1,3 @@
-/beans/
-/database/
-/encryption/
 /nlb_core/
-/member/
+/database/
+/beans/
