@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.util.Vector;
 import beans.AccountsBean;
 import database.AccountsMgr;
+import database.*;
+import database.DBConnectionMgr;
 
 public class MainFrame {
 
@@ -15,7 +17,7 @@ public class MainFrame {
     private DefaultListModel<String> model;
     private JList<String> accountList; 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
-    String memberId = "test4"; //회원아이디
+    String memberId = "test1"; //회원아이디
     int nomalAccountIndex = 0;
     int publicAccountIndex = 0;
     int sumAccountIndex=0;
