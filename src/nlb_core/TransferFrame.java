@@ -26,7 +26,7 @@ import beans.MemberBean;
 import beans.TransferBean;
 import database.TransferMgr;
 
-public class TransferFrame2 extends JFrame implements ActionListener {
+public class TransferFrame extends JFrame implements ActionListener {
 	final String[] buttonLabels = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "Áö¿ì±â", };
 
 	JFrame frame;
@@ -40,21 +40,22 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 	TransferBean tBean;
 	AccountsBean aBean;
 	MemberBean mBean;
-	public TransferFrame2() {
+	public TransferFrame() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.getContentPane().setForeground(new Color(255, 255, 255));
 		frame.setBounds(100, 100, 500, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("\uC774\uCCB4\uD558\uAE30");
-		lblNewLabel.setFont(new Font("±¼¸²", Font.PLAIN, 20));
-		lblNewLabel.setBounds(30, 30, 80, 32);
+		lblNewLabel.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 25));
+		lblNewLabel.setBounds(30, 30, 147, 32);
 		frame.getContentPane().add(lblNewLabel);
 
 		textField_account = new JTextField();
 		textField_account.setText("°èÁÂ¹øÈ£");
-		textField_account.setFont(new Font("±¼¸²", Font.PLAIN, 17));
+		textField_account.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 15));
 		textField_account.setBounds(30, 82, 425, 46);
 		frame.getContentPane().add(textField_account);
 		textField_account.setColumns(9);
@@ -89,34 +90,45 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 		for (int i = 0; i < 12; i++) {
 			JButton button = new JButton(buttonLabels[i]);
 			button.addActionListener(this);
+			button.setBackground(Color.white);
+			button.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 20));
 			panel.add(buttons[i] = button);
 		}
 
 		admit = new JButton("´ÙÀ½");
-		admit.setFont(new Font("±¼¸²", Font.PLAIN, 20));
+		admit.setBackground(new Color(255, 225, 0));
+		admit.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 25));
 		admit.setBounds(30, 709, 425, 32);
 		frame.getContentPane().add(admit);
 		admit.addActionListener(this);
 
 		JButton btnNewButton_1 = new JButton("+1¸¸");
+		btnNewButton_1.setBackground(new Color(255, 255, 255));
+		btnNewButton_1.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 15));
 		btnNewButton_1.setBounds(30, 242, 97, 23);
 		frame.getContentPane().add(btnNewButton_1);
 
 		JButton btnNewButton_2 = new JButton("+5¸¸");
+		btnNewButton_2.setBackground(new Color(255, 255, 255));
+		btnNewButton_2.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 15));
 		btnNewButton_2.setBounds(139, 242, 97, 23);
 		frame.getContentPane().add(btnNewButton_2);
 
 		JButton btnNewButton_3 = new JButton("+10¸¸");
+		btnNewButton_3.setBackground(new Color(255, 255, 255));
+		btnNewButton_3.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 15));
 		btnNewButton_3.setBounds(248, 242, 97, 23);
 		frame.getContentPane().add(btnNewButton_3);
 
 		JButton btnNewButton_4 = new JButton("Àü¾×");
+		btnNewButton_4.setBackground(new Color(255, 255, 255));
+		btnNewButton_4.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 15));
 		btnNewButton_4.setBounds(358, 242, 97, 23);
 		frame.getContentPane().add(btnNewButton_4);
 
 		textField_money = new JTextField();
 		textField_money.setHorizontalAlignment(SwingConstants.RIGHT);
-		textField_money.setFont(new Font("±¼¸²", Font.PLAIN, 17));
+		textField_money.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 17));
 		textField_money.setColumns(20);
 		textField_money.setBounds(30, 154, 425, 46);
 		frame.getContentPane().add(textField_money);
@@ -219,6 +231,6 @@ public class TransferFrame2 extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		
-		new TransferFrame2();
+		new TransferFrame();
 	}
 }
