@@ -40,9 +40,9 @@ public class MainFrame {
             public void run() {
                 try {
  
-                	AccountPlusFrame frame2 = new AccountPlusFrame();
+                	//AccountPlusFrame frame2 = new AccountPlusFrame(AccountsBean abean);
                 	//PublicAccountFrame frame3 = new PublicAccountFrame();
-                    frame2.getFrame().setVisible(false);
+                    //frame2.getFrame().setVisible(false);
                     //frame3.getFrame().setVisible(false);
                   
                     //frameMgr.setAccountPlusFrame(frame2);
@@ -61,11 +61,11 @@ public class MainFrame {
     }
 
     public MainFrame(MemberBean bean) {
-    	AccountPlusFrame frame2 = new AccountPlusFrame();
+    	//AccountPlusFrame frame2 = new AccountPlusFrame(AccountsBean abean);
     	frameMgr = FrameManager.getInstance();
     	
         frameMgr.setMainFrame(this);
-    	frameMgr.setAccountPlusFrame(frame2);
+    	//frameMgr.setAccountPlusFrame(frame2);
         
     	this.mbean = bean;
         initialize();
@@ -213,7 +213,9 @@ public class MainFrame {
         accountPlusBTN.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	frameMgr.CustomSetVisible("account");
+            	//frameMgr.CustomSetVisible("account");
+            	abean.setMEMBER_ID(memberId);
+            	new AccountPlusFrame(abean);
             }
         }); 
 
@@ -260,9 +262,9 @@ public class MainFrame {
         	model.addElement(" ");
         	nomalAccountIndex++;
         }
-        System.out.println(accountList1.get(0).getACCOUNT_NUM()); //0번째 리스트의 계좌번호 출력
-        System.out.println(accountList1.get(1).getACCOUNT_NUM());
-        System.out.println(accountList1.get(2).getACCOUNT_NUM());
+//        System.out.println(accountList1.get(0).getACCOUNT_NUM()); //0번째 리스트의 계좌번호 출력
+//        System.out.println(accountList1.get(1).getACCOUNT_NUM());
+//        System.out.println(accountList1.get(2).getACCOUNT_NUM());
 
         abean.setMEMBER_ID(memberId);
         abean.setACCOUNT_CATEGORY("공동계좌");

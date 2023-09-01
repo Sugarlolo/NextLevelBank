@@ -51,7 +51,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.getContentPane().setForeground(new Color(255, 255, 255));
 		frame.setBounds(100, 100, 500, 800);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("\uC774\uCCB4\uD558\uAE30");

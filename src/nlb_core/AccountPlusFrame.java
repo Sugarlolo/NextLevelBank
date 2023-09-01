@@ -49,24 +49,26 @@ public class AccountPlusFrame {
     private CustomTextField pwField;
     AccountsMgr mgr;
     private FrameManager frameMgr;
-    String member_id = "test4"; //회원아이디
+    String member_id = ""; //회원아이디
+    AccountsBean aBean;
     
  
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AccountPlusFrame window = new AccountPlusFrame();
-					window.frmAccountPlusFrame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					AccountPlusFrame window = new AccountPlusFrame(aBean);
+//					window.frmAccountPlusFrame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
  
-	public AccountPlusFrame() {
-		frameMgr = FrameManager.getInstance();
+	public AccountPlusFrame(AccountsBean abean) {
+		//frameMgr = FrameManager.getInstance();
+		this.aBean = abean;
 		initialize();
 	}
  
@@ -75,6 +77,8 @@ public class AccountPlusFrame {
     }
 	
 	private void initialize() {
+		member_id = aBean.getMEMBER_ID();
+		
 		frmAccountPlusFrame = new JFrame();
 		frmAccountPlusFrame.getContentPane().setBackground(new Color(255, 255, 255));
 		frmAccountPlusFrame.setTitle("Account Plus Frame");

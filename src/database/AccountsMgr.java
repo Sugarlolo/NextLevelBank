@@ -24,7 +24,7 @@ public class AccountsMgr {
 	}
 
 
-	// ���id, ����Ÿ�� ���� ��������Ȯ�� �� ���� ���� �ҷ�����
+	// 占쏙옙占퐄d, 占쏙옙占쏙옙타占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙확占쏙옙 占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쌀뤄옙占쏙옙占쏙옙
 		public Vector<AccountsBean> getAccount_num(AccountsBean bean) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -61,7 +61,7 @@ public class AccountsMgr {
 		
 		
 
-		// ��� �̸���, ��ȭ��ȣ�� ���¹�ȣ �ҷ�����
+		// 占쏙옙占� 占싱몌옙占쏙옙, 占쏙옙화占쏙옙호占쏙옙 占쏙옙占승뱄옙호 占쌀뤄옙占쏙옙占쏙옙
 			public Vector<AccountsBean> getAccount_num2(MemberBean bean1) {
 				Connection con = null;
 				PreparedStatement pstmt = null;
@@ -99,7 +99,7 @@ public class AccountsMgr {
 			}
 
 
-		// ���¹�ȣ�� �ܾ׺ҷ�����
+		// 占쏙옙占승뱄옙호占쏙옙 占쌤액불뤄옙占쏙옙占쏙옙
 		public AccountsBean getAccount_balance(AccountsBean bean)  {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -107,7 +107,7 @@ public class AccountsMgr {
 			String sql = null;             
 			try {
 				con = pool.getConnection();
-				sql = "select a.* from nlb_db.accounts a where a.account_num = ? ";
+				sql = "select a.* from accounts a where a.account_num = ? ";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, bean.getACCOUNT_NUM());
 				rs = pstmt.executeQuery();
@@ -128,10 +128,10 @@ public class AccountsMgr {
 			return bean;
 		} 
 		
-	// ���� �����ϱ�
+	// 占쏙옙占쏙옙 占쏙옙占쏙옙占싹깍옙
 		public boolean InsertAccount(AccountsBean bean) {
 			
-			int account; //���� ���� ��ȣ ����
+			int account; //占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙호 占쏙옙占쏙옙
 			String str="";
 			str+= random.nextInt(1,10);
 			for(int i =0;i<8;i++) {
@@ -146,8 +146,8 @@ public class AccountsMgr {
 			String sql = null;
 			try {
 				con = pool.getConnection();
-				sql = "INSERT INTO accounts \r\n"
-						+ "VALUES( ? , ? , ? , ? , ? , 0 , ? );";
+				sql = "INSERT INTO ACCOUNTS "
+						+ "VALUES( ? , ? , ? , ? , ? , 0 , ? )";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1,account);
 				pstmt.setString(2,bean.getMEMBER_ID());
@@ -172,15 +172,20 @@ public class AccountsMgr {
 		public static void main(String[] args) {
 			AccountsMgr mgr = new AccountsMgr();
 			AccountsBean bean1 = new AccountsBean();
-			//System.out.println(mgr.getAccount_num("test1","�Ϲ�"));
-			//System.out.println(mgr.InsertAccount("test4","��������","�޿� �� �Ƹ�����Ʈ"));
+			//System.out.println(mgr.getAccount_num("test1","占싹뱄옙"));
+			//System.out.println(mgr.InsertAccount("test4","占쏙옙占쏙옙占쏙옙占쏙옙","占쌨울옙 占쏙옙 占싣몌옙占쏙옙占쏙옙트"));
 			//System.out.println(mgr.InsertAccountPublic("test1","test2"));
+//			bean1.setMEMBER_ID("test1");
+//			bean1.setACCOUNT_CATEGORY("�씪諛�");
+//			System.out.println(mgr.getAccount_num(bean1).get(0).getACCOUNT_NUM());
+//			System.out.println(mgr.getAccount_num(bean1).get(1).getACCOUNT_NUM());
+//			System.out.println(mgr.getAccount_num(bean1).get(2).getACCOUNT_NUM());
+//			
+			bean1.setACCOUNT_CATEGORY("공동계좌");
+			bean1.setACCOUNT_PURPOSE("급여");
 			bean1.setMEMBER_ID("test1");
-			bean1.setACCOUNT_CATEGORY("일반");
-			System.out.println(mgr.getAccount_num(bean1).get(0).getACCOUNT_NUM());
-			System.out.println(mgr.getAccount_num(bean1).get(1).getACCOUNT_NUM());
-			System.out.println(mgr.getAccount_num(bean1).get(2).getACCOUNT_NUM());
 			
+			mgr.InsertAccount(bean1);			
 			
 		}
 		
