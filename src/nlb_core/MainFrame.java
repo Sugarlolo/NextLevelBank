@@ -215,7 +215,9 @@ public class MainFrame {
             public void actionPerformed(ActionEvent e) {
             	//frameMgr.CustomSetVisible("account");
             	abean.setMEMBER_ID(memberId);
-            	new AccountPlusFrame(abean);
+            	AccountPlusFrame accountPlusFrame = new AccountPlusFrame(abean);
+            	accountPlusFrame.getFrame().setVisible(true);
+            	frame.setVisible(false);
             }
         }); 
 

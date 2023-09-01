@@ -67,7 +67,7 @@ public class AccountPlusFrame {
 //	}
  
 	public AccountPlusFrame(AccountsBean abean) {
-		//frameMgr = FrameManager.getInstance();
+		frameMgr = FrameManager.getInstance();
 		this.aBean = abean;
 		initialize();
 	}
@@ -327,7 +327,9 @@ public class AccountPlusFrame {
             				JOptionPane.showMessageDialog(frmAccountPlusFrame, "통장 개설이 완료되었습니다.", "안내", JOptionPane.INFORMATION_MESSAGE);
             			else 
             				JOptionPane.showMessageDialog(frmAccountPlusFrame, "통장 개설을 실패하였습니다.", "경고", JOptionPane.WARNING_MESSAGE);
-            			frameMgr.CustomSetVisible("main");       			 
+            			
+            			frameMgr.CustomSetVisible("main");   
+            			frmAccountPlusFrame.setVisible(false);
             		}
             	}  
             	

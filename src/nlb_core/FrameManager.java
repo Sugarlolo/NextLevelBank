@@ -30,7 +30,7 @@ public class FrameManager {
 		switch (name) {
 			case "main" -> {
 				mainFrame.getFrame().setVisible(true);
-				accountPlusFrame.getFrame().setVisible(false);
+				//accountPlusFrame.getFrame().setVisible(false);
 				mainFrame.deleteAccountList();
 				mainFrame.showAccountList();
 			}
