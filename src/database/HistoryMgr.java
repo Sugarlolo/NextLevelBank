@@ -17,7 +17,7 @@ public class HistoryMgr {
 		}
 		
 		//내역 가져오기
-		public Vector<HistoryBean> getHistoryList(){
+		public Vector<HistoryBean> getHistoryList(int account){
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -25,9 +25,13 @@ public class HistoryMgr {
 			Vector<HistoryBean> vlist = new Vector<HistoryBean>();
 			try {
 				con = pool.getConnection();
-				sql ="SELECT T.*, A.Account_Balance FROM TRANSFER T " +
-			              "JOIN ACCOUNTS A ON T.Transfer_Do_Account = A.Account_Num";
+				sql ="SELECT t.*, a.ACCOUNT_BALANCE "
+						+ "FROM TRANSFER t LEFT OUTER JOIN ACCOUNTS a "
+						+ "ON t.TRANSFER_DO_ACCOUNT = a.ACCOUNT_NUM "
+						+ "WHERE t.TRANSFER_DO_ACCOUNT ="
+						+ "(SELECT ACCOUNT_NUM FROM ACCOUNTS WHERE ACCOUNT_NUM=?)";
 				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, account);
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
 					
@@ -70,6 +74,3 @@ public class HistoryMgr {
 		return bean;
 		}
 }
-		
-
-			

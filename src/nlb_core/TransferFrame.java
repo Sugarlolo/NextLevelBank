@@ -177,7 +177,6 @@ public class TransferFrame extends JFrame implements ActionListener {
 				}
 			}
 		}
-		
 		if (obj == admit) {
 			int account_num = Integer.parseInt(textField_account.getText());
 			System.out.println("입력한 계좌번호:"+account_num);
@@ -223,6 +222,8 @@ public class TransferFrame extends JFrame implements ActionListener {
 									if (check == true) {
 										JOptionPane.showMessageDialog(frame, "이체가 완료되었습니다.");
 										frame.dispose();
+										MainFrame mf = new MainFrame(mBean);
+										mf.getFrame().setVisible(true);
 									} else
 										JOptionPane.showMessageDialog(frame, "이체가 실패하였습니다.");
 									break;
@@ -243,7 +244,6 @@ public class TransferFrame extends JFrame implements ActionListener {
 				}
 			} else
 				JOptionPane.showMessageDialog(frame, "금액을 입력해야 합니다.");
-			
 		}
 	}
 	
