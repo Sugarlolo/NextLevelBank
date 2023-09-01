@@ -11,6 +11,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -67,6 +70,16 @@ public class TransferFrame extends JFrame implements ActionListener {
 		textField_account.setColumns(9);
 		textField_account.addActionListener(this);
 
+		
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				MainFrame mf = new MainFrame(mbean);
+				mf.getFrame().setVisible(true);
+			}
+		}); 
+			
+		
 		textField_account.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -191,19 +204,19 @@ public class TransferFrame extends JFrame implements ActionListener {
 						
 						if (memo.length()>10) {
 							JOptionPane.showMessageDialog(frame, "메모는 10자를 초과할 수 없습니다.");
-						} else if (memo=="" || memo.length()<=10) {
-							if (memo=="") {
+						} else if (memo.isBlank() || memo.length()<=10) {
+							if (memo.isBlank()) {
 								tBean.setTransfer_Memo(mBean.getMEMBER_Name());
+								System.out.println("입력된 이름: "+tBean.getTransfer_Memo());
 							} else
 								tBean.setTransfer_Memo(memo.trim());
-							
 							for (int i = 0; i<4; i++) {
 								if (count==3) {
 									JOptionPane.showMessageDialog(frame, "입력 횟수를 초과했습니다.");
 									break;
 								}
-								String payPw = JOptionPane.showInputDialog(frame, "결제 비밀번호를 입력해주세요. "+count+"회 입력하셨습니다.");
 								
+								String payPw = JOptionPane.showInputDialog(frame, "결제 비밀번호를 입력해주세요. "+count+"회 입력하셨습니다.");
 								if (tMgr.PayPassword_check(mBean.getMEMBER_ID(), payPw) == true) {
 									check = tMgr.Transfer_Transaction(tBean, my_account, account_num, amount);
 
@@ -233,6 +246,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 			
 		}
 	}
+	
 
 //	public static void main(String[] args) {
 //		

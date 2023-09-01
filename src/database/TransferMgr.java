@@ -246,8 +246,12 @@ public class TransferMgr {
 				pstmt.setInt(6, d_balance);
 				pstmt.setInt(7, t_balance);
 				pstmt.executeUpdate();
-				
 				pstmt.close();
+				
+				
+				// 5. 최종적으로 완료된 이체에 대한 알람. 이체를 받는 사용자의 이름으로 기록됨
+				
+				
 				
 				con.commit();
 				flag= true;
@@ -297,7 +301,7 @@ public class TransferMgr {
 //	}
 	
 	//리프레시 메소드
-	public AccountsBean Account_refresh(int account) {
+	public AccountsBean Account_refresh(int account) { // 계좌에 대한 정보를 갱신하는 메소드
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -329,7 +333,9 @@ public class TransferMgr {
 		return bean;
 	}
 	
-	public boolean PayPassword_check(String member_ID , String payPassword) {
+	
+	
+	public boolean PayPassword_check(String member_ID , String payPassword) { //결제 비밀번호를 체크하는 메소드
 		Connection con = null;
 		CallableStatement cstmt = null;
 		String sql = null;

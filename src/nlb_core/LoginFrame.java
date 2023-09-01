@@ -137,34 +137,27 @@ public class LoginFrame {
 		joinBtn.setBackground(new Color(255, 228, 0));
 		joinBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				bean = new MemberBean();
 				String uid = idField.getText().trim();
-				bean.setMEMBER_ID(uid);
-				String upw = pwField.getText().trim();
-				bean.setMEMBER_PW(upw);
+				String upw = pwField.getText().trim();				
 				
-				if (uid.isBlank() && upw.isBlank()) {
+				if (uid.isBlank() || upw.isBlank()) {
 					JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력해주세요.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				// ... (아이디 또는 비밀번호가 입력되지 않은 경우의 처리)
-				if (!(uid.isBlank() && !(upw.isBlank()))) {
-					mMgr = new MemberMgr();
-					bean = mMgr.logincheck(bean);
-					System.out.println("beans 체크-id : "+bean.getMEMBER_ID());
-					System.out.println("beans 체크-pw : "+bean.getMEMBER_PW());
-					if (bean.getMEMBER_ID().equals(uid) && bean.getMEMBER_PW().equals(upw)) {
-						JOptionPane.showMessageDialog(frmNextLevelBank, "로그인에 성공하였습니다.");
-						bean = mMgr.getMeberInfo(bean);
-						MainFrame mf = new MainFrame(bean);
-						mf.getFrame().setVisible(true);
-						frmNextLevelBank.dispose();
-					} else {
-						JOptionPane.showMessageDialog(frmNextLevelBank, "아이디와 비밀번호를 확인해주세요.");
-					}
-					
-				} 
+				mMgr = new MemberMgr();
+				bean = mMgr.logincheck(uid, upw);
+				System.out.println("beans 체크-id : " + bean.getMEMBER_ID());
+				System.out.println("beans 체크-pw : " + bean.getMEMBER_PW());
+				if (uid.equals(bean.getMEMBER_ID()) && upw.equals(bean.getMEMBER_PW())) {
+					JOptionPane.showMessageDialog(frmNextLevelBank, "로그인에 성공하였습니다.");
+					bean = mMgr.getMeberInfo(bean);
+					MainFrame mf = new MainFrame(bean);
+					mf.getFrame().setVisible(true);
+					frmNextLevelBank.dispose();
+				} else {
+					JOptionPane.showMessageDialog(frmNextLevelBank, "아이디와 비밀번호를 확인해주세요.");
+				}
 			}
 		});
 		joinBtn.setBounds(120, 430, 260, 40);

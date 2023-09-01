@@ -18,18 +18,19 @@ public class MemberMgr {
 		pool = DBConnectionMgr.getInstance();
 		
 	}
-	public MemberBean logincheck(MemberBean bean) {
+	public MemberBean logincheck(String id, String pw) {
 
 		Connection con = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
+		MemberBean bean = new MemberBean();
 		try {
 			con = pool.getConnection();
 			sql = "SELECT MEMBER_ID, MEMBER_PW FROM MEMBER WHERE MEMBER_ID=? AND MEMBER_PW =?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, bean.getMEMBER_ID());
-			pstmt.setString(2, bean.getMEMBER_PW());
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				bean.setMEMBER_ID(rs.getString(1));
@@ -44,7 +45,7 @@ public class MemberMgr {
 	}
 
 	public MemberBean joinCheck(String id, String pw, String name, String pn, String ad, String jsonum, String pay) {
-		// ȸ������ db�� insert
+		// 회占쏙옙占쏙옙占쏙옙 db占쏙옙 insert
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -52,7 +53,7 @@ public class MemberMgr {
 		try {
 			con = pool.getConnection();
 			sql = "INSERT INTO MEMBER(MEMBER_ID, MEMBER_PW, MEMBER_NAME, TEL_NUMBER, " + 
-			"ADDRESS, SOCIAL_NUMBER, PAY_PW, REG_DATETIME, MEMBER_STATUS) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), 'Ȱ��')";
+			"ADDRESS, SOCIAL_NUMBER, PAY_PW, REG_DATETIME, MEMBER_STATUS) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), '활占쏙옙')";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
@@ -80,7 +81,7 @@ public class MemberMgr {
 		return bean;
 	}
 	
-	public boolean idDuplicationCheck(String id) { // ���̵� �ߺ�üũ �޼ҵ�
+	public boolean idDuplicationCheck(String id) { // 占쏙옙占싱듸옙 占쌩븝옙체크 占쌨소듸옙
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -104,7 +105,7 @@ public class MemberMgr {
 		return flag;
 	}
 	
-	public MemberBean getFindId(String name, String pn) { // ���̵� ã��
+	public MemberBean getFindId(String name, String pn) { // 占쏙옙占싱듸옙 찾占쏙옙
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -130,7 +131,7 @@ public class MemberMgr {
 		return bean;
 	}
 	
-	public MemberBean getFindPw(String name, String id) { // ��й�ȣ ã�� �޼ҵ�
+	public MemberBean getFindPw(String name, String id) { // 占쏙옙橘占싫� 찾占쏙옙 占쌨소듸옙
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
