@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import beans.AccountsBean;
 import beans.MemberBean;
+import nlb_core.PublicAccountFrame;
 
 public class AccountsMgr {
 	private DBConnectionMgr pool;
@@ -99,7 +100,7 @@ public class AccountsMgr {
 			}
 
 
-		// 占쏙옙占승뱄옙호占쏙옙 占쌤액불뤄옙占쏙옙占쏙옙
+		// 계좌번호로 계좌주인의모든정보 All info account by account number
 		public AccountsBean getAccount_balance(AccountsBean bean)  {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -128,10 +129,43 @@ public class AccountsMgr {
 			return bean;
 		} 
 		
-	// 占쏙옙占쏙옙 占쏙옙占쏙옙占싹깍옙
+		//계좌번호 모두 불러오기 all account numbers
+		public Vector<AccountsBean> getAccount_num3() {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = null;
+			Vector<AccountsBean> vlist = new Vector<AccountsBean>();
+			try {
+				con = pool.getConnection();
+				sql = "select a.* from ACCOUNTS a";
+				pstmt = con.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					AccountsBean bean2 = new AccountsBean(); 
+					bean2.setACCOUNT_NUM(rs.getInt("account_num"));
+					bean2.setMEMBER_ID(rs.getString("member_id"));
+					bean2.setACCOUNT_REG_DATE(rs.getTimestamp("account_reg_date"));
+					bean2.setACCOUNT_LAST_DATE(rs.getTimestamp("account_last_date"));
+					bean2.setACCOUNT_CATEGORY(rs.getString("account_category"));
+					bean2.setACCOUNT_BALANCE(rs.getInt("account_balance"));
+					bean2.setACCOUNT_PURPOSE(rs.getString("ACCOUNT_PURPOSE"));
+					vlist.addElement(bean2);
+					//System.out.println(bean.getAccount_num());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt, rs);
+			}
+			return vlist;
+		}
+
+		
+	// insert Account row
 		public boolean InsertAccount(AccountsBean bean) {
 			
-			int account; //占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙호 占쏙옙占쏙옙
+			int account; // random account num
 			String str="";
 			str+= random.nextInt(1,10);
 			for(int i =0;i<8;i++) {
@@ -139,6 +173,22 @@ public class AccountsMgr {
 				str+=String.valueOf(code);
 			}
 			account = Integer.valueOf(str);
+			
+			AccountsMgr mgr = new AccountsMgr(); //while(Existing account number) {random account} 
+			Vector<AccountsBean> abcAccountsBeans = mgr.getAccount_num3();
+			for(int i =0;i<abcAccountsBeans.size();i++) {
+				while(account == abcAccountsBeans.get(i).getACCOUNT_NUM()) {
+					str="";
+					str+= random.nextInt(1,10);
+					for(int j =0;j<8;j++) {
+						int code = random.nextInt(10);
+						str+=String.valueOf(code);
+					}
+					account = Integer.valueOf(str);
+				}
+			}
+			
+			
 			
 			boolean flag = false;
 		 	Connection con = null;
@@ -181,12 +231,24 @@ public class AccountsMgr {
 //			System.out.println(mgr.getAccount_num(bean1).get(1).getACCOUNT_NUM());
 //			System.out.println(mgr.getAccount_num(bean1).get(2).getACCOUNT_NUM());
 //			
-			bean1.setACCOUNT_CATEGORY("공동계좌");
-			bean1.setACCOUNT_PURPOSE("급여");
-			bean1.setMEMBER_ID("test1");
+			//bean1.setACCOUNT_NUM(123456789);
+//			System.out.println(mgr.getAccount_num3(bean1));
+//			bean1.setACCOUNT_CATEGORY("공동계좌");
+//			bean1.setACCOUNT_PURPOSE("급여");
+//			bean1.setMEMBER_ID("test1");
+//			
+//			mgr.InsertAccount(bean1);	
 			
-			mgr.InsertAccount(bean1);			
+//			Vector<AccountsBean> abcAccountsBeans = mgr.getAccount_num3();
+//			for(int i =0;i<abcAccountsBeans.size();i++) {
+//				System.out.println(abcAccountsBeans.get(i).getACCOUNT_NUM());
+//			}
 			
+//			InsertAccount
+//			bean1.setACCOUNT_CATEGORY("일반");
+//			bean1.setACCOUNT_PURPOSE("급급여");
+//			bean1.setMEMBER_ID("test1");
+//			System.out.println(mgr.InsertAccount(bean1));
 		}
 		
 }
