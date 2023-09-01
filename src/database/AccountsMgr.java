@@ -62,7 +62,7 @@ public class AccountsMgr {
 		
 		
 
-		// 占쏙옙占� 占싱몌옙占쏙옙, 占쏙옙화占쏙옙호占쏙옙 占쏙옙占승뱄옙호 占쌀뤄옙占쏙옙占쏙옙
+		// friend name & tel_num => friend Account num
 			public Vector<AccountsBean> getAccount_num2(MemberBean bean1) {
 				Connection con = null;
 				PreparedStatement pstmt = null;
@@ -72,7 +72,7 @@ public class AccountsMgr {
 				try {
 					con = pool.getConnection();
 					sql = "SELECT a.* "
-							+ "FROM accounts a, member "
+							+ "FROM ACCOUNTS a, MEMBER m "
 							+ "WHERE a.MEMBER_ID = m.MEMBER_ID AND m.MEMBER_NAME = ?  AND m.TEL_NUMBER = ? ";
 					
 					pstmt = con.prepareStatement(sql);
@@ -108,7 +108,7 @@ public class AccountsMgr {
 			String sql = null;             
 			try {
 				con = pool.getConnection();
-				sql = "select a.* from accounts a where a.account_num = ? ";
+				sql = "select a.* from ACCOUNTS a where a.account_num = ? ";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, bean.getACCOUNT_NUM());
 				rs = pstmt.executeQuery();
@@ -221,7 +221,8 @@ public class AccountsMgr {
 		
 		public static void main(String[] args) {
 			AccountsMgr mgr = new AccountsMgr();
-			AccountsBean bean1 = new AccountsBean();
+			AccountsBean abean = new AccountsBean();
+			MemberBean mbean = new MemberBean();
 			//System.out.println(mgr.getAccount_num("test1","占싹뱄옙"));
 			//System.out.println(mgr.InsertAccount("test4","占쏙옙占쏙옙占쏙옙占쏙옙","占쌨울옙 占쏙옙 占싣몌옙占쏙옙占쏙옙트"));
 			//System.out.println(mgr.InsertAccountPublic("test1","test2"));
@@ -244,11 +245,22 @@ public class AccountsMgr {
 //				System.out.println(abcAccountsBeans.get(i).getACCOUNT_NUM());
 //			}
 			
-//			InsertAccount
+//			//InsertAccount
 //			bean1.setACCOUNT_CATEGORY("일반");
 //			bean1.setACCOUNT_PURPOSE("급급여");
 //			bean1.setMEMBER_ID("test1");
 //			System.out.println(mgr.InsertAccount(bean1));
+			
+//			//getAccount_num2
+//			mbean.setMEMBER_Name("김수현");
+//			mbean.setTEL_Num("01032545740");
+//			Vector<AccountsBean> abcAccountsBeans = mgr.getAccount_num2(mbean);
+//			for(int i =0;i<abcAccountsBeans.size();i++) {
+//				System.out.println(abcAccountsBeans.get(i).getACCOUNT_NUM());
+//			}
+//			
+			
+			
 		}
 		
 }

@@ -18,8 +18,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import beans.AccountsBean;
+import beans.AccountsPublicBean;
 import beans.MemberBean;
 import database.AccountsMgr;
+import database.AccountsPublicMgr;
 import database.MemberMgr;
 
 import javax.swing.JScrollPane;
@@ -27,6 +29,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import database.AccountsMgr;
 
 public class PublicAccountFrame {
@@ -35,16 +39,20 @@ public class PublicAccountFrame {
 	private JTextField freindNameTF;
 	private JTextField telNumberTF;
     private DefaultListModel<String> model;
+    private JList friendAccountList;
+    
 	private final FrameManager frameMgr;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
 	AccountsMgr mgr;
 	AccountsBean bean;
 	int memberAccountNum=0;
 	int memberAccountBalance=0;
-	String freindName =" ";
+	String friendName =" "; //search friend Name
 	String telNumber =" ";
     Vector<AccountsBean> friendAccountList1;
-    
+	int listSeletedIdx = 0;
+	
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -101,10 +109,10 @@ public class PublicAccountFrame {
 	
 	
 		//친구이름 라벨
-		JLabel freindNameLabel = new JLabel("친구이름 : ");
-		freindNameLabel.setFont(new Font("나눔바른고딕", Font.PLAIN, 20));
-		freindNameLabel.setBounds(30, 130, 110, 20);
-		panel.add(freindNameLabel);
+		JLabel friendNameLabel = new JLabel("친구이름 : ");
+		friendNameLabel.setFont(new Font("나눔바른고딕", Font.PLAIN, 20));
+		friendNameLabel.setBounds(30, 130, 110, 20);
+		panel.add(friendNameLabel);
 		
 		//핸드폰번호 라벨
 		JLabel telNumberLabel = new JLabel("핸드폰 번호 : ");
@@ -117,14 +125,12 @@ public class PublicAccountFrame {
 		freindNameTF.setBounds(140, 130, 260, 20);
 		panel.add(freindNameTF);
 		freindNameTF.setColumns(10);
-		freindName = freindNameTF.getText();
 		
 		//전화번호 입력필드
 		telNumberTF = new JTextField();
 		telNumberTF.setColumns(10);
 		telNumberTF.setBounds(140, 160, 260, 20);
 		panel.add(telNumberTF);
-		telNumber = telNumberTF.getText();
 		
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -132,9 +138,11 @@ public class PublicAccountFrame {
 		panel.add(scrollPane);
 		
 		//계좌번호 리스트
-        model = new DefaultListModel<>();  
-		JList friendAccountList = new JList(model);
-		friendAccountList.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
+		model = new DefaultListModel<>();  
+		friendAccountList = new JList(model);
+		friendAccountList.setFont(new Font("나눔바른고딕", Font.PLAIN, 20));
+		friendAccountList.setSelectionBackground(new Color(255,225,0));
+		model.addElement(" ");
 		scrollPane.setViewportView(friendAccountList);
 		
 		//추가하기 버튼
@@ -149,38 +157,66 @@ public class PublicAccountFrame {
         Image searchImg = searchIcon.getImage();
         Image changeSearchImg = searchImg.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         ImageIcon changeSearchIcon = new ImageIcon(changeSearchImg);
-        JLabel searchIconLabel = new JLabel(changeSearchIcon); // 라벨 생성
-        searchIconLabel.setBounds(410, 130, 50, 50);
-		panel.add(searchIconLabel);
+        JButton searchIconBtn = new JButton(changeSearchIcon); // 라벨 생성
+        searchIconBtn.setBackground(new Color(255, 255, 255));
+        searchIconBtn.setBounds(410, 130, 50, 50);
+		panel.add(searchIconBtn);
 		
-
-		// 추가하기 버튼 액션 리스너
+		// 검색하기 버튼 액션 리스너
+		searchIconBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				model.clear();
+				showAccountList();
+				friendAccountList.repaint();
+			}
+		});
+		
+		//추가하기 버튼 액션 리스너
 		plusBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
- 
+				AccountsPublicMgr mgr = new AccountsPublicMgr();
+				AccountsPublicBean aPBean = new AccountsPublicBean();
+				aPBean.setACCOUNT_NUM(memberAccountNum);
+				int seletedNUM = seletedAccountNum();
+				int memberNum = Integer.parseInt(model.getElementAt(seletedNUM));
+				aPBean.setACCOUNT_PUBLIC_MEMBER_NUM(memberNum);
+					
+				Boolean flag = mgr.InsertAccountPublic(aPBean);
+				
+				if(flag) {
+					JOptionPane.showMessageDialog(frmAddfriend,"모임통장 친구추가가 완료되었습니다.","안내",JOptionPane.INFORMATION_MESSAGE);
+					frmAddfriend.setVisible(false);
+				}else {
+					JOptionPane.showMessageDialog(frmAddfriend,"모임통장 친구추가가 실패하였습니다.","경고",JOptionPane.WARNING_MESSAGE);
+					
+				}
 			}
 		});
 	
 	}
-//	public void showAccountList() {   //이름, 전화번호로 계좌번호 불러오기
-//        
-//        AccountsMgr mgr = new AccountsMgr();
-//        String category1 = "일반";
-//        String category2 = "공동계좌";
-//        MemberBean bean = new MemberBean();
-//
-//        
-//        friendAccountList1 = mgr.getAccount_num(bean);
-//        for(AccountsBean accountsBean1 : friendAccountList1) {
-//        	model.addElement("계좌번호(입출금 통장) : "+accountsBean1.getAccount_num());
-//        	model.addElement("잔액 : "+accountsBean1.getAccount_balance());
-//        	model.addElement(" ");    
-//        }
-//        //System.out.println(accountList1.get(0).getAccount_num()); //0번째 리스트의 계좌번호 출력
-//         
-//         //System.out.println(sumAccountIndex);
-//        //System.out.println(accountList.get(1).getAccount_balance());
-//        
-//    }
+	public void showAccountList() {   //이름, 전화번호로 계좌번호 불러오기
+        
+        AccountsMgr mgr = new AccountsMgr();
+        MemberBean mbean = new MemberBean();
+        Vector<AccountsBean> vAbean = new Vector<AccountsBean>();
+
+
+		friendName = freindNameTF.getText();
+		telNumber = telNumberTF.getText();
+		
+        mbean.setMEMBER_Name(friendName);
+        mbean.setTEL_Num(telNumber);
+        vAbean = mgr.getAccount_num2(mbean);
+ 
+        for(int i =0;i<vAbean.size();i++) {
+        	model.addElement(""+vAbean.get(i).getACCOUNT_NUM());
+        }
+    }
+	public int seletedAccountNum() {
+		
+		listSeletedIdx = friendAccountList.getSelectedIndex();
+		return listSeletedIdx;
+	}
 }

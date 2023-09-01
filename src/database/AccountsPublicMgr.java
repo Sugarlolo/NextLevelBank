@@ -24,10 +24,10 @@ public class AccountsPublicMgr {
 			String sql = null;
 			try {
 				con = pool.getConnection();
-				sql = "INSERT INTO account_public VALUES( ? , ?) ";
+				sql = "INSERT INTO ACCOUNT_PUBLIC VALUES( ? , ?) ";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1,bean.getACCOUNT_NUM());
-				pstmt.setString(2,bean.getACCOUNT_PUBLIC_MEMBER());
+				pstmt.setInt(2,bean.getACCOUNT_PUBLIC_MEMBER_NUM());
 				int cnt = pstmt.executeUpdate();
 				if(cnt==1) flag = true;
 			} catch (Exception e) {

@@ -272,6 +272,8 @@ public class AccountPlusFrame {
 			frmAccountPlusFrame.getContentPane().add(pwField);
 		 
 		//~금융거래 한도계좌 이체한도 안내	
+			
+			
 		opening_BTN.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

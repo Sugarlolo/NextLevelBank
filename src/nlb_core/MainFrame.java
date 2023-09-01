@@ -202,9 +202,9 @@ public class MainFrame {
 				 if(seletedAccountNum()>accountList1.size()){ //모임통장 선택했을때만
 					
 	                  PublicAccountFrame frame3 = new PublicAccountFrame();
-	                    frame3.getFrame().setVisible(false);
-	                     frameMgr.setPublicAccountFrame(frame3);
-					 frameMgr.CustomSetVisible("publicAccountFrame");
+	                    frame3.getFrame().setVisible(true);
+//	                     frameMgr.setPublicAccountFrame(frame3);
+//					 frameMgr.CustomSetVisible("publicAccountFrame");
 				 }
 			}
 		});
