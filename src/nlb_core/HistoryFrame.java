@@ -70,6 +70,7 @@ public class HistoryFrame extends JFrame{
 	 */
 	
 	public HistoryFrame(int do_account, MemberBean mBean, AccountsBean aBean) {
+		setTitle("HistoryFrame");
 		this.doAccount = do_account;
 		setBounds(100, 100, 500, 800);
 		Account_Histroy = new JPanel();
@@ -101,12 +102,13 @@ public class HistoryFrame extends JFrame{
 		});
 		transferbtn.setBackground(new Color(221, 199, 0));
 		transferbtn.setBorderPainted(false);
-		transferbtn.setBounds(44, 185, 400, 25);
-		transferbtn.setFont(new Font("Dialog", Font.PLAIN, 18));
+		transferbtn.setBounds(100, 180, 300, 40);
+		transferbtn.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 19));
 		History_Value.add(transferbtn);
 
 		JButton btnNewButton_1 = new JButton("<");
-		btnNewButton_1.setFont(new Font("±¼¸²", Font.BOLD, 12));
+		btnNewButton_1.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton_1.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 20));
 		btnNewButton_1.setForeground(new Color(0, 0, 0));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -114,7 +116,7 @@ public class HistoryFrame extends JFrame{
 		});
 		btnNewButton_1.setBorderPainted(false);
 		btnNewButton_1.setBackground(new Color(255, 228, 0));
-		btnNewButton_1.setBounds(12, 10, 63, 42);
+		btnNewButton_1.setBounds(0, 10, 46, 42);
 		History_Value.add(btnNewButton_1);
 
 		ImageIcon icon = new ImageIcon("src/nlb_core/wheel.png");
@@ -145,12 +147,12 @@ public class HistoryFrame extends JFrame{
 		JLabel Account_Num = new JLabel(""+do_account);
 		Account_Num.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 16));
 		Account_Num.setHorizontalAlignment(SwingConstants.CENTER);
-		Account_Num.setBounds(168, 66, 167, 25);
+		Account_Num.setBounds(200, 60, 100, 25);
 		History_Value.add(Account_Num);
 
 		JLabel Account_Balance = new JLabel();
-		Account_Balance.setFont(new Font("±¼¸²", Font.BOLD, 50));
-		Account_Balance.setBounds(70, 105, 300, 70);
+		Account_Balance.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 50));
+		Account_Balance.setBounds(100, 100, 300, 70);
 		Account_Balance.setHorizontalAlignment(JLabel.CENTER);
 		History_Value.add(Account_Balance);
 		HistoryMgr transferHistory = new HistoryMgr();
@@ -185,7 +187,7 @@ public class HistoryFrame extends JFrame{
 		JButton History_Period = new JButton("1°³¿ù¤ýÀüÃ¼¤ýÃÖ½Å");
 		History_Period.setBackground(new Color(255, 255, 255));
 		History_Period.setFont(new Font("±¼¸²", Font.PLAIN, 12));
-		History_Period.setBounds(334, 10, 138, 23);
+		History_Period.setBounds(334, 15, 138, 23);
 		History_Period.setBorderPainted(false);
 		History_Period.setIconTextGap(-120); // ¾ÆÀÌÄÜ°ú ÅØ½ºÆ® »çÀÌÀÇ °£°Ý ¼³Á¤
 		History_Period.setIcon(icon3); // ¾ÆÀÌÄÜ ¼³Á¤
