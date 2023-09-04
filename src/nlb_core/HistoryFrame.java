@@ -27,6 +27,8 @@ import java.awt.List;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -46,6 +48,8 @@ public class HistoryFrame extends JFrame{
 	Vector<HistoryBean> vlist;
 	int doAccount = 0;
 	List list;
+	JTable historyTable;
+	DefaultTableModel tableModel;
 	/**
 	 * Launch the application.
 	 */
@@ -191,22 +195,35 @@ public class HistoryFrame extends JFrame{
 		JPanel History_Value3 = new JPanel();
 		History_Value3.setBackground(new Color(255, 255, 255));
 		History_Value3.setBounds(0, 296, 484, 465);
+		
 		vlist = transferHistory.getHistoryList(doAccount);
+		tableModel = new DefaultTableModel();
+		historyTable = new JTable(tableModel);
+		tableModel.addColumn("이체번호");
+		tableModel.addColumn("이체날짜");
+		tableModel.addColumn("메모");
+		tableModel.addColumn("이체유형");
+		tableModel.addColumn("계좌잔액");
+		tableModel.addColumn("보내는곳");
 
-		list = new List(vlist.size(), false);
+		// 데이터를 테이블 모델에 추가
 		for (int i = 0; i < vlist.size(); i++) {
-			HistoryBean bean = vlist.get(i);
-			String str = (i + 1) + "   " + bean.getTransfer_Date() + "   " + bean.getTransfer_Memo() + "   "
-					+ bean.getTransfer_Category() + "   " + bean.getTransfer_Balance() + "   "
-					+ bean.getTransfer_Take_Account();
-
-			list.add(str);
+		    HistoryBean bean = vlist.get(i);
+		    String[] rowData = {
+		        String.valueOf(i + 1),
+		        bean.getTransfer_Date(),
+		        bean.getTransfer_Memo(),
+		        bean.getTransfer_Category(),
+		        String.valueOf(bean.getTransfer_Balance()),
+		        String.valueOf(bean.getTransfer_Take_Account())
+		    };
+		    tableModel.addRow(rowData);
 		}
-		JScrollPane scrollPane = new JScrollPane(list); // list를 스크롤 가능한 패널로 감싸줌
-		scrollPane.setBounds(0, 0, 484, 465);
+		JScrollPane tableScrollPane = new JScrollPane(historyTable);
+		tableScrollPane.setBounds(0, 0, 484, 465);
 		History_Value3.setLayout(new BorderLayout()); // 세로로 정렬되도록 설정
-		History_Value3.add(scrollPane);
+		History_Value3.add(tableScrollPane, BorderLayout.CENTER); // JScrollPane를 프레임에 추가
 		Account_Histroy.add(History_Value3);
-
-	}
+		setVisible(true);
+}
 }
