@@ -38,6 +38,7 @@ import java.awt.event.WindowEvent;
 import java.util.Vector;
 import java.sql.*;
 import javax.swing.JList;
+import javax.swing.SwingConstants;
 
 public class HistoryFrame extends JFrame{
 
@@ -104,12 +105,13 @@ public class HistoryFrame extends JFrame{
 		});
 		transferbtn.setBackground(new Color(221, 199, 0));
 		transferbtn.setBorderPainted(false);
-		transferbtn.setBounds(44, 185, 400, 25);
-		transferbtn.setFont(new Font("Dialog", Font.PLAIN, 18));
+		transferbtn.setBounds(100, 170, 300, 35);
+		transferbtn.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 20));
 		History_Value.add(transferbtn);
 
 		JButton btnNewButton_1 = new JButton("<");
-		btnNewButton_1.setFont(new Font("±¼¸²", Font.BOLD, 12));
+		btnNewButton_1.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton_1.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 15));
 		btnNewButton_1.setForeground(new Color(0, 0, 0));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -117,7 +119,7 @@ public class HistoryFrame extends JFrame{
 		});
 		btnNewButton_1.setBorderPainted(false);
 		btnNewButton_1.setBackground(new Color(255, 228, 0));
-		btnNewButton_1.setBounds(12, 10, 63, 42);
+		btnNewButton_1.setBounds(0, 10, 63, 42);
 		History_Value.add(btnNewButton_1);
 
 		ImageIcon icon = new ImageIcon("src/nlb_core/wheel.png");
@@ -145,14 +147,16 @@ public class HistoryFrame extends JFrame{
 		MemberBean member = memberDB.getMemberByID(Member_ID);
 		Account_Master.setText(member.getMEMBER_Name());
 
-		JLabel Account_Num = new JLabel("New label");
-		Account_Num.setBounds(168, 66, 167, 25);
+		JLabel Account_Num = new JLabel(""+do_account);
+		Account_Num.setHorizontalAlignment(SwingConstants.CENTER);
+		Account_Num.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 12));
+		Account_Num.setBounds(150, 66, 200, 25);
 		History_Value.add(Account_Num);
 
 		JLabel Account_Balance = new JLabel();
-		Account_Balance.setFont(new Font("±¼¸²", Font.BOLD, 50));
-		Account_Balance.setBounds(70, 105, 300, 70);
-		Account_Balance.setHorizontalAlignment(JLabel.CENTER);
+		Account_Balance.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 25));
+		Account_Balance.setBounds(100, 100, 300, 70);
+		Account_Balance.setHorizontalAlignment(SwingConstants.CENTER);
 		History_Value.add(Account_Balance);
 		HistoryMgr transferHistory = new HistoryMgr();
 		HistoryBean historybean = transferHistory.getHistoryList1(doAccount);
