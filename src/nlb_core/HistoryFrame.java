@@ -226,7 +226,7 @@ public class HistoryFrame extends JFrame{
 		}
 		JScrollPane tableScrollPane = new JScrollPane(historyTable);
 		tableScrollPane.setBounds(0, 0, 484, 465);
-		History_Value3.setLayout(new BorderLayout()); // 세로로 정렬되도록 설정
+		History_Value3.setLayout(new BorderLayout());  
 		History_Value3.add(tableScrollPane, BorderLayout.CENTER); // JScrollPane를 프레임에 추가
 		Account_Histroy.add(History_Value3);
 		setVisible(true);
