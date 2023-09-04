@@ -17,7 +17,7 @@ public class HistoryMgr {
 		}
 		
 		//내역 가져오기
-		public Vector<HistoryBean> getHistoryList(int account){
+		public Vector<HistoryBean> getHistoryList(int account, int days){
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -29,12 +29,12 @@ public class HistoryMgr {
 						+ "FROM TRANSFER t LEFT OUTER JOIN ACCOUNTS a "
 						+ "ON t.TRANSFER_DO_ACCOUNT = a.ACCOUNT_NUM "
 						+ "WHERE t.TRANSFER_DO_ACCOUNT ="
-						+ "(SELECT ACCOUNT_NUM FROM ACCOUNTS WHERE ACCOUNT_NUM=?)";
+						+ "(SELECT ACCOUNT_NUM FROM ACCOUNTS WHERE ACCOUNT_NUM=?) " 
+						+ "AND t.TRANSFER_DATE > DATE_SUB(NOW(),INTERVAL "+days+" DAY)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, account);
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
-					
 					HistoryBean bean = new HistoryBean();
 					bean.setTransfer_Date(rs.getString("Transfer_Date"));
 					bean.setTransfer_Take_Account(rs.getInt("Transfer_Take_Account"));
@@ -73,4 +73,5 @@ public class HistoryMgr {
 			}
 		return bean;
 		}
+
 }
