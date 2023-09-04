@@ -118,6 +118,7 @@ public class HistoryFrame extends JFrame {
 		transferbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TransferFrame tf = new TransferFrame(do_account, aBean, mBean);
+				HistoryFrame.this.dispose();
 			}
 		});
 		transferbtn.setBackground(new Color(221, 199, 0));
