@@ -48,6 +48,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 		this.my_account = selectedAccount;
 		this.aBean = abean;
 		this.mBean = mbean;
+		this.setResizable(false);
 		System.out.println(abean.getACCOUNT_NUM()+" "+abean.getACCOUNT_BALANCE());
 		
 		frame = new JFrame();
@@ -76,8 +77,9 @@ public class TransferFrame extends JFrame implements ActionListener {
 			public void windowClosing(WindowEvent e) {
 				MainFrame mf = new MainFrame(mbean);
 				mf.getFrame().setVisible(true);
+				frame.dispose();
 			}
-		});
+		}); 
 			
 		
 		textField_account.addMouseListener(new MouseAdapter() {
