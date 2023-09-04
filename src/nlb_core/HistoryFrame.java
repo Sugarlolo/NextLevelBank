@@ -97,7 +97,7 @@ public class HistoryFrame extends JFrame {
 	}
 	
 	public HistoryFrame(int do_account, MemberBean mBean, AccountsBean aBean) {
-		
+		this.setResizable(false);
 		this.doAccount = do_account;
 		this.bean = mBean;
 		setBounds(100, 100, 500, 800);
