@@ -189,7 +189,7 @@ public class MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(seletedAccountNum());
-				HistoryFrame hf = new HistoryFrame(seletedAccountNum(), mbean, abean);
+				HistoryFrame hf = new HistoryFrame(seletedAccountNum, mbean, abean);
 				hf.setVisible(true);
 				frame.dispose();
 			}
