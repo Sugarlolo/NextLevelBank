@@ -92,7 +92,6 @@ public class HistoryFrame extends JFrame {
 					String.valueOf(bean.getTransfer_Do_Balance())
 					};
 			tableModel.addRow(rowData);
-
 		}
 	}
 	
