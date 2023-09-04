@@ -77,7 +77,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 				MainFrame mf = new MainFrame(mbean);
 				mf.getFrame().setVisible(true);
 			}
-		}); 
+		});
 			
 		
 		textField_account.addMouseListener(new MouseAdapter() {
