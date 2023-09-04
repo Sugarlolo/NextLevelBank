@@ -47,6 +47,7 @@ public class HistoryFrame extends JFrame {
 	private JPanel Account_Histroy;
 	private JLabel Account_Balance;
 	private String Member_ID;
+	private int days = 3;
 	HistoryMgr th;
 	Vector<HistoryBean> vlist;
 	int doAccount = 0;
@@ -54,7 +55,7 @@ public class HistoryFrame extends JFrame {
 	List list;
 	JTable historyTable;
 	DefaultTableModel tableModel;
-	private int days = 3;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -81,15 +82,22 @@ public class HistoryFrame extends JFrame {
 		vlist = transferHistory.getHistoryList(doAccount, days);
 		for (int i = 0; i < vlist.size(); i++) {
 			HistoryBean bean = vlist.get(i);
-			String[] rowData = { String.valueOf(i + 1), bean.getTransfer_Date(), bean.getTransfer_Memo(),
-					bean.getTransfer_Category(), String.valueOf(bean.getTransfer_Balance()),
-					String.valueOf(bean.getTransfer_Take_Account()) };
+			String[] rowData = {
+					String.valueOf(i + 1), 
+					bean.getTransfer_Date(), 
+					bean.getTransfer_Memo(),
+					bean.getTransfer_Category(),
+					String.valueOf(bean.getTransfer_Balance()),
+					String.valueOf(bean.getTransfer_Take_Account()),
+					String.valueOf(bean.getTransfer_Do_Balance())
+					};
 			tableModel.addRow(rowData);
 
 		}
 	}
 	
 	public HistoryFrame(int do_account, MemberBean mBean, AccountsBean aBean) {
+		
 		this.doAccount = do_account;
 		this.bean = mBean;
 		setBounds(100, 100, 500, 800);
@@ -118,6 +126,7 @@ public class HistoryFrame extends JFrame {
 		transferbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TransferFrame tf = new TransferFrame(do_account, aBean, mBean);
+				HistoryFrame.this.dispose();
 			}
 		});
 		transferbtn.setBackground(new Color(221, 199, 0));
@@ -211,15 +220,21 @@ public class HistoryFrame extends JFrame {
 		tableModel.addColumn("이체날짜");
 		tableModel.addColumn("메모");
 		tableModel.addColumn("이체유형");
-		tableModel.addColumn("계좌잔액");
+		tableModel.addColumn("이체금액");
 		tableModel.addColumn("보내는곳");
+		tableModel.addColumn("계좌잔액");
 
 		// 데이터를 테이블 모델에 추가
 		for (int i = 0; i < vlist.size(); i++) {
 			HistoryBean bean = vlist.get(i);
-			String[] rowData = { String.valueOf(i + 1), bean.getTransfer_Date(), bean.getTransfer_Memo(),
-					bean.getTransfer_Category(), String.valueOf(bean.getTransfer_Balance()),
-					String.valueOf(bean.getTransfer_Take_Account()) };
+			String[] rowData = {
+					String.valueOf(i + 1), 
+					bean.getTransfer_Date(),
+					bean.getTransfer_Memo(),
+					bean.getTransfer_Category(), 
+					String.valueOf(bean.getTransfer_Balance()),
+					String.valueOf(bean.getTransfer_Take_Account()),
+					String.valueOf(bean.getTransfer_Do_Balance())};
 			tableModel.addRow(rowData);
 		}
 		JScrollPane tableScrollPane = new JScrollPane(historyTable);

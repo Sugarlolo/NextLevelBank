@@ -41,7 +41,7 @@ public class HistoryMgr {
 					bean.setTransfer_Memo(rs.getString("Transfer_Memo"));
 					bean.setTransfer_Category(rs.getString("Transfer_Category"));
 					bean.setTransfer_Balance(rs.getInt("Transfer_Balance"));
-					bean.setAccount_Balance(rs.getInt("Account_Balance"));
+					bean.setTransfer_Do_Balance(rs.getInt("Transfer_Do_Balance"));
 					vlist.addElement(bean);
 				}
 			} catch (Exception e) {
