@@ -154,7 +154,7 @@ public class HistoryFrame extends JFrame{
 		History_Value.add(Account_Num);
 
 		JLabel Account_Balance = new JLabel();
-		Account_Balance.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 25));
+		Account_Balance.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 35));
 		Account_Balance.setBounds(100, 100, 300, 70);
 		Account_Balance.setHorizontalAlignment(SwingConstants.CENTER);
 		History_Value.add(Account_Balance);
