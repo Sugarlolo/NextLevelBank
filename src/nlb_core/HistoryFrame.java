@@ -36,6 +36,7 @@ import java.awt.event.WindowEvent;
 import java.util.Vector;
 import java.sql.*;
 import javax.swing.JList;
+import javax.swing.SwingConstants;
 
 public class HistoryFrame extends JFrame{
 
@@ -141,7 +142,9 @@ public class HistoryFrame extends JFrame{
 		MemberBean member = memberDB.getMemberByID(Member_ID);
 		Account_Master.setText(member.getMEMBER_Name());
 
-		JLabel Account_Num = new JLabel("New label");
+		JLabel Account_Num = new JLabel(""+do_account);
+		Account_Num.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 16));
+		Account_Num.setHorizontalAlignment(SwingConstants.CENTER);
 		Account_Num.setBounds(168, 66, 167, 25);
 		History_Value.add(Account_Num);
 
