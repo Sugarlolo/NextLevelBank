@@ -365,6 +365,26 @@ public class TransferMgr {
 			return false;
 	}
 	
+	public boolean checkTransferLimits() {
+		boolean flag=false;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return flag;
+	}
+	
 //	public static void main(String[] args) {
 //		TransferMgr tMgr = new TransferMgr();
 //		tMgr.Transfer_Transaction(185526101, 383319645, 1000);
