@@ -38,7 +38,6 @@ import java.awt.event.WindowEvent;
 import java.util.Vector;
 import java.sql.*;
 import javax.swing.JList;
-import javax.swing.SwingConstants;
 
 public class HistoryFrame extends JFrame{
 
@@ -74,7 +73,6 @@ public class HistoryFrame extends JFrame{
 	 */
 	
 	public HistoryFrame(int do_account, MemberBean mBean, AccountsBean aBean) {
-		setTitle("HistoryFrame");
 		this.doAccount = do_account;
 		setBounds(100, 100, 500, 800);
 		Account_Histroy = new JPanel();
@@ -106,13 +104,12 @@ public class HistoryFrame extends JFrame{
 		});
 		transferbtn.setBackground(new Color(221, 199, 0));
 		transferbtn.setBorderPainted(false);
-		transferbtn.setBounds(100, 180, 300, 40);
-		transferbtn.setFont(new Font("나눔바른고딕", Font.PLAIN, 19));
+		transferbtn.setBounds(44, 185, 400, 25);
+		transferbtn.setFont(new Font("Dialog", Font.PLAIN, 18));
 		History_Value.add(transferbtn);
 
 		JButton btnNewButton_1 = new JButton("<");
-		btnNewButton_1.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton_1.setFont(new Font("나눔바른고딕", Font.BOLD, 20));
+		btnNewButton_1.setFont(new Font("굴림", Font.BOLD, 12));
 		btnNewButton_1.setForeground(new Color(0, 0, 0));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -120,7 +117,7 @@ public class HistoryFrame extends JFrame{
 		});
 		btnNewButton_1.setBorderPainted(false);
 		btnNewButton_1.setBackground(new Color(255, 228, 0));
-		btnNewButton_1.setBounds(0, 10, 46, 42);
+		btnNewButton_1.setBounds(12, 10, 63, 42);
 		History_Value.add(btnNewButton_1);
 
 		ImageIcon icon = new ImageIcon("src/nlb_core/wheel.png");
@@ -148,15 +145,13 @@ public class HistoryFrame extends JFrame{
 		MemberBean member = memberDB.getMemberByID(Member_ID);
 		Account_Master.setText(member.getMEMBER_Name());
 
-		JLabel Account_Num = new JLabel(""+do_account);
-		Account_Num.setFont(new Font("나눔바른고딕", Font.PLAIN, 16));
-		Account_Num.setHorizontalAlignment(SwingConstants.CENTER);
-		Account_Num.setBounds(200, 60, 100, 25);
+		JLabel Account_Num = new JLabel("New label");
+		Account_Num.setBounds(168, 66, 167, 25);
 		History_Value.add(Account_Num);
 
 		JLabel Account_Balance = new JLabel();
-		Account_Balance.setFont(new Font("나눔바른고딕", Font.BOLD, 50));
-		Account_Balance.setBounds(100, 100, 300, 70);
+		Account_Balance.setFont(new Font("굴림", Font.BOLD, 50));
+		Account_Balance.setBounds(70, 105, 300, 70);
 		Account_Balance.setHorizontalAlignment(JLabel.CENTER);
 		History_Value.add(Account_Balance);
 		HistoryMgr transferHistory = new HistoryMgr();
@@ -191,7 +186,7 @@ public class HistoryFrame extends JFrame{
 		JButton History_Period = new JButton("1개월ㆍ전체ㆍ최신");
 		History_Period.setBackground(new Color(255, 255, 255));
 		History_Period.setFont(new Font("굴림", Font.PLAIN, 12));
-		History_Period.setBounds(334, 15, 138, 23);
+		History_Period.setBounds(334, 10, 138, 23);
 		History_Period.setBorderPainted(false);
 		History_Period.setIconTextGap(-120); // 아이콘과 텍스트 사이의 간격 설정
 		History_Period.setIcon(icon3); // 아이콘 설정
@@ -226,7 +221,7 @@ public class HistoryFrame extends JFrame{
 		}
 		JScrollPane tableScrollPane = new JScrollPane(historyTable);
 		tableScrollPane.setBounds(0, 0, 484, 465);
-		History_Value3.setLayout(new BorderLayout());  
+		History_Value3.setLayout(new BorderLayout()); // 세로로 정렬되도록 설정
 		History_Value3.add(tableScrollPane, BorderLayout.CENTER); // JScrollPane를 프레임에 추가
 		Account_Histroy.add(History_Value3);
 		setVisible(true);
