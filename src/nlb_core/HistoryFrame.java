@@ -48,6 +48,7 @@ public class HistoryFrame extends JFrame{
 	HistoryMgr th;
 	Vector<HistoryBean> vlist;
 	int doAccount = 0;
+	MemberBean bean;
 	List list;
 	JTable historyTable;
 	DefaultTableModel tableModel;
@@ -75,6 +76,7 @@ public class HistoryFrame extends JFrame{
 	
 	public HistoryFrame(int do_account, MemberBean mBean, AccountsBean aBean) {
 		this.doAccount = do_account;
+		this.bean = mBean;
 		setBounds(100, 100, 500, 800);
 		Account_Histroy = new JPanel();
 		Account_Histroy.setBackground(new Color(255, 255, 255));
@@ -109,48 +111,24 @@ public class HistoryFrame extends JFrame{
 		transferbtn.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 20));
 		History_Value.add(transferbtn);
 
-		JButton btnNewButton_1 = new JButton("<");
-		btnNewButton_1.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton_1.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 15));
-		btnNewButton_1.setForeground(new Color(0, 0, 0));
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_1.setBorderPainted(false);
-		btnNewButton_1.setBackground(new Color(255, 228, 0));
-		btnNewButton_1.setBounds(0, 10, 63, 42);
-		History_Value.add(btnNewButton_1);
+		
 
 		ImageIcon icon = new ImageIcon("src/nlb_core/wheel.png");
 		Image image = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		icon.setImage(image); // ÀÌ¹ÌÁö Å©±â¸¦ Á¶Á¤ÇÑ ÀÌ¹ÌÁö·Î ¼³Á¤
 
-		JButton btnNewButton_2 = new JButton(icon);
-		btnNewButton_2.setForeground(new Color(0, 0, 0));
-		btnNewButton_2.setBackground(new Color(255, 228, 0));
-		btnNewButton_2.setIcon(icon);
-		btnNewButton_2.setBackground(new Color(255, 228, 0));
-		btnNewButton_2.setBorderPainted(false);
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		btnNewButton_2.setBounds(407, 10, 52, 42);
-		History_Value.add(btnNewButton_2);
 
-		JLabel Account_Master = new JLabel();
-		Account_Master.setBounds(195, 16, 102, 30);
+
+		JLabel Account_Master = new JLabel(bean.getMEMBER_Name()+"ÀÇ ÅëÀå");
+		Account_Master.setFont(new Font("±¼¸²", Font.BOLD, 20));
+		Account_Master.setBounds(173, 21, 134, 35);
 		History_Value.add(Account_Master);
-		MemberMgr memberDB = new MemberMgr();
-		MemberBean member = memberDB.getMemberByID(Member_ID);
-		Account_Master.setText(member.getMEMBER_Name());
 
 		JLabel Account_Num = new JLabel(""+do_account);
+		Account_Num.setForeground(Color.LIGHT_GRAY);
 		Account_Num.setHorizontalAlignment(SwingConstants.CENTER);
-		Account_Num.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 12));
-		Account_Num.setBounds(150, 66, 200, 25);
+		Account_Num.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 20));
+		Account_Num.setBounds(139, 80, 200, 25);
 		History_Value.add(Account_Num);
 
 		JLabel Account_Balance = new JLabel();

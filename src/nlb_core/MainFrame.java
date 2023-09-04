@@ -60,6 +60,9 @@ public class MainFrame {
 
 	}
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public MainFrame(MemberBean bean) {
 		// AccountPlusFrame frame2 = new AccountPlusFrame(AccountsBean abean);
 		frameMgr = FrameManager.getInstance();
@@ -125,14 +128,14 @@ public class MainFrame {
 
 		// È¸¿ø¾ÆÀÌµð ¶óº§
 		JLabel memberIDLabel = new JLabel(mbean.getMEMBER_Name());
-		memberIDLabel.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 20));
-		memberIDLabel.setBounds(115, 80, 60, 40);
+		memberIDLabel.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 18));
+		memberIDLabel.setBounds(130, 80, 60, 40);
 		panel.add(memberIDLabel);
 
 		// ÀÎ»ç ¶óº§
 		JLabel greetingLabel = new JLabel("´Ô ¹Ý°©½À´Ï´Ù.");
 		greetingLabel.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 15));
-		greetingLabel.setBounds(175, 82, 100, 40);
+		greetingLabel.setBounds(184, 81, 300, 40);
 		panel.add(greetingLabel);
 
 		// ·Î°í
