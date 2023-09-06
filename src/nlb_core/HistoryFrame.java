@@ -166,7 +166,7 @@ public class HistoryFrame extends JFrame {
 		History_Value2.setBounds(0, 248, 484, 49);
 		Account_Histroy.add(History_Value2);
 
-		String a[] = { "1주일", "1개월" };
+		String a[] = {"선택","3일", "1주일", "1개월" };
 		History_Value2.setLayout(null);
 		JComboBox comboBox = new JComboBox(a);
 		comboBox.setBackground(Color.WHITE);
@@ -175,20 +175,26 @@ public class HistoryFrame extends JFrame {
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-		    	if (comboBox.getSelectedIndex()==0) {
+				if (comboBox.getSelectedIndex()==0) {
+	
+		    	}else if (comboBox.getSelectedIndex()==1) {
 		    		// 리스트 갱신하는 메소드
+		    		days = 3;
+		    		tableModel.setRowCount(0);
+		    		transferHistory.getHistoryList(do_account, days);
+		    		getTransferList();
+		    	} else if (comboBox.getSelectedIndex()==2) {
 		    		days = 7;
 		    		tableModel.setRowCount(0);
 		    		transferHistory.getHistoryList(do_account, days);
 		    		getTransferList();
-		    		
-		    	} else if (comboBox.getSelectedIndex()==1) {
+		    	}else if (comboBox.getSelectedIndex()==3) {
+		    		// 리스트 갱신하는 메소드
 		    		days = 30;
 		    		tableModel.setRowCount(0);
 		    		transferHistory.getHistoryList(do_account, days);
 		    		getTransferList();
-		    	}
+			}
 			}
 		});
 
