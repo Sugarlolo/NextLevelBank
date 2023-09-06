@@ -1,8 +1,11 @@
 package nlb_core;
 
 import java.awt.Color;
+
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -29,6 +32,7 @@ import beans.MemberBean;
 import beans.TransferBean;
 import database.TransferMgr;
 
+
 public class TransferFrame extends JFrame implements ActionListener {
 	final String[] buttonLabels = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "Áö¿ì±â", };
 
@@ -44,20 +48,25 @@ public class TransferFrame extends JFrame implements ActionListener {
 	AccountsBean aBean;
 	MemberBean mBean;
 	int my_account;
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	
 	public TransferFrame(int selectedAccount,AccountsBean abean, MemberBean mbean) {
 		this.my_account = selectedAccount;
 		this.aBean = abean;
 		this.mBean = mbean;
-		this.setResizable(false);
+		
 		System.out.println(abean.getACCOUNT_NUM()+" "+abean.getACCOUNT_BALANCE());
 		
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.getContentPane().setForeground(new Color(255, 255, 255));
 		frame.setBounds(100, 100, 500, 800);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
+		int centerX = (screenSize.width -frame.getWidth()) / 2; // Ã¢ Áß¾Ó¿¡ frame
+	    int centerY = (screenSize.height - frame.getHeight()) / 2;
+	    frame.setLocation(centerX,centerY);
 		JLabel lblNewLabel = new JLabel("\uC774\uCCB4\uD558\uAE30");
 		lblNewLabel.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 25));
 		lblNewLabel.setBounds(30, 30, 147, 32);
@@ -75,9 +84,10 @@ public class TransferFrame extends JFrame implements ActionListener {
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				MainFrame mf = new MainFrame(mbean);
-				mf.getFrame().setVisible(true);
-				frame.dispose();
+			
+					MainFrame mf = new MainFrame(mbean);
+					mf.getFrame().setVisible(true);
+					frame.dispose();
 			}
 		}); 
 			

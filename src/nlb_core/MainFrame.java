@@ -64,13 +64,14 @@ public class MainFrame {
 	 * @wbp.parser.entryPoint
 	 */
 	public MainFrame(MemberBean bean) {
+		this.mbean = bean;
 		// AccountPlusFrame frame2 = new AccountPlusFrame(AccountsBean abean);
 		frameMgr = FrameManager.getInstance();
 
 		frameMgr.setMainFrame(this);
 		// frameMgr.setAccountPlusFrame(frame2);
 
-		this.mbean = bean;
+	
 		initialize();
 	}
 
@@ -85,7 +86,7 @@ public class MainFrame {
 		frame.setLocation(centerX, centerY);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
-
+		frame.setResizable(false);
 		// main panel
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
@@ -183,6 +184,7 @@ public class MainFrame {
 				System.out.println("mainframe 이체버튼 계좌: " + seletedAccountNum());
 				System.out.println("mainframe 이체 계좌 잔고: " + abean.getACCOUNT_BALANCE());
 				TransferFrame tf = new TransferFrame(seletedAccountNum, abean, mbean);
+				
 			}
 		});
 
@@ -193,7 +195,6 @@ public class MainFrame {
 				System.out.println(seletedAccountNum());
 				HistoryFrame hf = new HistoryFrame(seletedAccountNum, mbean, abean);
 				hf.setVisible(true);
-				frame.dispose();
 			}
 		});
 
@@ -202,9 +203,9 @@ public class MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (seletedAccountNum() > accountList1.size()) { // 모임통장 선택했을때만
-
 					PublicAccountFrame frame3 = new PublicAccountFrame();
 					frame3.getFrame().setVisible(true);
+					
 //	                     frameMgr.setPublicAccountFrame(frame3);
 //					 frameMgr.CustomSetVisible("publicAccountFrame");
 				}
@@ -219,7 +220,6 @@ public class MainFrame {
 				abean.setMEMBER_ID(memberId);
 				AccountPlusFrame accountPlusFrame = new AccountPlusFrame(abean);
 				accountPlusFrame.getFrame().setVisible(true);
-				frame.setVisible(false);
 			}
 		});
 
@@ -286,5 +286,16 @@ public class MainFrame {
 //        System.out.println(sumAccountIndex);
 //        System.out.println(accountList1.get(0).getACCOUNT_NUM());
 
+	}
+	public class SharedData {
+	    private static int flag = 0;
+
+	    public static int getFlag() {
+	        return flag;
+	    }
+
+	    public static void setFlag(int value) {
+	        flag = value;
+	    }
 	}
 }
