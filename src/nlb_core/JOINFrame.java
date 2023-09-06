@@ -155,14 +155,14 @@ public class JOINFrame {
 	}
 
 	class SNListener extends KeyAdapter {
-		// 주민등록번호 뒷자리의 첫번째자리는 1,2,3,4 만 입력가능 할수 있게 하려고 만든 키이벤트
+		// 주민등록번호 뒷자리의 첫번째자리는 1 ~ 8 만 입력가능 할수 있게 하려고 만든 키이벤트
 
 		@Override
 
 		public void keyTyped(KeyEvent e) {
 			char c = e.getKeyChar();
 
-			if (c < '1' || c > '4') {
+			if (c < '1' || c > '9') {
 				e.consume();
 			}
 		}
