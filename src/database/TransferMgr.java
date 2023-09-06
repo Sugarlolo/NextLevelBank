@@ -1,5 +1,6 @@
 package database;
 
+import java.lang.reflect.Member;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -365,28 +366,119 @@ public class TransferMgr {
 			return false;
 	}
 	
-	public boolean checkTransferLimits() {
-		boolean flag=false;
+	//회원 정보의 결제비밀번호 틀린 횟수 카운트를 올리는 메소드.
+	
+	public boolean countPayPw(MemberBean bean, int count) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		boolean flag = false;
+		try {
+			con = pool.getConnection();
+			sql = "UPDATE MEMBER SET PAY_PW_COUNT = ? WHERE MEMBER_ID = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, count);
+			pstmt.setString(2, bean.getMEMBER_ID());
+			pstmt.executeUpdate();
+			flag=true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			flag = false;
+		} finally {
+			pool.freeConnection(con, pstmt);
+			
+		}return flag;
+	}
+	
+	// 회원 정보 내의 결제비밀번호 카운트를 불러오는 메소드. 반환은 bean에 함
+	public MemberBean iscountedPayPw(MemberBean bean) {
+		boolean flag= false;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
 		try {
 			con = pool.getConnection();
-			sql = "";
+			sql = "SELECT m.PAY_PW_COUNT FROM MEMBER m WHERE m.MEMBER_ID = ?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bean.getMEMBER_ID());
 			rs = pstmt.executeQuery();
-
+			if (rs.next()) {
+				bean.setPAYPW_COUNT(rs.getInt(1));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt, rs);
 		}
-		return flag;
+		return bean;
 	}
 	
-//	public static void main(String[] args) {
-//		TransferMgr tMgr = new TransferMgr();
-//		tMgr.Transfer_Transaction(185526101, 383319645, 1000);
-//	}
+	//회원 상태를 일시 정지로 만드는 메소드.
+	public void changeMemberStatus(MemberBean bean) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			bean = new MemberBean();
+			con = pool.getConnection();
+			sql = "UPDATE MEMBER SET MEMBER_STATUS = '일시정지' WHERE MEMBER_ID = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bean.getMEMBER_ID());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+	}
+	
+	//이체한도 체크해서 이체 가능하면 true, 이체 불가능하면 false 반환함.
+	
+	public boolean checkTransferLimits (AccountsBean bean, int amount /*보내려는 금액*/) {
+		int balance=0;
+		int balance_limits=0;
+		//AccountsBean aBean = new AccountsBean();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "SELECT al.DAILY_TRANSFER_LIMITS,SUM(t.TRANSFER_BALANCE) AS TOTAL_BALANCE "
+					+ "FROM TRANSFER t "
+					+ "LEFT OUTER JOIN ACCOUNT_LIMITS al ON t.TRANSFER_DO_ACCOUNT = al.ACCOUNT_NUM "
+					+ "WHERE t.TRANSFER_DO_ACCOUNT = ? AND DATE(TRANSFER_DATE) = CURDATE() "
+					+ "GROUP BY al.DAILY_TRANSFER_LIMITS";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, bean.getACCOUNT_NUM());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				balance_limits = rs.getInt(1);
+				balance = rs.getInt(2);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		
+		if (balance+amount > balance_limits) {
+			return false;
+		} else
+			System.out.println("보내는금액: "+balance);
+			return true;
+	}
+	
+	public static void main(String[] args) {
+		TransferMgr tMgr = new TransferMgr();
+		AccountsBean aBean = new AccountsBean();
+		MemberBean mBean = new MemberBean();
+		mBean.setMEMBER_ID("test1");
+//		aBean.setACCOUNT_NUM(185526101);
+////		System.out.println(tMgr.checkTransferLimits(aBean, 1000));
+//		tMgr.iscountedPayPw(mBean);
+//		System.out.println(mBean.getPAYPW_COUNT());
+		//System.out.println(tMgr.countPayPw(mBean,2));
+	}
 }

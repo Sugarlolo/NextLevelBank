@@ -14,6 +14,7 @@ public class MemberBean {
 	private Timestamp REG_DATE;
 	private String MEMBER_STATUS;
 	private String PAYPW;
+	private int PAYPW_COUNT;
 
 	public String getPAYPW() {
 		return PAYPW;
@@ -80,6 +81,12 @@ public class MemberBean {
 	}
 	public void setMEMBER_STATUS(String mEMBER_STATUS) {
 		MEMBER_STATUS = mEMBER_STATUS;
+	}
+	public int getPAYPW_COUNT() {
+		return PAYPW_COUNT;
+	}
+	public void setPAYPW_COUNT(int pAYPW_COUNT) {
+		PAYPW_COUNT = pAYPW_COUNT;
 	}
 	
 }
