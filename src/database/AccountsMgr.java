@@ -188,8 +188,6 @@ public class AccountsMgr {
 				}
 			}
 			
-			
-			
 			boolean flag = false;
 		 	Connection con = null;
 			PreparedStatement pstmt = null;

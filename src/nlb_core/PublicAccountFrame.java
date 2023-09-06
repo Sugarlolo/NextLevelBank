@@ -98,7 +98,7 @@ public class PublicAccountFrame {
 		mgr = new AccountsMgr();
 
 		AccountsBean bean = new AccountsBean();
-		memberAccountNum = frameMgr.getMainFrame().seletedAccountNum();
+		memberAccountNum = frameMgr.getMainFrame().selectedAccountNum();
 		bean.setACCOUNT_NUM(memberAccountNum);
 		mgr.getAccount_balance(bean);
 		memberAccountBalance = bean.getACCOUNT_BALANCE();
@@ -178,12 +178,19 @@ public class PublicAccountFrame {
 			public void actionPerformed(ActionEvent e) {
 				AccountsPublicMgr mgr = new AccountsPublicMgr();
 				AccountsPublicBean aPBean = new AccountsPublicBean();
+				
 				aPBean.setACCOUNT_NUM(memberAccountNum);
+				System.out.println("memberAccountNum : "+memberAccountNum);
+				
 				int seletedNUM = seletedAccountNum();
+				System.out.println("seletedNUM : "+seletedNUM);
+				
 				int memberNum = Integer.parseInt(model.getElementAt(seletedNUM));
+				System.out.println("memberNum :"+memberNum);
 				aPBean.setACCOUNT_PUBLIC_MEMBER_NUM(memberNum);
 					
 				Boolean flag = mgr.InsertAccountPublic(aPBean);
+				System.out.println(flag);
 				
 				if(flag) {
 					JOptionPane.showMessageDialog(frmAddfriend,"모임통장 친구추가가 완료되었습니다.","안내",JOptionPane.INFORMATION_MESSAGE);

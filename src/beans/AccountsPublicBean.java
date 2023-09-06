@@ -3,6 +3,8 @@ package beans;
 public class AccountsPublicBean {
 	private int ACCOUNT_NUM;
 	private int ACCOUNT_PUBLIC_MEMBER_NUM;
+	private int ACCOUNT_BALANCE;
+	private String MEMBER_ID;
 	
 	public int getACCOUNT_NUM() {
 		return ACCOUNT_NUM;
@@ -15,6 +17,18 @@ public class AccountsPublicBean {
 	}
 	public void setACCOUNT_PUBLIC_MEMBER_NUM(int aCCOUNT_PUBLIC_MEMBER_NUM) {
 		ACCOUNT_PUBLIC_MEMBER_NUM = aCCOUNT_PUBLIC_MEMBER_NUM;
+	}
+	public int getACCOUNT_BALANCE() {
+		return ACCOUNT_BALANCE;
+	}
+	public String getMEMBER_ID() {
+		return MEMBER_ID;
+	}
+	public void setMEMBER_ID(String mEMBER_ID) {
+		MEMBER_ID = mEMBER_ID;
+	}
+	public void setACCOUNT_BALANCE(int aCCOUNT_BALANCE) {
+		ACCOUNT_BALANCE = aCCOUNT_BALANCE;
 	}
 	
 	
