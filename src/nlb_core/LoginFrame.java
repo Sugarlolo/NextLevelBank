@@ -15,6 +15,7 @@ import beans.MemberBean;
 import database.MemberMgr;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -34,6 +35,7 @@ public class LoginFrame {
 	private JFrame frmNextLevelBank;
 	private JTextField idField;
 	private JTextField pwField;
+	private static JOptionPane messageDialog; // JOptionPane 인스턴트 저장변수
 	
 	MemberBean bean;
 	MemberMgr mMgr;
@@ -97,6 +99,7 @@ public class LoginFrame {
 		}
 	}
 
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -117,6 +120,7 @@ public class LoginFrame {
 		frmNextLevelBank.getContentPane().setLayout(null);
 		frmNextLevelBank.setResizable(false);
 
+		
 		idField = new JTextField();
 		idField.setDocument(new JTextFieldLimit(20));
 		idField.setBounds(120, 340, 260, 40);
@@ -130,18 +134,21 @@ public class LoginFrame {
 		frmNextLevelBank.getContentPane().add(pwField);
 		pwField.setColumns(10);
 		
-		
 		JButton joinBtn = new JButton("로그인");
 		joinBtn.setForeground(new Color(0, 0, 0));
 		joinBtn.setFont(new Font("나눔바른고딕", Font.BOLD, 18));
 		joinBtn.setBackground(new Color(255, 228, 0));
+		
 		joinBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String uid = idField.getText().trim();
 				String upw = pwField.getText().trim();				
 				
 				if (uid.isBlank() || upw.isBlank()) {
-					JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력해주세요.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
+					messageDialog = new JOptionPane("아이디와 비밀번호를 입력해주세요.", JOptionPane.ERROR_MESSAGE);
+					JDialog dialog = messageDialog.createDialog("로그인 실패");
+                    dialog.setVisible(true);
+//					JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력해주세요.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				// ... (아이디 또는 비밀번호가 입력되지 않은 경우의 처리)
@@ -162,6 +169,24 @@ public class LoginFrame {
 		});
 		joinBtn.setBounds(120, 430, 260, 40);
 		frmNextLevelBank.getContentPane().add(joinBtn);
+		
+		KeyAdapter enterKeyListener = new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (messageDialog != null && messageDialog.isVisible()) {
+                        // 메세지창이 열려있을경우 닫음
+                    	messageDialog.setVisible(false);
+                    } else {
+                        // 메세지창이 안열려있을때 가입하기 액션 실행
+                    		joinBtn.doClick();  	
+                    }
+                    messageDialog = null;
+                }
+            }
+        };
+		
+		idField.addKeyListener(enterKeyListener);
+		pwField.addKeyListener(enterKeyListener);
 
 		JLabel LOGO_LABEL = new JLabel("Next Level Bank");
 		LOGO_LABEL.setFont(new Font("나눔바른고딕", Font.BOLD, 15));
