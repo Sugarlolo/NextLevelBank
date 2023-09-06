@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Image;
 import java.awt.List;
+import java.awt.Toolkit;
 
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
@@ -32,6 +33,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -49,6 +51,7 @@ public class HistoryFrame extends JFrame {
 	private String Member_ID;
 	private int days = 3;
 	HistoryMgr th;
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	Vector<HistoryBean> vlist;
 	int doAccount = 0;
 	MemberBean bean;
@@ -103,7 +106,10 @@ public class HistoryFrame extends JFrame {
 		Account_Histroy = new JPanel();
 		Account_Histroy.setBackground(new Color(255, 255, 255));
 		Account_Histroy.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		int centerX = (screenSize.width -this.getWidth()) / 2; // Ã¢ Áß¾Ó¿¡ frame
+	    int centerY = (screenSize.height - this.getHeight()) / 2;
+	    this.setLocation(centerX,centerY);
+		
 		setContentPane(Account_Histroy);
 		Account_Histroy.setLayout(null);
 
@@ -125,7 +131,7 @@ public class HistoryFrame extends JFrame {
 		transferbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TransferFrame tf = new TransferFrame(do_account, aBean, mBean);
-				HistoryFrame.this.dispose();
+				
 			}
 		});
 		transferbtn.setBackground(new Color(221, 199, 0));
