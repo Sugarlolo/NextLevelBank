@@ -8,6 +8,7 @@ public class HistoryBean {
 	public String transfer_Category;
 	public String transfer_Memo;
 	public int transfer_Do_Balance;
+	public int transfer_No;
 	
 	public int getTransfer_Balance() {
 		return transfer_Balance;
@@ -50,5 +51,11 @@ public class HistoryBean {
 	}
 	public void setTransfer_Do_Balance(int transfer_Do_Balance) {
 		this.transfer_Do_Balance = transfer_Do_Balance;
+	}
+	public int getTransfer_No() {
+		return transfer_No;
+	}
+	public void setTransfer_No(int transfer_No) {
+		this.transfer_No = transfer_No;
 	}
 }
