@@ -75,12 +75,13 @@ public class PublicAccountFrame {
 	public PublicAccountFrame(MemberBean bean) {
 		
 		this.mBean = bean;
+		System.out.println(mBean.getMEMBER_ID());
 		frameMgr = FrameManager.getInstance();
 		initialize();
 	}
 
 	private void initialize() {
-		mBean = new MemberBean();
+		
 		frmAddfriend = new JFrame();
 		frmAddfriend.setTitle("AddFriend");
 		frmAddfriend.setSize(500, 800); //프레임 사이즈
