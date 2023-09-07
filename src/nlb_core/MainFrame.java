@@ -255,16 +255,19 @@ public class MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				selectedAccountNum();
-
+				
 				if (listSeletedIndex+1 > nomalAccountIndex && listSeletedIndex <=   nomalAccountIndex + pAccountIndex) { // 모임통장 선택했을때만
 
 					PublicAccountFrame frame3 = new PublicAccountFrame();
 					frame3.getFrame().setVisible(true);
+					//frame.setVisible(false);
+					
 //	                     frameMgr.setPublicAccountFrame(frame3);
 //					 frameMgr.CustomSetVisible("publicAccountFrame");
 				}else {
 					JOptionPane.showMessageDialog(frame,"모임통장이 아닙니다.","경고",JOptionPane.WARNING_MESSAGE);
 				}
+				
 			}
 		});
 

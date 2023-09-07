@@ -10,6 +10,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Vector;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -83,6 +85,12 @@ public class PublicAccountFrame {
 	    frmAddfriend.setLocation(centerX,centerY);
 		frmAddfriend.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		frmAddfriend.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				frameMgr.CustomSetVisible("main");   
+			}
+		});
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		frmAddfriend.getContentPane().add(panel, BorderLayout.CENTER);

@@ -120,7 +120,6 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame Å©±
 		frmNextLevelBank.getContentPane().setLayout(null);
 		frmNextLevelBank.setResizable(false);
 
-		
 		idField = new JTextField();
 		idField.setDocument(new JTextFieldLimit(20));
 		idField.setBounds(120, 340, 260, 40);

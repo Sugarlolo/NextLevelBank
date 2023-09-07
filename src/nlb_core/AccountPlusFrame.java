@@ -1,5 +1,6 @@
 package nlb_core; 
  
+import nlb_core.MainFrame;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -55,7 +56,7 @@ public class AccountPlusFrame {
     private FrameManager frameMgr;
     String member_id = ""; //회원아이디
     AccountsBean aBean;
-    
+    MainFrame mf;
     
  
 //	public static void main(String[] args) {
@@ -74,6 +75,7 @@ public class AccountPlusFrame {
 	public AccountPlusFrame(AccountsBean abean) {
 		frameMgr = FrameManager.getInstance();
 		this.aBean = abean;
+	
 		initialize();
 	}
  
@@ -93,6 +95,12 @@ public class AccountPlusFrame {
 		frmAccountPlusFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAccountPlusFrame.getContentPane().setLayout(null);
 		
+		frmAccountPlusFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				frameMgr.CustomSetVisible("main");   
+			}
+		});
 		
 		//title_label
 		JLabel title_label = new JLabel("\uACC4\uC88C \uAC1C\uC124"); 
@@ -335,8 +343,10 @@ public class AccountPlusFrame {
             			else 
             				JOptionPane.showMessageDialog(frmAccountPlusFrame, "통장 개설을 실패하였습니다.", "경고", JOptionPane.WARNING_MESSAGE);
             			
-            			frameMgr.CustomSetVisible("main");   
-            			frmAccountPlusFrame.setVisible(false);
+            			//frameMgr.CustomSetVisible("main");   
+            			mf = new MainFrame(mBean);
+            			frmAccountPlusFrame.dispose();
+            			
             		}
             	}  
             	

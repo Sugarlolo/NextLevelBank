@@ -31,7 +31,7 @@ import beans.MemberBean;
 import beans.TransferBean;
 import database.TransferMgr;
 import nlb_core.MainFrame.SharedData;
-
+import nlb_core.MainFrame;
 
 public class TransferFrame extends JFrame implements ActionListener {
 	final String[] buttonLabels = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "Áö¿ì±â", };
