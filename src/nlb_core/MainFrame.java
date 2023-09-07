@@ -10,6 +10,9 @@ import java.lang.reflect.Member;
 import java.nio.channels.SelectableChannel;
 import java.security.PublicKey;
 import javax.swing.*;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import beans.AccountsBean;
 import beans.AccountsPublicBean;
@@ -180,11 +183,30 @@ public class MainFrame {
 		panel.add(profileTopLabel);
 
 		// 프로필 라벨
-		ImageIcon profileIcon = new ImageIcon(MainFrame.class.getResource("profile1.png"));
-		Image profileImg = profileIcon.getImage();
-		Image changeProfileImg = profileImg.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
-		ImageIcon changeProfileIcon = new ImageIcon(changeProfileImg);
-		JLabel profileImageLabel = new JLabel(changeProfileIcon);
+		Map<String, ImageIcon> imageMap = new HashMap<>();
+		imageMap.put("test1", new ImageIcon(MainFrame.class.getResource("apeach.png")));
+		imageMap.put("test2", new ImageIcon(MainFrame.class.getResource("lion.png")));
+		ImageIcon defaultIcon = new ImageIcon(MainFrame.class.getResource("default.png"));
+		
+		// default 이미지 크기조절
+		Image defaultImage = defaultIcon.getImage();
+		Image fixdefaultImage = defaultImage.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+		ImageIcon fixdefaultIcon = new ImageIcon(fixdefaultImage);
+
+		String loggedInUserId = mbean.getMEMBER_ID();
+
+		ImageIcon icon = imageMap.get(loggedInUserId);
+		
+		JLabel profileImageLabel = new JLabel();
+		if (icon != null) {
+		    Image img = icon.getImage();
+		    ImageIcon scaledIcon = new ImageIcon(img.getScaledInstance(80, 80, Image.SCALE_SMOOTH));
+		    profileImageLabel.setIcon(scaledIcon);
+		} else {
+		    profileImageLabel.setIcon(fixdefaultIcon);
+		    
+		}
+
 		profileImageLabel.setBounds(380, 45, 80, 80);
 		panel.add(profileImageLabel);
 
