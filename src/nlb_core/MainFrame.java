@@ -232,9 +232,8 @@ public class MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("mainframe ÀÌÃ¼¹öÆ° °èÁÂ: " + selectedAccountNum());
+				System.out.println("mainframe ÀÌÃ¼ °èÁÂ ÀÜ°í: " + abean.getACCOUNT_BALANCE());
 				TransferFrame tf = new TransferFrame(seletedAccountNum, abean, mbean);
-				SharedData.setFlag(1);
-				frame.dispose();
 			}
 		});
 
