@@ -295,7 +295,7 @@ public class MainFrame {
 		autoTransBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AutoTransferFrame atFrame = new AutoTransferFrame(); 
+				AutoTransferFrame atFrame = new AutoTransferFrame(mbean,abean);
 				atFrame.getFrame().setVisible(true);
 			}
 		});
@@ -324,7 +324,7 @@ public class MainFrame {
 		tmpAccountsBeans.addAll(accountList2);
 		Vector<AccountsPublicBean> accountsPublicBeans = accountList3;
 		
-		if(listSeletedIndex > nomalAccountIndex+pAccountIndex) {
+		if(listSeletedIndex >= nomalAccountIndex+pAccountIndex) {
 			seletedAccountNum = accountsPublicBeans.get(listSeletedIndex).getACCOUNT_NUM();					
 		}else {
 			seletedAccountNum = tmpAccountsBeans.get(listSeletedIndex).getACCOUNT_NUM(); // transfer frame 으로 넘길 계좌번호	

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import beans.AccountsBean;
+import beans.AccountsPublicBean;
 import beans.AutoTransferBean;
 
 public class AutoTransferMgr {
@@ -16,7 +17,7 @@ public class AutoTransferMgr {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
-	public boolean inserAutoTransfer(AccountsBean aBean) {
+	public boolean inserAutoTransfer(AccountsPublicBean aPBean) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
