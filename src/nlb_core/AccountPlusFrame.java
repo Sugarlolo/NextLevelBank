@@ -74,6 +74,7 @@ public class AccountPlusFrame {
 	public AccountPlusFrame(AccountsBean abean) {
 		frameMgr = FrameManager.getInstance();
 		this.aBean = abean;
+	
 		initialize();
 	}
  
@@ -93,6 +94,12 @@ public class AccountPlusFrame {
 		frmAccountPlusFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAccountPlusFrame.getContentPane().setLayout(null);
 		
+		frmAccountPlusFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				frameMgr.CustomSetVisible("main");   
+			}
+		});
 		
 		//title_label
 		JLabel title_label = new JLabel("\uACC4\uC88C \uAC1C\uC124"); 
