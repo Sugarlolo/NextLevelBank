@@ -4,7 +4,10 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
@@ -26,10 +29,9 @@ public class AutoTransferFrame {
 
 	private JFrame frmAutotransferframe;
 	private JTextField transBalanceTF;
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // Ã¢ÀÇ Áß¾Ó ÁÂÇ¥ °è»ê
+	
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,18 +45,17 @@ public class AutoTransferFrame {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
+	
 	public AutoTransferFrame() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frmAutotransferframe = new JFrame();
+		frmAutotransferframe.setSize(500, 800); // ÇÁ·¹ÀÓ »çÀÌÁî
+		int centerX = (screenSize.width - frmAutotransferframe.getWidth()) / 2; // Ã¢ Áß¾Ó¿¡ frame
+		int centerY = (screenSize.height - frmAutotransferframe.getHeight()) / 2;
+		frmAutotransferframe.setLocation(centerX, centerY);
 		frmAutotransferframe.getContentPane().setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 13));
 		frmAutotransferframe.setTitle("AUTO_TRANSFER_FRAME");
 		frmAutotransferframe.getContentPane().setBackground(new Color(255, 255, 255));
@@ -129,7 +130,6 @@ public class AutoTransferFrame {
 		RegistBtn.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 15));
 		RegistBtn.setBounds(30, 250, 430, 53);
 		panel.add(RegistBtn);
-		frmAutotransferframe.setBounds(250, 150, 500, 800);
 		frmAutotransferframe.setResizable(false);
 		//frmAutotransferframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
