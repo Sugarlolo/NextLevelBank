@@ -5,12 +5,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -28,6 +31,7 @@ public class PwFindFrame {
    private JFrame FindRegist;
    private JTextField MEMBER_NAME_TF;
    private JTextField MEMBER_ID_TF;
+   private static JOptionPane messageDialog; // JOptionPane 인스턴트 저장변수
 
    /**
     * Launch the application.
@@ -129,11 +133,17 @@ public class PwFindFrame {
 							&& memberID != null && db.getFindPw(name, id).getMEMBER_ID().equals(id)) {
 						JOptionPane.showMessageDialog(null, "패스워드는 " + db.getFindPw(name, id).getMEMBER_PW() + " 입니다");
 					} else {
-						JOptionPane.showMessageDialog(null, "입력한 정보와 일치하는 PW가 없습니다.", "PW 찾기 실패",
-								JOptionPane.ERROR_MESSAGE);
+						messageDialog = new JOptionPane("입력한 정보와 일치하는 PW가 없습니다.", JOptionPane.ERROR_MESSAGE);
+						JDialog dialog = messageDialog.createDialog("PW 찾기 실패");
+	                    dialog.setVisible(true);	
+//						JOptionPane.showMessageDialog(null, "입력한 정보와 일치하는 PW가 없습니다.", "PW 찾기 실패",
+//								JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "해당 사용자를 찾을 수 없습니다.", "찾기 실패", JOptionPane.ERROR_MESSAGE);
+					messageDialog = new JOptionPane("해당 사용자를 찾을 수 없습니다.", JOptionPane.ERROR_MESSAGE);
+					JDialog dialog = messageDialog.createDialog("찾기 실패");
+                    dialog.setVisible(true);
+//					JOptionPane.showMessageDialog(null, "해당 사용자를 찾을 수 없습니다.", "찾기 실패", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -143,6 +153,26 @@ public class PwFindFrame {
       MEMBER_ID_TF.setBounds(55, 110, 220, 30);
       FindRegist.getContentPane().add(MEMBER_ID_TF);
       FindRegist.setResizable(false);
+      
+      KeyAdapter enterKeyListener = new KeyAdapter() {
+          public void keyPressed(KeyEvent e) {
+              if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                  if (messageDialog != null && messageDialog.isVisible()) {
+                      // 메세지창이 열려있을경우 닫음
+                  	messageDialog.setVisible(false);
+                  } else {
+                      // 메세지창이 안열려있을때 가입하기 액션 실행
+                	PW_FIND_BTN.doClick();
+                  	messageDialog = null;
+                  }
+                  messageDialog = null;
+              }
+          }
+      };
+		
+      MEMBER_NAME_TF.addKeyListener(enterKeyListener);
+      MEMBER_ID_TF.addKeyListener(enterKeyListener);
+      
    }
 }
 

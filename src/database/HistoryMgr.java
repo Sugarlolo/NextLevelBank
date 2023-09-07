@@ -36,6 +36,7 @@ public class HistoryMgr {
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
 					HistoryBean bean = new HistoryBean();
+					bean.setTransfer_No(rs.getInt("Transfer_No"));
 					bean.setTransfer_Date(rs.getString("Transfer_Date"));
 					bean.setTransfer_Take_Account(rs.getInt("Transfer_Take_Account"));
 					bean.setTransfer_Memo(rs.getString("Transfer_Memo"));

@@ -45,7 +45,7 @@ public class MemberMgr {
 	}
 
 	public MemberBean joinCheck(String id, String pw, String name, String pn, String ad, String jsonum, String pay) {
-		// 회占쏙옙占쏙옙占쏙옙 db占쏙옙 insert
+		// �쉶�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 db�뜝�룞�삕 insert
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -53,7 +53,7 @@ public class MemberMgr {
 		try {
 			con = pool.getConnection();
 			sql = "INSERT INTO MEMBER(MEMBER_ID, MEMBER_PW, MEMBER_NAME, TEL_NUMBER, " + 
-			"ADDRESS, SOCIAL_NUMBER, PAY_PW, REG_DATETIME, MEMBER_STATUS) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), '활占쏙옙')";
+			"ADDRESS, SOCIAL_NUMBER, PAY_PW, REG_DATETIME, MEMBER_STATUS) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), '활성')";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
@@ -81,7 +81,7 @@ public class MemberMgr {
 		return bean;
 	}
 	
-	public boolean idDuplicationCheck(String id) { // 占쏙옙占싱듸옙 占쌩븝옙체크 占쌨소듸옙
+	public boolean idDuplicationCheck(String id) { // �뜝�룞�삕�뜝�떛�벝�삕 �뜝�뙥釉앹삕泥댄겕 �뜝�뙣�냼�벝�삕
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -105,7 +105,7 @@ public class MemberMgr {
 		return flag;
 	}
 	
-	public MemberBean getFindId(String name, String pn) { // 占쏙옙占싱듸옙 찾占쏙옙
+	public MemberBean getFindId(String name, String pn) { // �뜝�룞�삕�뜝�떛�벝�삕 李얍뜝�룞�삕
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -131,7 +131,7 @@ public class MemberMgr {
 		return bean;
 	}
 	
-	public MemberBean getFindPw(String name, String id) { // 占쏙옙橘占싫� 찾占쏙옙 占쌨소듸옙
+	public MemberBean getFindPw(String name, String id) { // �뜝�룞�삕艅섇뜝�떕占� 李얍뜝�룞�삕 �뜝�뙣�냼�벝�삕
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

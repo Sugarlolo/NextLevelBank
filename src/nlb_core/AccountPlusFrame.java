@@ -17,6 +17,8 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -32,6 +34,7 @@ import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
 import beans.AccountsBean;
+import beans.MemberBean;
 import database.AccountsMgr;
 
 import java.awt.BorderLayout;
@@ -45,12 +48,14 @@ public class AccountPlusFrame {
 	private Font defaultFont; // 기본 폰트
 	private JFrame frmAccountPlusFrame;
 	private JPanel panel;
+	MemberBean mBean;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
     private CustomTextField pwField;
     AccountsMgr mgr;
     private FrameManager frameMgr;
     String member_id = ""; //회원아이디
     AccountsBean aBean;
+    
     
  
 //	public static void main(String[] args) {
@@ -78,7 +83,6 @@ public class AccountPlusFrame {
 	
 	private void initialize() {
 		member_id = aBean.getMEMBER_ID();
-		
 		frmAccountPlusFrame = new JFrame();
 		frmAccountPlusFrame.getContentPane().setBackground(new Color(255, 255, 255));
 		frmAccountPlusFrame.setTitle("Account Plus Frame");
@@ -86,8 +90,9 @@ public class AccountPlusFrame {
 	    int centerX = (screenSize.width - frmAccountPlusFrame.getWidth()) / 2; // 창 중앙에 frame
 	    int centerY = (screenSize.height - frmAccountPlusFrame.getHeight()) / 2;
 	    frmAccountPlusFrame.setLocation(centerX,centerY);
-		frmAccountPlusFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAccountPlusFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAccountPlusFrame.getContentPane().setLayout(null);
+		
 		
 		//title_label
 		JLabel title_label = new JLabel("\uACC4\uC88C \uAC1C\uC124"); 

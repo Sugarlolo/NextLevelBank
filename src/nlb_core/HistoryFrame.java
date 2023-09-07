@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Image;
 import java.awt.List;
+import java.awt.Toolkit;
 
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
@@ -32,6 +33,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -49,6 +51,7 @@ public class HistoryFrame extends JFrame {
 	private String Member_ID;
 	private int days = 3;
 	HistoryMgr th;
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	Vector<HistoryBean> vlist;
 	int doAccount = 0;
 	MemberBean bean;
@@ -83,7 +86,7 @@ public class HistoryFrame extends JFrame {
 		for (int i = 0; i < vlist.size(); i++) {
 			HistoryBean bean = vlist.get(i);
 			String[] rowData = {
-					String.valueOf(i + 1), 
+					String.valueOf(bean.getTransfer_No()), 
 					bean.getTransfer_Date(), 
 					bean.getTransfer_Memo(),
 					bean.getTransfer_Category(),
@@ -103,7 +106,10 @@ public class HistoryFrame extends JFrame {
 		Account_Histroy = new JPanel();
 		Account_Histroy.setBackground(new Color(255, 255, 255));
 		Account_Histroy.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		int centerX = (screenSize.width -this.getWidth()) / 2; // 창 중앙에 frame
+	    int centerY = (screenSize.height - this.getHeight()) / 2;
+	    this.setLocation(centerX,centerY);
+		
 		setContentPane(Account_Histroy);
 		Account_Histroy.setLayout(null);
 
@@ -125,7 +131,7 @@ public class HistoryFrame extends JFrame {
 		transferbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TransferFrame tf = new TransferFrame(do_account, aBean, mBean);
-				HistoryFrame.this.dispose();
+				
 			}
 		});
 		transferbtn.setBackground(new Color(221, 199, 0));
@@ -133,10 +139,6 @@ public class HistoryFrame extends JFrame {
 		transferbtn.setBounds(100, 170, 300, 35);
 		transferbtn.setFont(new Font("나눔바른고딕", Font.BOLD, 20));
 		History_Value.add(transferbtn);
-
-		ImageIcon icon = new ImageIcon("src/nlb_core/wheel.png");
-		Image image = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		icon.setImage(image); // 이미지 크기를 조정한 이미지로 설정
 
 		JLabel Account_Master = new JLabel(bean.getMEMBER_Name() + "의 통장");
 		Account_Master.setFont(new Font("굴림", Font.BOLD, 20));
@@ -164,50 +166,37 @@ public class HistoryFrame extends JFrame {
 		History_Value2.setBounds(0, 248, 484, 49);
 		Account_Histroy.add(History_Value2);
 
-		ImageIcon icon2 = new ImageIcon("src/nlb_core/find.png");
-		Image image2 = icon2.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		icon2.setImage(image2); // 이미지 크기를 조정한 이미지로 설정
-
-		JButton Find_History = new JButton("");
-		Find_History.setBackground(new Color(255, 255, 255));
-		Find_History.setBounds(12, 10, 45, 33);
-		Find_History.setIcon(icon2);
-		Find_History.setBorderPainted(false);
-		Find_History.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		String a[] = {"선택","3일", "1주일", "1개월" };
 		History_Value2.setLayout(null);
-		History_Value2.add(Find_History);
-
-		String a[] = { "1개월", "3개월" };
 		JComboBox comboBox = new JComboBox(a);
 		comboBox.setBackground(Color.WHITE);
-		comboBox.setBounds(371, 20, 101, 23);
+		comboBox.setBounds(427, 10, 57, 21);
 		History_Value2.add(comboBox);
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-		    	if (comboBox.getSelectedIndex()==0) {
+				if (comboBox.getSelectedIndex()==0) {
+	
+		    	}else if (comboBox.getSelectedIndex()==1) {
 		    		// 리스트 갱신하는 메소드
-		    		days = 1;
-		    		tableModel.setRowCount(0);
-		    		transferHistory.getHistoryList(do_account, days);
-		    		getTransferList();
-		    		
-		    	} else if (comboBox.getSelectedIndex()==1) {
 		    		days = 3;
 		    		tableModel.setRowCount(0);
 		    		transferHistory.getHistoryList(do_account, days);
 		    		getTransferList();
-		    	}
+		    	} else if (comboBox.getSelectedIndex()==2) {
+		    		days = 7;
+		    		tableModel.setRowCount(0);
+		    		transferHistory.getHistoryList(do_account, days);
+		    		getTransferList();
+		    	}else if (comboBox.getSelectedIndex()==3) {
+		    		// 리스트 갱신하는 메소드
+		    		days = 30;
+		    		tableModel.setRowCount(0);
+		    		transferHistory.getHistoryList(do_account, days);
+		    		getTransferList();
+			}
 			}
 		});
-
-		ImageIcon icon3 = new ImageIcon("src/nlb_core/etc.png");
-		Image image3 = icon3.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-		icon3.setImage(image3);
 
 		JPanel History_Value3 = new JPanel();
 		History_Value3.setBackground(new Color(255, 255, 255));
@@ -227,7 +216,7 @@ public class HistoryFrame extends JFrame {
 		for (int i = 0; i < vlist.size(); i++) {
 			HistoryBean bean = vlist.get(i);
 			String[] rowData = {
-					String.valueOf(i + 1), 
+					String.valueOf(bean.getTransfer_No()), 
 					bean.getTransfer_Date(),
 					bean.getTransfer_Memo(),
 					bean.getTransfer_Category(), 

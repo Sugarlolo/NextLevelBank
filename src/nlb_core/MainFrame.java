@@ -18,6 +18,7 @@ import beans.TransferAlertBean;
 import database.AccountsMgr;
 import database.AccountsPublicMgr;
 import database.TransferAlertMgr;
+import nlb_core.MainFrame.SharedData;
 
 public class MainFrame {
 
@@ -221,6 +222,7 @@ public class MainFrame {
 				System.out.println(selectedAccountNum());
 				HistoryFrame hf = new HistoryFrame(seletedAccountNum, mbean, abean);
 				hf.setVisible(true);
+				SharedData.setFlag(1);
 				frame.dispose();
 			}
 		});
@@ -344,8 +346,7 @@ public class MainFrame {
 //        System.out.println(accountList1.get(0).getACCOUNT_NUM());
 
 	}
-	
-	
+
 	public void showAlert() {
 		taBean.setALERT_MEMBER_ID(memberId);
 		subSecond = taMgr.getSubSeconds(taBean);
@@ -377,4 +378,16 @@ public class MainFrame {
 		}
 		alertIndex = alertNo;
 	}
+	public class SharedData {
+	    private static int flag = 0;
+
+	    public static int getFlag() {
+	        return flag;
+	    }
+
+	    public static void setFlag(int value) {
+	        flag = value;
+	    }
+	}
+
 }

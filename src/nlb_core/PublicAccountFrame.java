@@ -81,7 +81,7 @@ public class PublicAccountFrame {
 	    int centerX = (screenSize.width - frmAddfriend.getWidth()) / 2; // 창 중앙에 frame
 	    int centerY = (screenSize.height - frmAddfriend.getHeight()) / 2;
 	    frmAddfriend.setLocation(centerX,centerY);
-		frmAddfriend.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAddfriend.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
@@ -171,6 +171,7 @@ public class PublicAccountFrame {
 				friendAccountList.repaint();
 			}
 		});
+		
 		
 		//추가하기 버튼 액션 리스너
 		plusBtn.addActionListener(new ActionListener() {
