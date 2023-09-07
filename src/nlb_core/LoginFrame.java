@@ -13,6 +13,7 @@ import javax.swing.text.PlainDocument;
 
 import beans.MemberBean;
 import database.MemberMgr;
+import database.TransferMgr;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -39,9 +40,11 @@ public class LoginFrame {
 	
 	MemberBean bean;
 	MemberMgr mMgr;
+	TransferMgr tMgr;
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -62,6 +65,7 @@ public class LoginFrame {
 
 	public LoginFrame() {
 		initialize();
+		
 		frmNextLevelBank.setVisible(true);
 	}
 
@@ -105,9 +109,8 @@ public class LoginFrame {
 	 */
 
 	private void initialize() {
-
+		
 		IdKeyListener idkey = new IdKeyListener();
-
 		frmNextLevelBank = new JFrame(); // 프레임 객체 생성
 		frmNextLevelBank.getContentPane().setBackground(new Color(255, 228, 0));
 		frmNextLevelBank.setSize(500, 800);
@@ -140,6 +143,8 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame 크�
 		
 		joinBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				tMgr = new TransferMgr();
+				
 				String uid = idField.getText().trim();
 				String upw = pwField.getText().trim();				
 				
@@ -156,8 +161,16 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame 크�
 				System.out.println("beans 체크-id : " + bean.getMEMBER_ID());
 				System.out.println("beans 체크-pw : " + bean.getMEMBER_PW());
 				if (uid.equals(bean.getMEMBER_ID()) && upw.equals(bean.getMEMBER_PW())) {
-					JOptionPane.showMessageDialog(frmNextLevelBank, "로그인에 성공하였습니다.");
 					bean = mMgr.getMeberInfo(bean);
+					tMgr.iscountedPayPw(bean);
+					int cnt = bean.getPAYPW_COUNT();
+					if (cnt == 3) {
+						JOptionPane.showMessageDialog(frmNextLevelBank, "결제 비밀번호 초과로 접속이 불가능합니다. 고객센터로 문의해주세요.");
+						tMgr.changeMemberStatus(bean);
+						return;
+					}
+					JOptionPane.showMessageDialog(frmNextLevelBank, "로그인에 성공하였습니다.");
+					mMgr.setLoginTimestamp(bean);
 					MainFrame mf = new MainFrame(bean);
 					mf.getFrame().setVisible(true);
 					frmNextLevelBank.dispose();

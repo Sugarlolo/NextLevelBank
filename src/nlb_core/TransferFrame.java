@@ -15,11 +15,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.text.AbstractDocument;
+import javax.net.ssl.SSLContext;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.text.AttributeSet;
@@ -333,19 +335,18 @@ public class TransferFrame extends JFrame implements ActionListener {
 //		if (tMgr.Transfer_CheckAccount(account_num)) {
 //			
 //		}
-//		
 //	}
 	private void startTransferProcess() {
 		tMgr = new TransferMgr();
-		tMgr.iscountedPayPw(mBean);
-		int cnt = mBean.getPAYPW_COUNT();
-		System.out.println("카운트:"+cnt);
-		
-		if(mBean.getPAYPW_COUNT()==3) {
-			JOptionPane.showMessageDialog(frame, "결제 비밀번호 입력 횟수를 초과하여 이체가 불가능합니다. 자세한 사항은 고객센터를 참조하세요.");
-			frame.dispose();
-			return;
-		}
+//		tMgr.iscountedPayPw(mBean);
+//		int cnt = mBean.getPAYPW_COUNT();
+//		System.out.println("카운트:"+cnt);
+//		
+//		if(mBean.getPAYPW_COUNT()==3) {
+//			JOptionPane.showMessageDialog(frame, "결제 비밀번호 입력 횟수를 초과하여 이체가 불가능합니다. 자세한 사항은 고객센터를 참조하세요.");
+//			frame.dispose();
+//			return;
+//		}
 		
 		if (textField_account.getText().equals("계좌번호")) {
 			JOptionPane.showMessageDialog(frame, "올바른 계좌번호가 아닙니다.");
@@ -420,6 +421,8 @@ public class TransferFrame extends JFrame implements ActionListener {
 		//mBean = new MemberBean();
 		tBean = new TransferBean();
 		String memo = JOptionPane.showInputDialog(frame, "메모를 입력하세요. (입력하지 않으면 본인 이름이 표시됩니다. 최대 10자)");
+		Object[] options = {"확인","취소"};
+		
 		if(memo==null) {
 			JOptionPane.showMessageDialog(frame, "이체를 취소하셨습니다.", "취소", JOptionPane.INFORMATION_MESSAGE);
 			return false;
@@ -438,13 +441,26 @@ public class TransferFrame extends JFrame implements ActionListener {
 				frame.dispose();
 				return false;
 			}
-			String payPw = JOptionPane.showInputDialog(
-					frame, "결제 비밀번호를 입력해주세요. " + mBean.getPAYPW_COUNT() + "회 입력하셨습니다. 3회 초과 시 이체가 제한됩니다.");
-			if (payPw == null) {
+			JPanel payPw_panel = new JPanel();
+			payPw_panel.add(new JLabel("<html>"+mBean.getPAYPW_COUNT()+"회 시도하셨습니다...<br>3회 초과 시 이체가 제한됩니다.<br></html>"));
+			JPasswordField payPw_Field = new JPasswordField(6);
+			((AbstractDocument) payPw_Field.getDocument()).setDocumentFilter(new NumericFilter());
+			payPw_panel.add(payPw_Field);
+			
+			int payPw = JOptionPane.showOptionDialog(
+					frame,payPw_panel,"결제 비밀번호를 입력하세요...",
+					JOptionPane.YES_NO_CANCEL_OPTION,
+					JOptionPane.PLAIN_MESSAGE,null,
+					options,null);
+			
+			String strPayPw = new String(payPw_Field.getPassword());
+			System.out.println("결제비밀번호: "+payPw);
+			
+			if (payPw == JOptionPane.NO_OPTION || payPw == -1) {
 	            JOptionPane.showMessageDialog(frame, "이체를 취소하셨습니다.", "취소", JOptionPane.INFORMATION_MESSAGE);
 	            return false;
 	        }
-			if (!(mBean.getPAYPW().equals(payPw))) {
+			if (!(mBean.getPAYPW()).equals(strPayPw)) {
 				tMgr.countPayPw(mBean, i+1);
 				tMgr.iscountedPayPw(mBean);
 				continue;

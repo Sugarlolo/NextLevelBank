@@ -223,4 +223,21 @@ public class MemberMgr {
 		
 		return bean;
 	}
+	
+	public void setLoginTimestamp(MemberBean bean) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "UPDATE MEMBER_ADV m SET m.LAST_LOGIN_TIME = NOW() WHERE m.MEMBER_ID = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bean.getMEMBER_ID());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+	}
 }
