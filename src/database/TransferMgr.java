@@ -452,11 +452,14 @@ public class TransferMgr {
 					+ "GROUP BY al.DAILY_TRANSFER_LIMITS";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, bean.getACCOUNT_NUM());
+			System.out.println(bean.getACCOUNT_NUM());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				balance_limits = rs.getInt(1);
 				balance = rs.getInt(2);
 			}
+			System.out.println("1 "+balance_limits);
+			System.out.println("2 "+balance);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -475,10 +478,8 @@ public class TransferMgr {
 		AccountsBean aBean = new AccountsBean();
 		MemberBean mBean = new MemberBean();
 		mBean.setMEMBER_ID("test1");
-//		aBean.setACCOUNT_NUM(185526101);
-////		System.out.println(tMgr.checkTransferLimits(aBean, 1000));
-//		tMgr.iscountedPayPw(mBean);
-//		System.out.println(mBean.getPAYPW_COUNT());
-		//System.out.println(tMgr.countPayPw(mBean,2));
+		aBean.setACCOUNT_NUM(185526101);
+		System.out.println(tMgr.checkTransferLimits(aBean, 1000));
+		tMgr.iscountedPayPw(mBean);
 	}
 }
