@@ -436,50 +436,72 @@ public class TransferMgr {
 	//이체한도 체크해서 이체 가능하면 true, 이체 불가능하면 false 반환함.
 	
 	public boolean checkTransferLimits (AccountsBean bean, int amount /*보내려는 금액*/) {
-		int balance=0;
-		int balance_limits=0;
-		//AccountsBean aBean = new AccountsBean();
+		int currentBalance = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
+		int balanceLimits = getTransferLimits(bean);
 		try {
 			con = pool.getConnection();
-			sql = "SELECT al.DAILY_TRANSFER_LIMITS,SUM(t.TRANSFER_BALANCE) AS TOTAL_BALANCE "
+			sql = "SELECT COALESCE(SUM(t.TRANSFER_BALANCE), 0) AS TOTAL_BALANCE "
 					+ "FROM TRANSFER t "
 					+ "LEFT OUTER JOIN ACCOUNT_LIMITS al ON t.TRANSFER_DO_ACCOUNT = al.ACCOUNT_NUM "
-					+ "WHERE t.TRANSFER_DO_ACCOUNT = ? AND DATE(TRANSFER_DATE) = CURDATE() "
-					+ "GROUP BY al.DAILY_TRANSFER_LIMITS";
+					+ "WHERE t.TRANSFER_DO_ACCOUNT = ? AND DATE(t.TRANSFER_DATE) = CURDATE()";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, bean.getACCOUNT_NUM());
-			System.out.println(bean.getACCOUNT_NUM());
 			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				balance_limits = rs.getInt(1);
-				balance = rs.getInt(2);
+			if (rs.next()) {
+				currentBalance = rs.getInt(1);
 			}
-			System.out.println("1 "+balance_limits);
-			System.out.println("2 "+balance);
+			System.out.println("1 "+currentBalance);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt, rs);
 		}
 		
-		if (balance+amount > balance_limits) {
+		if (currentBalance+amount > balanceLimits) {
 			return false;
 		} else
-			System.out.println("보내는금액: "+balance);
+			System.out.println("일일 이체한도: "+balanceLimits);
+			System.out.println("오늘 보낸 금액: "+currentBalance);
 			return true;
 	}
 	
-	public static void main(String[] args) {
-		TransferMgr tMgr = new TransferMgr();
-		AccountsBean aBean = new AccountsBean();
-		MemberBean mBean = new MemberBean();
-		mBean.setMEMBER_ID("test1");
-		aBean.setACCOUNT_NUM(185526101);
-		System.out.println(tMgr.checkTransferLimits(aBean, 1000));
-		tMgr.iscountedPayPw(mBean);
+	//이체 한도 가져오는 메소드
+	private int getTransferLimits(AccountsBean bean) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int limits = 0;
+		try {
+			con = pool.getConnection();
+			sql = "SELECT al.DAILY_TRANSFER_LIMITS "
+					+ "FROM ACCOUNT_LIMITS al "
+					+ "WHERE al.ACCOUNT_NUM = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, bean.getACCOUNT_NUM());
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				limits = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		System.out.println("가져온 일일 이체 한도는 "+limits);
+		return limits;
 	}
+	
+	/*
+	 * public static void main(String[] args) { TransferMgr tMgr = new
+	 * TransferMgr(); AccountsBean aBean = new AccountsBean(); MemberBean mBean =
+	 * new MemberBean(); mBean.setMEMBER_ID("test1");
+	 * aBean.setACCOUNT_NUM(185526101);
+	 * System.out.println(tMgr.checkTransferLimits(aBean, 1000));
+	 * tMgr.iscountedPayPw(mBean); }
+	 */
 }
