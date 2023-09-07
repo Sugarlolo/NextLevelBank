@@ -109,7 +109,7 @@ public class LoginFrame {
 		frmNextLevelBank.getContentPane().setBackground(new Color(255, 228, 0));
 		frmNextLevelBank.setSize(500, 800);
 		Dimension frameSize = frmNextLevelBank.getSize(); // 모니터 크기
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame 크기
+Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame 크기
 		frmNextLevelBank.setLocation((screenSize.width - frameSize.width) / 2,
 				(screenSize.height - frameSize.height) / 2); // frame 위치 설정
 		frmNextLevelBank.setTitle("Next Level Bank Login");

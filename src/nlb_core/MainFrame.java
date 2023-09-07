@@ -1,5 +1,8 @@
 package nlb_core;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,8 +12,12 @@ import java.security.PublicKey;
 import javax.swing.*;
 import java.util.Vector;
 import beans.AccountsBean;
+import beans.AccountsPublicBean;
 import beans.MemberBean;
+import beans.TransferAlertBean;
 import database.AccountsMgr;
+import database.AccountsPublicMgr;
+import database.TransferAlertMgr;
 
 public class MainFrame {
 
@@ -18,28 +25,36 @@ public class MainFrame {
 	private DefaultListModel<String> model;
 	private JList<String> accountList;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
-
+	private ScheduledExecutorService scheduler;
+	
 	int nomalAccountIndex = 0;
-	int publicAccountIndex = 0;
+	int pAccountIndex = 0;
+	int attendPAccountIndex = 0;
 	int sumAccountIndex = 0;
 	int listSeletedIndex = 0;
 	int seletedAccountNum = 0;
+	String memberId = "";
+	int subSecond = 0;
+	int alertNo=0;
+	int alertIndex;
+	
+	public final FrameManager frameMgr;
 	AccountsBean abean;
 	MemberBean mbean;
-	String memberId = "";
-
 	Vector<AccountsBean> accountList1;
 	Vector<AccountsBean> accountList2;
-
-	public final FrameManager frameMgr;
-
-	int i = 1;
-
+	Vector<AccountsPublicBean> accountList3;
+	AccountsPublicBean apBean = new AccountsPublicBean();
+	AccountsPublicMgr apMgr = new AccountsPublicMgr();
+	TransferAlertMgr taMgr = new TransferAlertMgr();
+	TransferAlertBean taBean = new TransferAlertBean();
+	
+	
+	   
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-
 					// AccountPlusFrame frame2 = new AccountPlusFrame(AccountsBean abean);
 					// PublicAccountFrame frame3 = new PublicAccountFrame();
 					// frame2.getFrame().setVisible(false);
@@ -51,7 +66,7 @@ public class MainFrame {
 					// PublicAccountFrame frame3 = new PublicAccountFrame();
 					// frame3.getFrame().setVisible(false);
 					// frameMgr.setPublicAccountFrame(frame3);
-
+                    // MainFrame 초기화
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -72,9 +87,16 @@ public class MainFrame {
 
 		this.mbean = bean;
 		initialize();
+		
+		 // ScheduledExecutorService 초기화
+        scheduler = Executors.newScheduledThreadPool(1); 
+        // 5초마다 showAlert() 함수 실행
+        scheduler.scheduleAtFixedRate(new Runnable() {
+            public void run() {showAlert();}}, 0, 5, TimeUnit.SECONDS);
 	}
 
 	private void initialize() {
+		
 		memberId = mbean.getMEMBER_ID(); // 회원아이디
 		System.out.println(mbean.getMEMBER_ID());
 		// mainframe - frame
@@ -116,14 +138,14 @@ public class MainFrame {
 		JButton transferBTN = new JButton("이체하기");
 		transferBTN.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
 		transferBTN.setBackground(new Color(255, 228, 0));
-		transferBTN.setBounds(30, 150, 140, 40);
+		transferBTN.setBounds(30, 150, 100, 40);
 		panel.add(transferBTN);
 
 		// 이체내역 버튼
 		JButton transferHistoryBTN = new JButton("이체내역");
 		transferHistoryBTN.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
 		transferHistoryBTN.setBackground(new Color(255, 228, 0));
-		transferHistoryBTN.setBounds(175, 150, 140, 40);
+		transferHistoryBTN.setBounds(135, 150, 105, 40);
 		panel.add(transferHistoryBTN);
 
 		// 회원아이디 라벨
@@ -169,8 +191,14 @@ public class MainFrame {
 		JButton publicMemberPlusBTN = new JButton("<html>모임통장<br>친구추가</html>");
 		publicMemberPlusBTN.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
 		publicMemberPlusBTN.setBackground(new Color(255, 228, 0));
-		publicMemberPlusBTN.setBounds(320, 150, 140, 40);
+		publicMemberPlusBTN.setBounds(245, 150, 105, 40);
 		panel.add(publicMemberPlusBTN);
+		
+		JButton autoTransBtn = new JButton("\uC790\uB3D9\uC774\uCCB4");
+		autoTransBtn.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
+		autoTransBtn.setBackground(new Color(255, 228, 0));
+		autoTransBtn.setBounds(355, 150, 105, 40);
+		panel.add(autoTransBtn);
 
 		showAccountList(); // DB계좌 정보 list에 뿌리기
 
@@ -180,7 +208,8 @@ public class MainFrame {
 		transferBTN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("mainframe 이체버튼 계좌: " + seletedAccountNum());
+				System.out.println("mainframe 이체버튼 계좌: " + selectedAccountNum());
+				System.out.println("mainframe 이체 계좌 잔고: " + abean.getACCOUNT_BALANCE());
 				TransferFrame tf = new TransferFrame(seletedAccountNum, abean, mbean);
 			}
 		});
@@ -189,7 +218,7 @@ public class MainFrame {
 		transferHistoryBTN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(seletedAccountNum());
+				System.out.println(selectedAccountNum());
 				HistoryFrame hf = new HistoryFrame(seletedAccountNum, mbean, abean);
 				hf.setVisible(true);
 				frame.dispose();
@@ -200,12 +229,16 @@ public class MainFrame {
 		publicMemberPlusBTN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (seletedAccountNum() > accountList1.size()) { // 모임통장 선택했을때만
+				selectedAccountNum();
+
+				if (listSeletedIndex+1 > nomalAccountIndex && listSeletedIndex <=   nomalAccountIndex + pAccountIndex) { // 모임통장 선택했을때만
 
 					PublicAccountFrame frame3 = new PublicAccountFrame();
 					frame3.getFrame().setVisible(true);
 //	                     frameMgr.setPublicAccountFrame(frame3);
 //					 frameMgr.CustomSetVisible("publicAccountFrame");
+				}else {
+					JOptionPane.showMessageDialog(frame,"모임통장이 아닙니다.","경고",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -221,7 +254,16 @@ public class MainFrame {
 				frame.setVisible(false);
 			}
 		});
-
+		
+		//자동이체 버튼 액션 리스너
+		autoTransBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AutoTransferFrame atFrame = new AutoTransferFrame(); 
+				atFrame.getFrame().setVisible(true);
+			}
+		});
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -237,16 +279,20 @@ public class MainFrame {
 
 	}
 
-	public int seletedAccountNum() { // 선택된 리스트 계좌번호
+	public int selectedAccountNum() { // 선택된 리스트 계좌번호
 
 		listSeletedIndex = accountList.getSelectedIndex();
 		listSeletedIndex /= 3;
 
 		Vector<AccountsBean> tmpAccountsBeans = accountList1;
 		tmpAccountsBeans.addAll(accountList2);
-
-		seletedAccountNum = tmpAccountsBeans.get(listSeletedIndex).getACCOUNT_NUM(); // transfer frame 으로 넘길 계좌번호
-		System.out.println("선택한 계좌번호: " + seletedAccountNum);
+		Vector<AccountsPublicBean> accountsPublicBeans = accountList3;
+		
+		if(listSeletedIndex > nomalAccountIndex+pAccountIndex) {
+			seletedAccountNum = accountsPublicBeans.get(listSeletedIndex).getACCOUNT_NUM();					
+		}else {
+			seletedAccountNum = tmpAccountsBeans.get(listSeletedIndex).getACCOUNT_NUM(); // transfer frame 으로 넘길 계좌번호	
+		}System.out.println("선택한 계좌번호: " + seletedAccountNum);
 		return seletedAccountNum;
 
 	}
@@ -254,36 +300,81 @@ public class MainFrame {
 	public void showAccountList() { // 계좌 정보 디비에서 읽어서 뿌리기
 
 		AccountsMgr mgr = new AccountsMgr();
-		String category1 = "일반";
-		String category2 = "공동계좌";
 		abean = new AccountsBean();
 
+		//본인 일반 계좌
 		abean.setMEMBER_ID(memberId);
 		abean.setACCOUNT_CATEGORY("일반");
 		accountList1 = mgr.getAccount_num(abean);
 		for (AccountsBean accountsBean1 : accountList1) {
-			model.addElement("계좌번호(입출금 통장) : " + accountsBean1.getACCOUNT_NUM());
+			nomalAccountIndex++;
+			model.addElement("입출금 통장"+nomalAccountIndex +" : " + accountsBean1.getACCOUNT_NUM());
 			model.addElement("잔액 : " + accountsBean1.getACCOUNT_BALANCE());
 			model.addElement(" ");
-			nomalAccountIndex++;
 		}
 //        System.out.println(accountList1.get(0).getACCOUNT_NUM()); //0번째 리스트의 계좌번호 출력
 //        System.out.println(accountList1.get(1).getACCOUNT_NUM());
 //        System.out.println(accountList1.get(2).getACCOUNT_NUM());
 
+		//본인 공동계좌
 		abean.setMEMBER_ID(memberId);
 		abean.setACCOUNT_CATEGORY("공동계좌");
 		accountList2 = mgr.getAccount_num(abean);
 		for (AccountsBean accountsBean2 : accountList2) {
-			model.addElement("계좌번호(모임 통장) : " + accountsBean2.getACCOUNT_NUM());
+			pAccountIndex++;
+			model.addElement("모임 통장"+pAccountIndex +" : " + accountsBean2.getACCOUNT_NUM());
 			model.addElement("잔액 : " + accountsBean2.getACCOUNT_BALANCE());
 			model.addElement(" ");
-			publicAccountIndex++;
+			
 		}
-
-		sumAccountIndex = nomalAccountIndex + publicAccountIndex;
+		
+		// 참여중인 공동계좌
+		mbean.setMEMBER_ID(memberId);
+		accountList3 = apMgr.getPublicAccountNum(mbean);
+		for(int j =0;j<accountList3.size();j++) {
+			attendPAccountIndex++;
+			model.addElement(accountList3.get(j).getMEMBER_ID()+"님의 "+"모임 통장"+attendPAccountIndex+" : " + accountList3.get(j).getACCOUNT_NUM());
+			model.addElement("잔액 : " + accountList3.get(j).getACCOUNT_BALANCE());
+			model.addElement(" ");
+			
+		}
+		
+		sumAccountIndex = nomalAccountIndex + pAccountIndex + attendPAccountIndex;
 //        System.out.println(sumAccountIndex);
 //        System.out.println(accountList1.get(0).getACCOUNT_NUM());
 
+	}
+	
+	
+	public void showAlert() {
+		taBean.setALERT_MEMBER_ID(memberId);
+		subSecond = taMgr.getSubSeconds(taBean);
+		
+		taBean.setALERT_MEMBER_ID(memberId);
+		taMgr.getAlert(taBean);
+		String content = taBean.getALERT_CONTENT(); 
+		alertNo = taBean.getALERT_NO();
+
+		if (alertNo>alertIndex) {
+			//1분 60
+			//1시간 3600
+			//1일 86400
+			//1개월 2,592,000
+			// 1년 31,104,000
+			if(subSecond < 60) {
+				JOptionPane.showMessageDialog(frame,subSecond+"초 전  "+ content,"이체알림",JOptionPane.INFORMATION_MESSAGE);
+			}else if(subSecond < 3600) {
+				JOptionPane.showMessageDialog(frame,subSecond/60+"분 전  "+ content,"이체알림",JOptionPane.INFORMATION_MESSAGE);
+			}else if(subSecond < 86400) {
+				JOptionPane.showMessageDialog(frame,subSecond/3600+"시간 전  "+ content,"이체알림",JOptionPane.INFORMATION_MESSAGE);
+			}else if(subSecond < 2592000) {
+				JOptionPane.showMessageDialog(frame,subSecond/86400+"일 전  "+ content,"이체알림",JOptionPane.INFORMATION_MESSAGE);
+			}else if(subSecond < 31104000) {
+				JOptionPane.showMessageDialog(frame,subSecond/2592000+"개월 전  "+ content,"이체알림",JOptionPane.INFORMATION_MESSAGE);
+			}else {
+				JOptionPane.showMessageDialog(frame,taBean.getALERT_DATE()+"  "+ content,"이체알림",JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		alertIndex = alertNo;
 	}
 }
