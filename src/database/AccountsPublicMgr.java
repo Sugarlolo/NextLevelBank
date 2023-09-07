@@ -18,7 +18,43 @@ public class AccountsPublicMgr {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
-	// °øµ¿°èÁÂ °³¼³ ¹× Ä£±¸ Ãß°¡(¸ğÀÓÅëÀå °èÁÂ¹øÈ£, Âü¿©ÀÎÀÇ ¾ÆÀÌµğ)
+	// ACCOUNT_PUBLIC í…Œì´ë¸”ì— ì´ë¯¸ ìˆëŠ” ê³„ì¢Œì¸ì§€ í™•ì¸, ì—†ìœ¼ë©´ true ë°˜í™˜
+	public boolean selectAccountPublic(AccountsPublicBean bean) {
+		boolean flag = false;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		AccountsPublicBean accountsPublicBean = new AccountsPublicBean();
+		
+		try {
+			con = pool.getConnection();
+			sql = "SELECT ap.ACCOUNT_NUM, ap.ACCOUNT_PUBLIC_MEMBER_NUM "
+					+ "FROM ACCOUNT_PUBLIC ap "
+					+ "WHERE ap.ACCOUNT_NUM = ? AND ap.ACCOUNT_PUBLIC_MEMBER_NUM = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,bean.getACCOUNT_NUM());
+			pstmt.setInt(2,bean.getACCOUNT_PUBLIC_MEMBER_NUM());
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				accountsPublicBean.setACCOUNT_NUM(rs.getInt(1));
+				accountsPublicBean.setACCOUNT_PUBLIC_MEMBER_NUM(rs.getInt(2));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		if(accountsPublicBean.getACCOUNT_NUM()==0) {
+			flag=true;
+		}
+		return flag;	
+	}
+	
+	
+	
+	// ëª¨ì„í†µì¥ ê³„ì¢Œ ì—°ê²°í•˜ê¸° ì¹¼ëŸ¼ : ê³µë™ê³„ì¢Œ ê³„ì¢Œë²ˆí˜¸ , ê³µë™ê³„ì¢Œ ì°¸ì—¬í•˜ëŠ” ê³„ì¢Œë²ˆí˜¸
 		public boolean InsertAccountPublic(AccountsPublicBean bean) { 
 			boolean flag = false;
 		 	Connection con = null;
@@ -41,7 +77,7 @@ public class AccountsPublicMgr {
 		}
 		
 		
-		// Âü¿©ÇÑ °øµ¿°èÁÂ °èÁÂ¹øÈ£ ºÒ·¯¿À±â 
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¹ï¿½È£ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ 
 		public Vector<AccountsPublicBean> getPublicAccountNum(MemberBean mBean) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -50,7 +86,7 @@ public class AccountsPublicMgr {
 			Vector<AccountsPublicBean> vlist = new Vector<AccountsPublicBean>();
 			try {
 				con = pool.getConnection();
-				// Âü¿©ÇÏ´Â °øµ¿°èÁÂ¹øÈ£, Âü¿©ÇÏ´Â º»ÀÎ °èÁÂ¹øÈ£
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¹ï¿½È£, ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¹ï¿½È£
 				sql = "SELECT m2.MEMBER_ID ,ap.ACCOUNT_NUM, a2.ACCOUNT_BALANCE, ap.ACCOUNT_PUBLIC_MEMBER_NUM\r\n"
 						+ "FROM MEMBER m , MEMBER m2,ACCOUNT_PUBLIC ap, ACCOUNTS a, ACCOUNTS a2\r\n"
 						+ "WHERE m.MEMBER_ID = ? AND m.MEMBER_ID = a.MEMBER_ID \r\n"

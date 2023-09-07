@@ -47,6 +47,7 @@ public class PublicAccountFrame {
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
 	AccountsMgr mgr;
 	AccountsBean bean;
+	MemberBean mBean;
 	int memberAccountNum=0;
 	int memberAccountBalance=0;
 	String friendName =" "; //search friend Name
@@ -59,8 +60,8 @@ public class PublicAccountFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PublicAccountFrame window = new PublicAccountFrame();
-					window.frmAddfriend.setVisible(true);
+					//PublicAccountFrame window = new PublicAccountFrame();
+					//window.frmAddfriend.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -71,12 +72,15 @@ public class PublicAccountFrame {
     	return frmAddfriend;
     }
     
-	public PublicAccountFrame() {
+	public PublicAccountFrame(MemberBean bean) {
+		
+		this.mBean = bean;
 		frameMgr = FrameManager.getInstance();
 		initialize();
 	}
 
 	private void initialize() {
+		mBean = new MemberBean();
 		frmAddfriend = new JFrame();
 		frmAddfriend.setTitle("AddFriend");
 		frmAddfriend.setSize(500, 800); //프레임 사이즈
@@ -198,15 +202,30 @@ public class PublicAccountFrame {
 				System.out.println("memberNum :"+memberNum);
 				aPBean.setACCOUNT_PUBLIC_MEMBER_NUM(memberNum);
 					
-				Boolean flag = mgr.InsertAccountPublic(aPBean);
-				System.out.println(flag);
+				boolean flag1 = mgr.selectAccountPublic(aPBean); 
+				boolean flag2= mgr.InsertAccountPublic(aPBean);
+				System.out.println(flag1);
+				System.out.println(flag2);
 				
-				if(flag) {
-					JOptionPane.showMessageDialog(frmAddfriend,"모임통장 친구추가가 완료되었습니다.","안내",JOptionPane.INFORMATION_MESSAGE);
-					frmAddfriend.setVisible(false);
+				if(flag1) {
+					if(flag2) {
+						JOptionPane.showMessageDialog(frmAddfriend,"모임통장 친구추가가 완료되었습니다.","안내",JOptionPane.INFORMATION_MESSAGE);
+						frmAddfriend.dispose();
+						MainFrame mf = new MainFrame(mBean);
+						mf.setAttendPAccountIndex(0);
+						mf.setListSeletedIndex(0);
+						mf.setNomalAccountIndex(0);
+						mf.setpAccountIndex(0);
+						mf.setSeletedAccountNum(0);
+						mf.setSumAccountIndex(0);
+						mf.deleteAccountList();
+						mf.showAccountList();
+						mf.getFrame().setVisible(true);
+					}else {
+						JOptionPane.showMessageDialog(frmAddfriend,"모임통장 친구추가가 실패하였습니다.","경고",JOptionPane.WARNING_MESSAGE);
+					}
 				}else {
-					JOptionPane.showMessageDialog(frmAddfriend,"모임통장 친구추가가 실패하였습니다.","경고",JOptionPane.WARNING_MESSAGE);
-					
+					JOptionPane.showMessageDialog(frmAddfriend,"이미 추가되어있습니다.","경고",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});

@@ -72,10 +72,10 @@ public class AccountPlusFrame {
 //		});
 //	}
  
-	public AccountPlusFrame(AccountsBean abean) {
+	public AccountPlusFrame(AccountsBean abean,MemberBean mbean) {
 		frameMgr = FrameManager.getInstance();
 		this.aBean = abean;
-	
+		this.mBean = mbean;
 		initialize();
 	}
  
@@ -345,6 +345,7 @@ public class AccountPlusFrame {
             			
             			//frameMgr.CustomSetVisible("main");   
             			mf = new MainFrame(mBean);
+            			mf.getFrame().setVisible(true);
             			frmAccountPlusFrame.dispose();
             			
             		}

@@ -37,6 +37,8 @@ public class MainFrame {
 	int sumAccountIndex = 0;
 	int listSeletedIndex = 0;
 	int seletedAccountNum = 0;
+	
+
 	String memberId = "";
 	int subSecond = 0;
 	int alertNo=0;
@@ -100,6 +102,12 @@ public class MainFrame {
 	}
 
 	private void initialize() {
+		nomalAccountIndex = 0;
+		pAccountIndex = 0;
+		attendPAccountIndex = 0;
+		sumAccountIndex = 0;
+		listSeletedIndex = 0;
+		seletedAccountNum = 0;
 		
 		memberId = mbean.getMEMBER_ID(); // 회원아이디
 		System.out.println(mbean.getMEMBER_ID());
@@ -258,10 +266,10 @@ public class MainFrame {
 				
 				if (listSeletedIndex+1 > nomalAccountIndex && listSeletedIndex <=   nomalAccountIndex + pAccountIndex) { // 모임통장 선택했을때만
 
-					PublicAccountFrame frame3 = new PublicAccountFrame();
+					PublicAccountFrame frame3 = new PublicAccountFrame(mbean);
 					frame3.getFrame().setVisible(true);
 					//frame.setVisible(false);
-					
+					frame.dispose();
 //	                     frameMgr.setPublicAccountFrame(frame3);
 //					 frameMgr.CustomSetVisible("publicAccountFrame");
 				}else {
@@ -277,7 +285,7 @@ public class MainFrame {
 			public void actionPerformed(ActionEvent e) {
 				// frameMgr.CustomSetVisible("account");
 				abean.setMEMBER_ID(memberId);
-				AccountPlusFrame accountPlusFrame = new AccountPlusFrame(abean);
+				AccountPlusFrame accountPlusFrame = new AccountPlusFrame(abean,mbean);
 				accountPlusFrame.getFrame().setVisible(true);
 				frame.setVisible(false);
 			}
@@ -325,11 +333,13 @@ public class MainFrame {
 
 	}
 
-	public void showAccountList() { // 계좌 정보 디비에서 읽어서 뿌리기
 
+	public void showAccountList() { // 계좌 정보 디비에서 읽어서 뿌리기
 		AccountsMgr mgr = new AccountsMgr();
 		abean = new AccountsBean();
-
+		nomalAccountIndex=0;
+		pAccountIndex=0;
+		attendPAccountIndex=0;
 		//본인 일반 계좌
 		abean.setMEMBER_ID(memberId);
 		abean.setACCOUNT_CATEGORY("일반");
@@ -414,6 +424,29 @@ public class MainFrame {
 	    public static void setFlag(int value) {
 	        flag = value;
 	    }
+	}
+	public void setNomalAccountIndex(int nomalAccountIndex) {
+		this.nomalAccountIndex = nomalAccountIndex;
+	}
+
+	public void setpAccountIndex(int pAccountIndex) {
+		this.pAccountIndex = pAccountIndex;
+	}
+
+	public void setAttendPAccountIndex(int attendPAccountIndex) {
+		this.attendPAccountIndex = attendPAccountIndex;
+	}
+
+	public void setSumAccountIndex(int sumAccountIndex) {
+		this.sumAccountIndex = sumAccountIndex;
+	}
+
+	public void setListSeletedIndex(int listSeletedIndex) {
+		this.listSeletedIndex = listSeletedIndex;
+	}
+
+	public void setSeletedAccountNum(int seletedAccountNum) {
+		this.seletedAccountNum = seletedAccountNum;
 	}
 
 }
