@@ -240,4 +240,36 @@ public class MemberMgr {
 			pool.freeConnection(con, pstmt);
 		}
 	}
+//	public boolean checkMemberStatus(MemberBean bean){
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		String sql = null;
+//		boolean flag = false;
+//		try {
+//			con = pool.getConnection();
+//			sql = "SELECT FROM MEMBER";
+//			pstmt = con.prepareStatement(sql);
+//			pstmt.setString(1, bean.getMEMBER_ID());
+//			rs = pstmt.executeQuery();
+//			
+//			if (rs.next()) {
+//				bean.setMEMBER_ID(rs.getString(1));
+//				bean.setMEMBER_PW(rs.getString(2));
+//				bean.setMEMBER_Name(rs.getString(3));
+//				bean.setTEL_Num(rs.getString(4));
+//				bean.setADDR(rs.getString(5));
+//				bean.setSOCIAL_NUMBER(rs.getString(6));
+//				bean.setPAYPW(rs.getString(7));
+//				bean.setREG_DATE(rs.getTimestamp(8));
+//				bean.setMEMBER_STATUS(rs.getString(9));
+//			}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			pool.freeConnection(con, pstmt, rs);
+//		}
+//		return flag;
+//	}
 }

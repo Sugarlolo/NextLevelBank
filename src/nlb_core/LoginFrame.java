@@ -29,6 +29,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
 import java.awt.Color;
+
+import javax.net.ssl.SSLContext;
 import javax.swing.ImageIcon;
 
 public class LoginFrame {
@@ -161,12 +163,10 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame 크�
 				System.out.println("beans 체크-id : " + bean.getMEMBER_ID());
 				System.out.println("beans 체크-pw : " + bean.getMEMBER_PW());
 				if (uid.equals(bean.getMEMBER_ID()) && upw.equals(bean.getMEMBER_PW())) {
-					bean = mMgr.getMeberInfo(bean);
-					tMgr.iscountedPayPw(bean);
-					int cnt = bean.getPAYPW_COUNT();
-					if (cnt == 3) {
-						JOptionPane.showMessageDialog(frmNextLevelBank, "결제 비밀번호 초과로 접속이 불가능합니다. 고객센터로 문의해주세요.");
-						tMgr.changeMemberStatus(bean);
+					mMgr.getMeberInfo(bean);
+					System.out.println("상태: "+bean.getMEMBER_STATUS());
+					if (bean.getMEMBER_STATUS().equals("일시정지")) {
+						JOptionPane.showMessageDialog(frmNextLevelBank, "현재 계정이 일시 정지 상태입니다. 자세한 사항은 고객센터에 문의해주세요.");
 						return;
 					}
 					JOptionPane.showMessageDialog(frmNextLevelBank, "로그인에 성공하였습니다.");
