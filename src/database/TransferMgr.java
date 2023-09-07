@@ -504,7 +504,31 @@ public class TransferMgr {
 		System.out.println("가져온 일일 이체 한도는 " + limits);
 		return limits;
 	}
-
+	
+//	public boolean isAccountPublic(AccountsBean bean, int account) {
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		String sql = null;
+//		boolean flag = false;
+//		try {
+//			con = pool.getConnection();
+//			sql = "SELECT al.DAILY_TRANSFER_LIMITS " + "FROM ACCOUNT_LIMITS al " + "WHERE al.ACCOUNT_NUM = ?";
+//			pstmt = con.prepareStatement(sql);
+//			pstmt.setInt(1, bean.getACCOUNT_NUM());
+//			rs = pstmt.executeQuery();
+//			if (rs.next()) {
+//				
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			pool.freeConnection(con, pstmt, rs);
+//		}
+//		
+//		}
+//	}
+}
 //	
 //	public static void main(String[] args) {
 //		TransferMgr tMgr = new TransferMgr();
@@ -514,4 +538,3 @@ public class TransferMgr {
 //		tMgr.changeMemberStatus(mBean);
 //	}
 
-}
