@@ -9,6 +9,7 @@ import beans.AccountsBean;
 import beans.HistoryBean;
 import database.HistoryMgr;
 import database.MemberMgr;
+import nlb_core.MainFrame.SharedData;
 import beans.MemberBean;
 
 import java.awt.BorderLayout;
@@ -49,6 +50,8 @@ public class HistoryFrame extends JFrame {
 	private JPanel Account_Histroy;
 	private JLabel Account_Balance;
 	private String Member_ID;
+	private TransferFrame tf;
+	
 	private int days = 3;
 	HistoryMgr th;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -122,6 +125,7 @@ public class HistoryFrame extends JFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				SharedData.setFlag(0);
 				MainFrame mf = new MainFrame(mBean);
 				mf.getFrame().setVisible(true);
 			}
@@ -130,10 +134,14 @@ public class HistoryFrame extends JFrame {
 		JButton transferbtn = new JButton("이체하기");
 		transferbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TransferFrame tf = new TransferFrame(do_account, aBean, mBean);
-				
+				if (tf == null || !tf.getFrame().isVisible()) { // TransferFrame 중복 생성안되게
+					tf = new TransferFrame(do_account, aBean, mBean);
+					tf.getFrame().setVisible(true);
+		        }
 			}
 		});
+		
+		
 		transferbtn.setBackground(new Color(221, 199, 0));
 		transferbtn.setBorderPainted(false);
 		transferbtn.setBounds(100, 170, 300, 35);

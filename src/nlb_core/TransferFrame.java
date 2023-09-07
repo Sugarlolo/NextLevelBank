@@ -44,6 +44,8 @@ public class TransferFrame extends JFrame implements ActionListener {
 	JButton admit, plus1, plus5, plus10, plusAll;
 	boolean isNotEmpty=false;
 	boolean isNotCounted=false;
+	private TransferFrame tf;
+	
 	TransferMgr tMgr;
 	TransferBean tBean;
 	AccountsBean aBean;
@@ -92,6 +94,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 				if(SharedData.getFlag()!=1) {
 					MainFrame mf = new MainFrame(mbean);
 					mf.getFrame().setVisible(true);
+					tf = null;
 					frame.dispose();
 				}
 			}
@@ -172,6 +175,10 @@ public class TransferFrame extends JFrame implements ActionListener {
 		((AbstractDocument) textField_money.getDocument()).setDocumentFilter(new NumericFilter());
 		validate();
 		frame.setVisible(true);
+		
+	}
+	public JFrame getFrame() {
+		return frame;
 	}
 
 	
@@ -443,6 +450,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 		private boolean isNumeric(String text) {
 			return text.matches("\\d*"); // 정규 표현식을 사용하여 숫자만 허용
 		}
+		
 	}
 	
 

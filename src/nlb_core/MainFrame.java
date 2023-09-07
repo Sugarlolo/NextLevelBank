@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.lang.reflect.Member;
 import java.nio.channels.SelectableChannel;
 import java.security.PublicKey;
@@ -30,6 +32,7 @@ public class MainFrame {
 	private JList<String> accountList;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
 	private ScheduledExecutorService scheduler;
+	private PublicAccountFrame frame3;
 	
 	int nomalAccountIndex = 0;
 	int pAccountIndex = 0;
@@ -251,17 +254,24 @@ public class MainFrame {
 		});
 
 		// 모임통장 친구추가 버튼
+
 		publicMemberPlusBTN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				selectedAccountNum();
 
 				if (listSeletedIndex+1 > nomalAccountIndex && listSeletedIndex <=   nomalAccountIndex + pAccountIndex) { // 모임통장 선택했을때만
-
-					PublicAccountFrame frame3 = new PublicAccountFrame();
-					frame3.getFrame().setVisible(true);
-//	                     frameMgr.setPublicAccountFrame(frame3);
-//					 frameMgr.CustomSetVisible("publicAccountFrame");
+					if(frame3 == null || !frame3.getFrame().isVisible()) { // frame3 중복 생성안되게
+						frame3 = new PublicAccountFrame();
+						frame3.getFrame().setVisible(true);
+						
+						// 창이 닫힐 때 null로 설정하여 다시 생성할 수 있도록 함
+						frame3.getFrame().addWindowListener(new WindowAdapter() {
+		                    public void windowClosed(WindowEvent e) {
+		                        frame3 = null;
+		                    }
+		                });
+					}				
 				}else {
 					JOptionPane.showMessageDialog(frame,"모임통장이 아닙니다.","경고",JOptionPane.WARNING_MESSAGE);
 				}
