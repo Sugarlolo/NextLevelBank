@@ -437,7 +437,9 @@ public class TransferFrame extends JFrame implements ActionListener {
 		
 		for (int i = mBean.getPAYPW_COUNT(); i<4; i++) {
 			if (i==3) {
-				JOptionPane.showMessageDialog(frame, "결제 비밀번호 입력 횟수를 초과하여 이체가 불가능합니다. 자세한 사항은 고객센터를 참조하세요.");
+				JOptionPane.showMessageDialog(frame, "결제 비밀번호 입력 횟수를 초과하여 이체가 불가능합니다. 프로그램을 종료합니다.");
+				tMgr.changeMemberStatus(mBean);
+				System.out.println("트랜스퍼 프레임 회원 상태: "+mBean.getMEMBER_STATUS()); 
 				frame.dispose();
 				return false;
 			}
