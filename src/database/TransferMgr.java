@@ -88,6 +88,30 @@ public class TransferMgr {
 			return false;
 	}
 	
+	public int getAccountBalance(int account) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int getBalance=0;
+		try {
+			con = pool.getConnection();
+			sql = "SELECT ACCOUNT_BALANCE FROM ACCOUNTS WHERE ACCOUNT_NUM = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, account);
+			System.out.println("정보를 받아온 계좌: "+account);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				getBalance =rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return getBalance;
+	}
+	
 //	public boolean Transfer_Transaction(AccountsBean bean, TransferBean tBean, int d_account, int t_account, int transferCash) {
 //		Connection con = null;
 //		PreparedStatement pstmt = null;

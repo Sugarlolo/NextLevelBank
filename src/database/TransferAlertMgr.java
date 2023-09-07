@@ -56,7 +56,7 @@ public class TransferAlertMgr {
 		
 		try {
 			con = pool.getConnection();
-			sql = "SELECT TIMESTAMPDIFF(second, t.ALERT_DATE,DATE_ADD(NOW(), INTERVAL 9 HOUR)) AS time_difference_seconds "
+			sql = "SELECT TIMESTAMPDIFF(second, t.ALERT_DATE,NOW()) AS time_difference_seconds "
 					+ "FROM TRANSFER_ALERT t "
 					+ "WHERE t.ALERT_MEMBER_ID = ? "
 					+ "ORDER BY  t.ALERT_NO DESC LIMIT 1";

@@ -202,7 +202,7 @@ public class PublicAccountFrame {
 				}
 			}
 		});
-	
+		frmAddfriend.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	public void showAccountList() {   //이름, 전화번호로 계좌번호 불러오기
         

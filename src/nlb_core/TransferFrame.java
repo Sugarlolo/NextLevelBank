@@ -50,6 +50,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 	MemberBean mBean;
 	String member_id;
 	int my_account;
+	int currentAmount;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	public TransferFrame(int selectedAccount,AccountsBean abean, MemberBean mbean) {
@@ -139,29 +140,33 @@ public class TransferFrame extends JFrame implements ActionListener {
 		frame.getContentPane().add(admit);
 		admit.addActionListener(this);
 
-		JButton btnNewButton_1 = new JButton("+1만");
-		btnNewButton_1.setBackground(new Color(255, 255, 255));
-		btnNewButton_1.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
-		btnNewButton_1.setBounds(30, 242, 97, 23);
-		frame.getContentPane().add(btnNewButton_1);
-
-		JButton btnNewButton_2 = new JButton("+5만");
-		btnNewButton_2.setBackground(new Color(255, 255, 255));
-		btnNewButton_2.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
-		btnNewButton_2.setBounds(139, 242, 97, 23);
-		frame.getContentPane().add(btnNewButton_2);
-
-		JButton btnNewButton_3 = new JButton("+10만");
-		btnNewButton_3.setBackground(new Color(255, 255, 255));
-		btnNewButton_3.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
-		btnNewButton_3.setBounds(248, 242, 97, 23);
-		frame.getContentPane().add(btnNewButton_3);
-
-		JButton btnNewButton_4 = new JButton("전액");
-		btnNewButton_4.setBackground(new Color(255, 255, 255));
-		btnNewButton_4.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
-		btnNewButton_4.setBounds(358, 242, 97, 23);
-		frame.getContentPane().add(btnNewButton_4);
+		plus1 = new JButton("+1만");
+		plus1.setBackground(new Color(255, 255, 255));
+		plus1.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
+		plus1.setBounds(30, 242, 97, 23);
+		frame.getContentPane().add(plus1);
+		plus1.addActionListener(this);
+		
+		plus5 = new JButton("+5만");
+		plus5.setBackground(new Color(255, 255, 255));
+		plus5.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
+		plus5.setBounds(139, 242, 97, 23);
+		frame.getContentPane().add(plus5);
+		plus5.addActionListener(this);
+		
+		plus10 = new JButton("+10만");
+		plus10.setBackground(new Color(255, 255, 255));
+		plus10.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
+		plus10.setBounds(248, 242, 97, 23);
+		frame.getContentPane().add(plus10);
+		plus10.addActionListener(this);
+		
+		plusAll = new JButton("전액");
+		plusAll.setBackground(new Color(255, 255, 255));
+		plusAll.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
+		plusAll.setBounds(358, 242, 97, 23);
+		frame.getContentPane().add(plusAll);
+		plusAll.addActionListener(this);
 
 		textField_money = new JTextField();
 		textField_money.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -178,6 +183,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
+		TransferMgr tMgr = new TransferMgr();
 //		System.out.println(e.getActionCommand());
 		for (int i = 0; i < buttons.length; i++) {
 			if (buttons[i] == obj) {
@@ -195,6 +201,31 @@ public class TransferFrame extends JFrame implements ActionListener {
 				}
 			}
 		}
+		if (obj == plus1 || obj == plus5 || obj == plus10 || obj == plusAll) {
+			System.out.println("눌렀어");
+			currentAmount = 0;
+			if (!textField_money.getText().isBlank()) {
+				currentAmount = Integer.parseInt(textField_money.getText());
+			}
+			
+			if (obj == plus1) {
+				int after_amount = currentAmount + 10000;
+				textField_money.setText(Integer.toString(after_amount));
+			}
+			if (obj == plus5) {
+				int after_amount = currentAmount + 50000;
+				textField_money.setText(Integer.toString(after_amount));
+			}
+			if (obj == plus10) {
+				int after_amount = currentAmount + 100000;
+				textField_money.setText(Integer.toString(after_amount));
+			}
+			if (obj == plusAll) {
+				int after_amount = tMgr.getAccountBalance(my_account);
+				textField_money.setText(Integer.toString(after_amount));
+			}
+		}
+		
 		if (obj == admit) {
 			
 			aBean.setACCOUNT_NUM(my_account);
@@ -401,7 +432,12 @@ public class TransferFrame extends JFrame implements ActionListener {
 		tBean.setTransfer_Memo(memo.isBlank() ? mBean.getMEMBER_Name() : memo.trim());
 		tMgr.iscountedPayPw(mBean);
 		
-		for (int i = mBean.getPAYPW_COUNT(); i<3; i++) {
+		for (int i = mBean.getPAYPW_COUNT(); i<4; i++) {
+			if (i==3) {
+				JOptionPane.showMessageDialog(frame, "결제 비밀번호 입력 횟수를 초과하여 이체가 불가능합니다. 자세한 사항은 고객센터를 참조하세요.");
+				frame.dispose();
+				return false;
+			}
 			String payPw = JOptionPane.showInputDialog(
 					frame, "결제 비밀번호를 입력해주세요. " + mBean.getPAYPW_COUNT() + "회 입력하셨습니다. 3회 초과 시 이체가 제한됩니다.");
 			if (payPw == null) {
@@ -415,8 +451,6 @@ public class TransferFrame extends JFrame implements ActionListener {
 			} else {
 				return true;
 			}
-				
-				
 		}
 		return false;
 	}
