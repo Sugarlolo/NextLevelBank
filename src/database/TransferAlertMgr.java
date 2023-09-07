@@ -26,7 +26,7 @@ public class TransferAlertMgr {
 			sql = "SELECT * "
 					+ "FROM TRANSFER_ALERT t "
 					+ "WHERE t.ALERT_MEMBER_ID = ? "
-					+ "ORDER BY ALERT_NO LIMIT 1";
+					+ "ORDER BY ALERT_NO DESC LIMIT 1";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, tAbean.getALERT_MEMBER_ID());
 			rs = pstmt.executeQuery();

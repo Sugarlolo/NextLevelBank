@@ -307,15 +307,18 @@ public class TransferFrame extends JFrame implements ActionListener {
 	private void startTransferProcess() {
 		tMgr = new TransferMgr();
 		tMgr.iscountedPayPw(mBean);
-		if (textField_account.getText().equals("계좌번호")) {
-			JOptionPane.showMessageDialog(frame, "올바른 계좌번호가 아닙니다.");
-			textField_account.setText("");
-			return;
-		}
+		int cnt = mBean.getPAYPW_COUNT();
+		System.out.println("카운트:"+cnt);
 		
 		if(mBean.getPAYPW_COUNT()==3) {
 			JOptionPane.showMessageDialog(frame, "결제 비밀번호 입력 횟수를 초과하여 이체가 불가능합니다. 자세한 사항은 고객센터를 참조하세요.");
 			frame.dispose();
+			return;
+		}
+		
+		if (textField_account.getText().equals("계좌번호")) {
+			JOptionPane.showMessageDialog(frame, "올바른 계좌번호가 아닙니다.");
+			textField_account.setText("");
 			return;
 		}
 		
@@ -324,11 +327,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 			return;
 		}
 		int accountNum = Integer.parseInt(textField_account.getText());
-		
 		System.out.println("입력한 계좌번호: "+accountNum);
-		
-		int cnt = mBean.getPAYPW_COUNT();
-		System.out.println("카운트:"+cnt);
 		
 		int amount = getTransferAmount();
 		if (amount<=0) {
@@ -336,9 +335,8 @@ public class TransferFrame extends JFrame implements ActionListener {
 			return;
 		}
 		
-		if (!(tMgr.checkTransferLimits(aBean, amount))) {
-			JOptionPane.showMessageDialog(
-					frame, "이체 한도를 초과했습니다. 이체가 불가능합니다.", "경고", JOptionPane.WARNING_MESSAGE);
+		if (!tMgr.Transfer_CheckAccount(accountNum)) {
+			JOptionPane.showMessageDialog(frame, "존재하지 않는 계좌입니다. 계좌 번호를 확인하세요.");
 			return;
 		}
 		
@@ -346,13 +344,15 @@ public class TransferFrame extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(frame, "해당 계좌는 본인 계좌입니다. 다른 계좌번호를 입력해주세요.");
 			return;
 		}
-		if (!tMgr.Transfer_CheckAccount(accountNum)) {
-			JOptionPane.showMessageDialog(frame, "존재하지 않는 계좌입니다. 계좌 번호를 확인하세요.");
-			return;
-		}
 		
 		if (!tMgr.Transfer_CheckBalance(my_account, amount)) {
 			JOptionPane.showMessageDialog(frame, "이체하려는 금액이 해당 계좌 잔액을 초과합니다. 다시 시도해 주세요.");
+			return;
+		}
+		
+		if (!(tMgr.checkTransferLimits(aBean, amount))) {
+			JOptionPane.showMessageDialog(
+					frame, "이체 한도를 초과했습니다. 이체가 불가능합니다.", "경고", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
@@ -365,7 +365,7 @@ public class TransferFrame extends JFrame implements ActionListener {
 				MainFrame mf = new MainFrame(mBean);
 				mf.getFrame().setVisible(true);
 			} else {
-				JOptionPane.showMessageDialog(frame, "이체가 실패하였습니다.");
+				JOptionPane.showMessageDialog(frame, "이체가 실패하였습니다. 다시 시도해주세요.");
 			}
 		}
 	}
@@ -420,27 +420,30 @@ public class TransferFrame extends JFrame implements ActionListener {
 		}
 		return false;
 	}
-	   static class NumericFilter extends DocumentFilter { // textfield 숫자만 입력가능하게 하는 필터
-	        @Override
-	        public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
-	                throws BadLocationException {
-	            // 입력 문자열이 숫자인지 확인
-	            if (isNumeric(string)) {
-	                super.insertString(fb, offset, string, attr);
-	            }
-	        }
-	        @Override
-	        public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
-	                throws BadLocationException {
-	            // 입력 문자열이 숫자인지 확인
-	            if (isNumeric(text)) {
-	                super.replace(fb, offset, length, text, attrs);
-	            }
-	        }
-	        private boolean isNumeric(String text) {
-	            return text.matches("\\d*"); // 정규 표현식을 사용하여 숫자만 허용
-	        }
-	    }
+
+	private static class NumericFilter extends DocumentFilter { // textfield 숫자만 입력가능하게 하는 필터
+		@Override
+		public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
+				throws BadLocationException {
+			// 입력 문자열이 숫자인지 확인
+			if (isNumeric(string)) {
+				super.insertString(fb, offset, string, attr);
+			}
+		}
+
+		@Override
+		public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+				throws BadLocationException {
+			// 입력 문자열이 숫자인지 확인
+			if (isNumeric(text)) {
+				super.replace(fb, offset, length, text, attrs);
+			}
+		}
+
+		private boolean isNumeric(String text) {
+			return text.matches("\\d*"); // 정규 표현식을 사용하여 숫자만 허용
+		}
+	}
 	
 
 //	public static void main(String[] args) {

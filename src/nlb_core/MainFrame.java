@@ -234,6 +234,7 @@ public class MainFrame {
 				System.out.println("mainframe ÀÌÃ¼¹öÆ° °èÁÂ: " + selectedAccountNum());
 				System.out.println("mainframe ÀÌÃ¼ °èÁÂ ÀÜ°í: " + abean.getACCOUNT_BALANCE());
 				TransferFrame tf = new TransferFrame(seletedAccountNum, abean, mbean);
+				frame.dispose();
 			}
 		});
 

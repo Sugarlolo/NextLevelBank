@@ -248,12 +248,6 @@ public class TransferMgr {
 				pstmt.setInt(7, t_balance);
 				pstmt.executeUpdate();
 				pstmt.close();
-				
-				
-				// 5. 최종적으로 완료된 이체에 대한 알람. 이체를 받는 사용자의 이름으로 기록됨
-				
-				
-				
 				con.commit();
 				flag= true;
 			} catch (Exception e) {
