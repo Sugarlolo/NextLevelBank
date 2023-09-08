@@ -116,10 +116,10 @@ public class AccountsPublicMgr {
 		
 		
 		public static void main(String[] args) {
-//			AccountsPublicMgr apMgr = new AccountsPublicMgr();
-//			AccountsPublicBean apBean = new AccountsPublicBean();
-//			Vector<AccountsPublicBean> vlist = new Vector<AccountsPublicBean>();
-//			
+			AccountsPublicMgr apMgr = new AccountsPublicMgr();
+			AccountsPublicBean apBean = new AccountsPublicBean();
+			Vector<AccountsPublicBean> vlist = new Vector<AccountsPublicBean>();
+			MemberBean mbean = new MemberBean();
 //			
 //			apBean.setACCOUNT_PUBLIC_MEMBER_NUM(430548459);
 //			vlist = apMgr.getPublicAccountNum(apBean);
@@ -127,7 +127,13 @@ public class AccountsPublicMgr {
 //			for(int i = 0 ; i<vlist.size();i++) {
 //				System.out.println(i+":"+vlist.get(i).getACCOUNT_NUM());
 //			}
+			mbean.setMEMBER_ID("test4");
 			
-			
+			vlist = apMgr.getPublicAccountNum(mbean);
+			for(int i =0;i<vlist.size();i++) {
+				System.out.println(vlist.get(i).getACCOUNT_NUM());
+				System.out.println(vlist.get(i).getACCOUNT_BALANCE());
+				System.out.println();
+			}
 		}
 }

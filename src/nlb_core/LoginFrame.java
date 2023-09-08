@@ -38,7 +38,7 @@ public class LoginFrame {
 	private JFrame frmNextLevelBank;
 	private JTextField idField;
 	private JTextField pwField;
-	private static JOptionPane messageDialog; // JOptionPane ÀÎ½ºÅÏÆ® ÀúÀåº¯¼ö
+	private static JOptionPane messageDialog; // JOptionPane ì¸ìŠ¤í„´íŠ¸ ì €ì¥ë³€ìˆ˜
 	
 	MemberBean bean;
 	MemberMgr mMgr;
@@ -71,17 +71,17 @@ public class LoginFrame {
 		frmNextLevelBank.setVisible(true);
 	}
 
-	public class JTextFieldLimit extends PlainDocument // JTextField ±ÛÀÚ¼ö Á¦ÇÑ Å¬·¡½º
+	public class JTextFieldLimit extends PlainDocument // JTextField ê¸€ììˆ˜ ì œí•œ í´ë˜ìŠ¤
 	{
-		private int limit; // Á¦ÇÑÇÒ ±æÀÌ
+		private int limit; // ì œí•œí•  ê¸¸ì´
 
-		public JTextFieldLimit(int limit) // »ı¼ºÀÚ : Á¦ÇÑÇÒ ±æÀÌ¸¦ ÀÎÀÚ·Î ¹ŞÀ½
+		public JTextFieldLimit(int limit) // ìƒì„±ì : ì œí•œí•  ê¸¸ì´ë¥¼ ì¸ìë¡œ ë°›ìŒ
 		{
 			super();
 			this.limit = limit;
 		}
 
-		// ÅØ½ºÆ® ÇÊµå¸¦ Ã¤¿ì´Â ¸Ş¼Òµå : ¿À¹ö¶óÀÌµå
+		// í…ìŠ¤íŠ¸ í•„ë“œë¥¼ ì±„ìš°ëŠ” ë©”ì†Œë“œ : ì˜¤ë²„ë¼ì´ë“œ
 		public void insertString(int offset, String str, javax.swing.text.AttributeSet attr)
 				throws BadLocationException {
 			if (str == null)
@@ -92,7 +92,7 @@ public class LoginFrame {
 	}
 
 	class IdKeyListener extends KeyAdapter {
-		// JTextField¿¡ ¿µ¹®¼Ò¹®ÀÚ, ¼ıÀÚ¸¸ ÀÔ·Â°¡´ÉÇÒ¼ö ÀÖ°Ô ÇÏ·Á°í ¸¸µç Å°ÀÌº¥Æ®
+		// JTextFieldì— ì˜ë¬¸ì†Œë¬¸ì, ìˆ«ìë§Œ ì…ë ¥ê°€ëŠ¥í• ìˆ˜ ìˆê²Œ í•˜ë ¤ê³  ë§Œë“  í‚¤ì´ë²¤íŠ¸
 
 		@Override
 
@@ -113,13 +113,13 @@ public class LoginFrame {
 	private void initialize() {
 		
 		IdKeyListener idkey = new IdKeyListener();
-		frmNextLevelBank = new JFrame(); // ÇÁ·¹ÀÓ °´Ã¼ »ı¼º
+		frmNextLevelBank = new JFrame(); // í”„ë ˆì„ ê°ì²´ ìƒì„±
 		frmNextLevelBank.getContentPane().setBackground(new Color(255, 228, 0));
 		frmNextLevelBank.setSize(500, 800);
-		Dimension frameSize = frmNextLevelBank.getSize(); // ¸ğ´ÏÅÍ Å©±â
-Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame Å©±â
+		Dimension frameSize = frmNextLevelBank.getSize(); // ëª¨ë‹ˆí„° í¬ê¸°
+Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame í¬ê¸°
 		frmNextLevelBank.setLocation((screenSize.width - frameSize.width) / 2,
-				(screenSize.height - frameSize.height) / 2); // frame À§Ä¡ ¼³Á¤
+				(screenSize.height - frameSize.height) / 2); // frame ìœ„ì¹˜ ì„¤ì •
 		frmNextLevelBank.setTitle("Next Level Bank Login");
 		frmNextLevelBank.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmNextLevelBank.getContentPane().setLayout(null);
@@ -138,9 +138,9 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame Å©±
 		frmNextLevelBank.getContentPane().add(pwField);
 		pwField.setColumns(10);
 		
-		JButton joinBtn = new JButton("·Î±×ÀÎ");
+		JButton joinBtn = new JButton("ë¡œê·¸ì¸");
 		joinBtn.setForeground(new Color(0, 0, 0));
-		joinBtn.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 18));
+		joinBtn.setFont(new Font("ë‚˜ëˆ”ë°”ë¥¸ê³ ë”•", Font.BOLD, 18));
 		joinBtn.setBackground(new Color(255, 228, 0));
 		
 		joinBtn.addActionListener(new ActionListener() {
@@ -151,31 +151,31 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame Å©±
 				String upw = pwField.getText().trim();				
 				
 				if (uid.isBlank() || upw.isBlank()) {
-					messageDialog = new JOptionPane("¾ÆÀÌµğ¿Í ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.", JOptionPane.ERROR_MESSAGE);
-					JDialog dialog = messageDialog.createDialog("·Î±×ÀÎ ½ÇÆĞ");
+					messageDialog = new JOptionPane("ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.", JOptionPane.ERROR_MESSAGE);
+					JDialog dialog = messageDialog.createDialog("ë¡œê·¸ì¸ ì‹¤íŒ¨");
                     dialog.setVisible(true);
-//					JOptionPane.showMessageDialog(null, "¾ÆÀÌµğ¿Í ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.", "·Î±×ÀÎ ½ÇÆĞ", JOptionPane.ERROR_MESSAGE);
+//					JOptionPane.showMessageDialog(null, "ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.", "ë¡œê·¸ì¸ ì‹¤íŒ¨", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				// ... (¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ ÀÔ·ÂµÇÁö ¾ÊÀº °æ¿ìÀÇ Ã³¸®)
+				// ... (ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ì…ë ¥ë˜ì§€ ì•Šì€ ê²½ìš°ì˜ ì²˜ë¦¬)
 				mMgr = new MemberMgr();
 				bean = mMgr.logincheck(uid, upw);
-				System.out.println("beans Ã¼Å©-id : " + bean.getMEMBER_ID());
-				System.out.println("beans Ã¼Å©-pw : " + bean.getMEMBER_PW());
+				System.out.println("beans ì²´í¬-id : " + bean.getMEMBER_ID());
+				System.out.println("beans ì²´í¬-pw : " + bean.getMEMBER_PW());
 				if (uid.equals(bean.getMEMBER_ID()) && upw.equals(bean.getMEMBER_PW())) {
 					mMgr.getMeberInfo(bean);
-					System.out.println("»óÅÂ: "+bean.getMEMBER_STATUS());
-					if (bean.getMEMBER_STATUS().equals("ÀÏ½ÃÁ¤Áö")) {
-						JOptionPane.showMessageDialog(frmNextLevelBank, "ÇöÀç °èÁ¤ÀÌ ÀÏ½Ã Á¤Áö »óÅÂÀÔ´Ï´Ù. ÀÚ¼¼ÇÑ »çÇ×Àº °í°´¼¾ÅÍ¿¡ ¹®ÀÇÇØÁÖ¼¼¿ä.");
+					System.out.println("ìƒíƒœ: "+bean.getMEMBER_STATUS());
+					if (bean.getMEMBER_STATUS().equals("ì¼ì‹œì •ì§€")) {
+						JOptionPane.showMessageDialog(frmNextLevelBank, "í˜„ì¬ ê³„ì •ì´ ì¼ì‹œ ì •ì§€ ìƒíƒœì…ë‹ˆë‹¤. ìì„¸í•œ ì‚¬í•­ì€ ê³ ê°ì„¼í„°ì— ë¬¸ì˜í•´ì£¼ì„¸ìš”.");
 						return;
 					}
-					JOptionPane.showMessageDialog(frmNextLevelBank, "·Î±×ÀÎ¿¡ ¼º°øÇÏ¿´½À´Ï´Ù.");
+					JOptionPane.showMessageDialog(frmNextLevelBank, "ë¡œê·¸ì¸ì— ì„±ê³µí•˜ì˜€ìŠµë‹ˆë‹¤.");
 					mMgr.setLoginTimestamp(bean);
 					MainFrame mf = new MainFrame(bean);
 					mf.getFrame().setVisible(true);
 					frmNextLevelBank.dispose();
 				} else {
-					JOptionPane.showMessageDialog(frmNextLevelBank, "¾ÆÀÌµğ¿Í ºñ¹Ğ¹øÈ£¸¦ È®ÀÎÇØÁÖ¼¼¿ä.");
+					JOptionPane.showMessageDialog(frmNextLevelBank, "ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”.");
 				}
 			}
 		});
@@ -186,10 +186,10 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame Å©±
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (messageDialog != null && messageDialog.isVisible()) {
-                        // ¸Ş¼¼ÁöÃ¢ÀÌ ¿­·ÁÀÖÀ»°æ¿ì ´İÀ½
+                        // ë©”ì„¸ì§€ì°½ì´ ì—´ë ¤ìˆì„ê²½ìš° ë‹«ìŒ
                     	messageDialog.setVisible(false);
                     } else {
-                        // ¸Ş¼¼ÁöÃ¢ÀÌ ¾È¿­·ÁÀÖÀ»¶§ °¡ÀÔÇÏ±â ¾×¼Ç ½ÇÇà
+                        // ë©”ì„¸ì§€ì°½ì´ ì•ˆì—´ë ¤ìˆì„ë•Œ ê°€ì…í•˜ê¸° ì•¡ì…˜ ì‹¤í–‰
                     		joinBtn.doClick();  	
                     }
                     messageDialog = null;
@@ -201,14 +201,14 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame Å©±
 		pwField.addKeyListener(enterKeyListener);
 
 		JLabel LOGO_LABEL = new JLabel("Next Level Bank");
-		LOGO_LABEL.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 15));
+		LOGO_LABEL.setFont(new Font("ë‚˜ëˆ”ë°”ë¥¸ê³ ë”•", Font.BOLD, 15));
 
 		LOGO_LABEL.setBounds(190, 280, 130, 30);
 		frmNextLevelBank.getContentPane().add(LOGO_LABEL);
 
-		JButton registerBtn = new JButton("È¸¿ø°¡ÀÔ");
+		JButton registerBtn = new JButton("íšŒì›ê°€ì…");
 		registerBtn.setForeground(new Color(122, 122, 122));
-		registerBtn.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 11));
+		registerBtn.setFont(new Font("ë‚˜ëˆ”ë°”ë¥¸ê³ ë”•", Font.PLAIN, 11));
 		registerBtn.setBackground(new Color(255, 228, 0));
 		registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -218,9 +218,9 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame Å©±
 		registerBtn.setBounds(120, 480, 80, 20);
 		frmNextLevelBank.getContentPane().add(registerBtn);
 
-		JButton findIDBtn = new JButton("IDÃ£±â");
+		JButton findIDBtn = new JButton("IDì°¾ê¸°");
 		findIDBtn.setForeground(new Color(122, 122, 122));
-		findIDBtn.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 11));
+		findIDBtn.setFont(new Font("ë‚˜ëˆ”ë°”ë¥¸ê³ ë”•", Font.PLAIN, 11));
 		findIDBtn.setBackground(new Color(255, 228, 0));
 		findIDBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -230,19 +230,19 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame Å©±
 		findIDBtn.setBounds(210, 480, 80, 20);
 		frmNextLevelBank.getContentPane().add(findIDBtn);
 
-		// ¾ÆÀÌÄÜ »ı¼º
+		// ì•„ì´ì½˜ ìƒì„±
 		ImageIcon nlb_logo_icon = new ImageIcon(LoginFrame.class.getResource("/nlb_core/NLB_LOGO.png"));
 		Image nlb_logo_img = nlb_logo_icon.getImage();
 		Image change_nlb_logo_img = nlb_logo_img.getScaledInstance(100, 150, Image.SCALE_SMOOTH);
 		ImageIcon change_nlb_logo_icon = new ImageIcon(change_nlb_logo_img);
-		JLabel NLB_LOGO = new JLabel(change_nlb_logo_icon); // ¶óº§ »ı¼º
+		JLabel NLB_LOGO = new JLabel(change_nlb_logo_icon); // ë¼ë²¨ ìƒì„±
 
 		NLB_LOGO.setBounds(175, 120, 150, 150);
 		frmNextLevelBank.getContentPane().add(NLB_LOGO);
 
-		JButton findPwBtn = new JButton("PWÃ£±â");
+		JButton findPwBtn = new JButton("PWì°¾ê¸°");
 		findPwBtn.setForeground(new Color(122, 122, 122));
-		findPwBtn.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 11));
+		findPwBtn.setFont(new Font("ë‚˜ëˆ”ë°”ë¥¸ê³ ë”•", Font.PLAIN, 11));
 		findPwBtn.setBackground(new Color(255, 228, 0));
 		findPwBtn.setBounds(300, 480, 80, 20);
 		frmNextLevelBank.getContentPane().add(findPwBtn);

@@ -45,11 +45,14 @@ public class MainFrame {
 	int alertIndex;
 	
 	public final FrameManager frameMgr;
+	
 	AccountsBean abean;
+	AccountsBean abean2;
 	MemberBean mbean;
 	Vector<AccountsBean> accountList1;
 	Vector<AccountsBean> accountList2;
 	Vector<AccountsPublicBean> accountList3;
+	AccountsMgr aMgr = new AccountsMgr();
 	AccountsPublicBean apBean = new AccountsPublicBean();
 	AccountsPublicMgr apMgr = new AccountsPublicMgr();
 	TransferAlertMgr taMgr = new TransferAlertMgr();
@@ -239,10 +242,18 @@ public class MainFrame {
 		transferBTN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("mainframe 이체버튼 계좌: " + selectedAccountNum());
-				System.out.println("mainframe 이체 계좌 잔고: " + abean.getACCOUNT_BALANCE());
-				TransferFrame tf = new TransferFrame(seletedAccountNum, abean, mbean);
-				frame.dispose();
+				abean2 = new AccountsBean();
+				selectedAccountNum();
+				abean2.setACCOUNT_NUM(seletedAccountNum);
+				abean2 = aMgr.getAccount_balance(abean2);
+				if(abean2.getMEMBER_ID() == memberId) {
+					System.out.println("mainframe 이체버튼 계좌: " + selectedAccountNum());
+					System.out.println("mainframe 이체 계좌 잔고: " + abean.getACCOUNT_BALANCE());
+					TransferFrame tf = new TransferFrame(seletedAccountNum, abean, mbean);
+					frame.dispose();
+				}else {
+					JOptionPane.showMessageDialog(frame, "모임통장은 개설자만 이체가능합니다.","경고",JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
@@ -316,7 +327,6 @@ public class MainFrame {
 	}
 
 	public int selectedAccountNum() { // 선택된 리스트 계좌번호
-
 		listSeletedIndex = accountList.getSelectedIndex();
 		listSeletedIndex /= 3;
 
@@ -325,12 +335,13 @@ public class MainFrame {
 		Vector<AccountsPublicBean> accountsPublicBeans = accountList3;
 		
 		if(listSeletedIndex >= nomalAccountIndex+pAccountIndex) {
-			seletedAccountNum = accountsPublicBeans.get(listSeletedIndex).getACCOUNT_NUM();					
+			seletedAccountNum = accountsPublicBeans.get(listSeletedIndex-nomalAccountIndex-pAccountIndex).getACCOUNT_NUM();	
 		}else {
 			seletedAccountNum = tmpAccountsBeans.get(listSeletedIndex).getACCOUNT_NUM(); // transfer frame 으로 넘길 계좌번호	
-		}System.out.println("선택한 계좌번호: " + seletedAccountNum);
+		}
+		
+		System.out.println("선택한 계좌번호: " + seletedAccountNum);
 		return seletedAccountNum;
-
 	}
 
 
@@ -363,22 +374,20 @@ public class MainFrame {
 			model.addElement("모임 통장"+pAccountIndex +" : " + accountsBean2.getACCOUNT_NUM());
 			model.addElement("잔액 : " + accountsBean2.getACCOUNT_BALANCE());
 			model.addElement(" ");
-			
-		}
+			}
 		
 		// 참여중인 공동계좌
 		mbean.setMEMBER_ID(memberId);
 		accountList3 = apMgr.getPublicAccountNum(mbean);
 		for(int j =0;j<accountList3.size();j++) {
 			attendPAccountIndex++;
-			model.addElement(accountList3.get(j).getMEMBER_ID()+"님의 "+"모임 통장"+attendPAccountIndex+" : " + accountList3.get(j).getACCOUNT_NUM());
+			model.addElement(accountList3.get(j).getMEMBER_ID()+"님의 "+"모임 통장"+attendPAccountIndex+" : "+ accountList3.get(j).getACCOUNT_NUM());
 			model.addElement("잔액 : " + accountList3.get(j).getACCOUNT_BALANCE());
 			model.addElement(" ");
-			
-		}
-		
+			}
 		sumAccountIndex = nomalAccountIndex + pAccountIndex + attendPAccountIndex;
-//        System.out.println(sumAccountIndex);
+
+		//        System.out.println(sumAccountIndex);
 //        System.out.println(accountList1.get(0).getACCOUNT_NUM());
 
 	}

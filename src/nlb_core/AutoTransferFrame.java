@@ -7,11 +7,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -24,7 +27,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 import beans.AccountsBean;
+import beans.AutoTransferBean;
 import beans.MemberBean;
+import database.AutoTransferMgr;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -36,9 +41,10 @@ public class AutoTransferFrame {
 	private JTextField withdrawAccountTF;
 	private int selectedAccountNum;
 	private AccountsBean aBean;
+	private AutoTransferBean aTBean = new AutoTransferBean();
 	private MemberBean mBean;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
-	
+	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
+	private AutoTransferMgr aTMgr = new AutoTransferMgr();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -149,6 +155,44 @@ public class AutoTransferFrame {
 		RegistBtn.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
 		RegistBtn.setBounds(30, 250, 430, 53);
 		panel.add(RegistBtn);
+		
+		
+		RegistBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int cmbxDateNum = 0;
+				
+				System.out.println(withdrawAccountTF.getText());
+				System.out.println(transBalanceTF.getText());
+				System.out.println(transDateCmbx.getSelectedItem());
+				
+				
+				String cmbxSelectedValue = (String) transDateCmbx.getSelectedItem(); // 콤보박스에서 선택된 값을 가져옴
+				// 숫자 부분만 추출
+				String[] parts = cmbxSelectedValue.split("[^0-9]+");
+				for (String part : parts) {
+				    if (!part.isEmpty()) {
+				    	cmbxDateNum = Integer.parseInt(part);
+				        }
+				}
+				
+				boolean flag = false;
+				aTBean.setTakeccountNum(Integer.parseInt(withdrawAccountTF.getText()));
+				aTBean.setDoccountNum(Integer.parseInt(transBalanceTF.getText()));
+				aTBean.setTransBalance(centerY);
+				aTBean.setTransferDate(cmbxDateNum);
+				flag = aTMgr.inserAutoTransfer(aTBean);
+				if(flag) {
+					JOptionPane.showMessageDialog(frmAutotransferframe,"자동이체 등록 성공하였습니다.","안내",JOptionPane.INFORMATION_MESSAGE);
+				}
+				else{
+					JOptionPane.showMessageDialog(frmAutotransferframe,"자동이체 등록 실패하였습니다.","경고",JOptionPane.WARNING_MESSAGE);
+				}
+				
+
+			}
+		});
+		
 		frmAutotransferframe.setResizable(false);
 		//frmAutotransferframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

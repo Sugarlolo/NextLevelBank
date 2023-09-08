@@ -1,25 +1,26 @@
 package beans;
 
 public class AutoTransferBean {
-	private int transferAccountNum;
-	private int withdrawAccountNum;
+	private int TakeccountNum;
+	private int DoccountNum;
 	private int transBalance;
 	private int transferDate;
 	
-	public int getTransferAccountNum() {
-		return transferAccountNum;
-	}
-	public void setTransferAccountNum(int transferAccountNum) {
-		this.transferAccountNum = transferAccountNum;
-	}
-	public int getWithdrawAccountNum() {
-		return withdrawAccountNum;
-	}
-	public void setWithdrawAccountNum(int withdrawAccountNum) {
-		this.withdrawAccountNum = withdrawAccountNum;
-	}
+	
 	public int getTransBalance() {
 		return transBalance;
+	}
+	public int getTakeccountNum() {
+		return TakeccountNum;
+	}
+	public void setTakeccountNum(int takeccountNum) {
+		TakeccountNum = takeccountNum;
+	}
+	public int getDoccountNum() {
+		return DoccountNum;
+	}
+	public void setDoccountNum(int doccountNum) {
+		DoccountNum = doccountNum;
 	}
 	public void setTransBalance(int transBalance) {
 		this.transBalance = transBalance;

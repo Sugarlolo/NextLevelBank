@@ -17,17 +17,21 @@ public class AutoTransferMgr {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
-	public boolean inserAutoTransfer(AccountsPublicBean aPBean) {
+	public boolean inserAutoTransfer(AutoTransferBean aTBean) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
 		boolean flag = false;
 		try {
 			con = pool.getConnection();
-			sql = "";
+			sql = "INSERT INTO AUTO_TRANSFER (?,?,?,?) ";
 			pstmt = con.prepareStatement(sql);
-
+			pstmt.setInt(1, aTBean.getTakeccountNum());
+			pstmt.setInt(2, aTBean.getDoccountNum());
+			pstmt.setInt(3, aTBean.getTransBalance());
+			pstmt.setInt(4, aTBean.getTransferDate());
 			int cnt = pstmt.executeUpdate();
+			if(cnt==1) flag = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
