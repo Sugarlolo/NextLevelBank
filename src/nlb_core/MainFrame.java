@@ -246,7 +246,9 @@ public class MainFrame {
 				selectedAccountNum();
 				abean2.setACCOUNT_NUM(seletedAccountNum);
 				abean2 = aMgr.getAccount_balance(abean2);
-				if(abean2.getMEMBER_ID() == memberId) {
+				System.out.println(abean2.getMEMBER_ID());
+				System.out.println(memberId);
+				if(abean2.getMEMBER_ID().equals(memberId)) {
 					System.out.println("mainframe ¿Ã√ºπˆ∆∞ ∞Ë¡¬: " + selectedAccountNum());
 					System.out.println("mainframe ¿Ã√º ∞Ë¡¬ ¿‹∞Ì: " + abean.getACCOUNT_BALANCE());
 					TransferFrame tf = new TransferFrame(seletedAccountNum, abean, mbean);
