@@ -213,6 +213,7 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // frame 크
 		registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new JOINFrame();
+				frmNextLevelBank.dispose();
 			}
 		});
 		registerBtn.setBounds(120, 480, 80, 20);

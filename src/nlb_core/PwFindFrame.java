@@ -132,6 +132,7 @@ public class PwFindFrame {
 					if (memberName != null && db.getFindPw(name, id).getMEMBER_Name().equals(name)
 							&& memberID != null && db.getFindPw(name, id).getMEMBER_ID().equals(id)) {
 						JOptionPane.showMessageDialog(null, "패스워드는 " + db.getFindPw(name, id).getMEMBER_PW() + " 입니다");
+						FindRegist.dispose();
 					} else {
 						messageDialog = new JOptionPane("입력한 정보와 일치하는 PW가 없습니다.", JOptionPane.ERROR_MESSAGE);
 						JDialog dialog = messageDialog.createDialog("PW 찾기 실패");

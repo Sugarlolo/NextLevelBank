@@ -133,6 +133,7 @@ public class IdFindFrame {
 					if (memberName != null && db.getFindId(name, phone).getMEMBER_Name().equals(name)
 							&& memberPhoneNum != null && db.getFindId(name, phone).getTEL_Num().equals(phone)) {
 						JOptionPane.showMessageDialog(null, "아이디는 " + db.getFindId(name, phone).getMEMBER_ID() + " 입니다");
+						FindRegist.dispose();
 					} else {
 						messageDialog = new JOptionPane("입력한 정보와 일치하는 ID가 없습니다.", JOptionPane.ERROR_MESSAGE);
 						JDialog dialog = messageDialog.createDialog("ID 찾기 실패");

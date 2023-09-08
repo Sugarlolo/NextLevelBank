@@ -13,6 +13,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.stream.Collector.Characteristics;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -36,6 +38,7 @@ import java.awt.Toolkit;
 import javax.swing.JCheckBox;
 
 import nlb_core.LoginFrame;
+import nlb_core.MainFrame.SharedData;
 
 public class JOINFrame {
 
@@ -182,6 +185,13 @@ public class JOINFrame {
 		frmNextLevelBank2.getContentPane().setBackground(new Color(255, 255, 255));
 		frmNextLevelBank2.getContentPane().setLayout(null);
 		frmNextLevelBank2.setResizable(false);
+		
+		frmNextLevelBank2.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				new LoginFrame();
+			}
+		});
 
 		InputGuideLabel = new JLabel("NLB \uACC4\uC815 \uC815\uBCF4\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694.");
 		InputGuideLabel.setFont(new Font("³ª´®¹Ù¸¥°íµñ", Font.BOLD, 20));
