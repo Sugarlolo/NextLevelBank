@@ -265,6 +265,7 @@ public class MainFrame {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(selectedAccountNum());
 				HistoryFrame hf = new HistoryFrame(seletedAccountNum, mbean, abean);
+				System.out.println("이체내역 확인하는 계좌: "+seletedAccountNum);
 				hf.setVisible(true);
 				SharedData.setFlag(1);
 				frame.dispose();
