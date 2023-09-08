@@ -25,7 +25,6 @@ public class AccountsMgr {
 	}
 
 
-	// 占쏙옙占퐄d, 占쏙옙占쏙옙타占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙확占쏙옙 占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쌀뤄옙占쏙옙占쏙옙
 		public Vector<AccountsBean> getAccount_num(AccountsBean bean) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -217,48 +216,12 @@ public class AccountsMgr {
 		}
 	
 		
-		public static void main(String[] args) {
-			AccountsMgr mgr = new AccountsMgr();
-			AccountsBean abean = new AccountsBean();
-			MemberBean mbean = new MemberBean();
-			//System.out.println(mgr.getAccount_num("test1","占싹뱄옙"));
-			//System.out.println(mgr.InsertAccount("test4","占쏙옙占쏙옙占쏙옙占쏙옙","占쌨울옙 占쏙옙 占싣몌옙占쏙옙占쏙옙트"));
-			//System.out.println(mgr.InsertAccountPublic("test1","test2"));
-//			bean1.setMEMBER_ID("test1");
-//			bean1.setACCOUNT_CATEGORY("�씪諛�");
-//			System.out.println(mgr.getAccount_num(bean1).get(0).getACCOUNT_NUM());
-//			System.out.println(mgr.getAccount_num(bean1).get(1).getACCOUNT_NUM());
-//			System.out.println(mgr.getAccount_num(bean1).get(2).getACCOUNT_NUM());
+//		public static void main(String[] args) {
+//			AccountsMgr mgr = new AccountsMgr();
+//			AccountsBean abean = new AccountsBean();
+//			MemberBean mbean = new MemberBean();
 //			
-			//bean1.setACCOUNT_NUM(123456789);
-//			System.out.println(mgr.getAccount_num3(bean1));
-//			bean1.setACCOUNT_CATEGORY("공동계좌");
-//			bean1.setACCOUNT_PURPOSE("급여");
-//			bean1.setMEMBER_ID("test1");
 //			
-//			mgr.InsertAccount(bean1);	
-			
-//			Vector<AccountsBean> abcAccountsBeans = mgr.getAccount_num3();
-//			for(int i =0;i<abcAccountsBeans.size();i++) {
-//				System.out.println(abcAccountsBeans.get(i).getACCOUNT_NUM());
-//			}
-			
-//			//InsertAccount
-//			bean1.setACCOUNT_CATEGORY("일반");
-//			bean1.setACCOUNT_PURPOSE("급급여");
-//			bean1.setMEMBER_ID("test1");
-//			System.out.println(mgr.InsertAccount(bean1));
-			
-//			//getAccount_num2
-//			mbean.setMEMBER_Name("김수현");
-//			mbean.setTEL_Num("01032545740");
-//			Vector<AccountsBean> abcAccountsBeans = mgr.getAccount_num2(mbean);
-//			for(int i =0;i<abcAccountsBeans.size();i++) {
-//				System.out.println(abcAccountsBeans.get(i).getACCOUNT_NUM());
-//			}
-//			
-			
-			
-		}
-		
+//		}
+//		
 }

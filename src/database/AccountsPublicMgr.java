@@ -76,8 +76,7 @@ public class AccountsPublicMgr {
 			return flag;	
 		}
 		
-		
-		// ������ �������� ���¹�ȣ �ҷ����� 
+		// 공동계좌 관련 메소드
 		public Vector<AccountsPublicBean> getPublicAccountNum(MemberBean mBean) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -86,7 +85,6 @@ public class AccountsPublicMgr {
 			Vector<AccountsPublicBean> vlist = new Vector<AccountsPublicBean>();
 			try {
 				con = pool.getConnection();
-				// �����ϴ� �������¹�ȣ, �����ϴ� ���� ���¹�ȣ
 				sql = "SELECT m2.MEMBER_ID ,ap.ACCOUNT_NUM, a2.ACCOUNT_BALANCE, ap.ACCOUNT_PUBLIC_MEMBER_NUM\r\n"
 						+ "FROM MEMBER m , MEMBER m2,ACCOUNT_PUBLIC ap, ACCOUNTS a, ACCOUNTS a2\r\n"
 						+ "WHERE m.MEMBER_ID = ? AND m.MEMBER_ID = a.MEMBER_ID \r\n"

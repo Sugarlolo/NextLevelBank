@@ -81,7 +81,7 @@ public class MemberMgr {
 		return bean;
 	}
 	
-	public boolean idDuplicationCheck(String id) { // �뜝�룞�삕�뜝�떛�벝�삕 �뜝�뙥釉앹삕泥댄겕 �뜝�뙣�냼�벝�삕
+	public boolean idDuplicationCheck(String id) { // 아이디가 중복인지 체크하는 메소드
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -105,7 +105,7 @@ public class MemberMgr {
 		return flag;
 	}
 	
-	public MemberBean getFindId(String name, String pn) { // �뜝�룞�삕�뜝�떛�벝�삕 李얍뜝�룞�삕
+	public MemberBean getFindId(String name, String pn) { // 아이디 찾기 메소드
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -131,7 +131,7 @@ public class MemberMgr {
 		return bean;
 	}
 	
-	public MemberBean getFindPw(String name, String id) { // �뜝�룞�삕艅섇뜝�떕占� 李얍뜝�룞�삕 �뜝�뙣�냼�벝�삕
+	public MemberBean getFindPw(String name, String id) { // 비밀번호 찾기 메소드
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

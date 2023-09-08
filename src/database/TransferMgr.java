@@ -33,7 +33,6 @@ public class TransferMgr {
 		int flag = 0;
 		try {
 			con = pool.getConnection();
-			// 저장 프로시저 호출
 			sql = "{call CheckAccount(?,?)}";
 			cstmt = con.prepareCall(sql);
 			cstmt.setInt(1, account);
@@ -44,7 +43,6 @@ public class TransferMgr {
 			int result = cstmt.getInt(2);
 			System.out.println("result :" + result);
 			flag = result;
-//			rs = pstmt.executeQuery();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -61,15 +59,12 @@ public class TransferMgr {
 		Connection con = null;
 		CallableStatement cstmt = null;
 		String sql = null;
-//		int account = ab.getACCOUNT_NUM();
-//		int balance = ab.getACCOUNT_BALANCE();
 		int flag = 0;
 
 		try {
 			con = pool.getConnection();
 			sql = "{call CheckAccountBalance(?,?,?)}";
 			cstmt = con.prepareCall(sql);
-//			cstmt.setInt(1,ab.getACCOUNT_NUM());
 			cstmt.setInt(1, account);
 			cstmt.setInt(2, amount);
 			cstmt.registerOutParameter(3, java.sql.Types.INTEGER);
@@ -112,93 +107,6 @@ public class TransferMgr {
 		}
 		return getBalance;
 	}
-
-//	public boolean Transfer_Transaction(AccountsBean bean, TransferBean tBean, int d_account, int t_account, int transferCash) {
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		String sql = null;
-//		String sql2 = null;
-//		String sql3 = null;
-//		String sql4 = null;
-//		boolean flag = false;
-//		TransferMgr tMgr = new TransferMgr();
-//		int d_balance = 0, t_balance = 0;
-//		try {
-//			con = pool.getConnection();
-//			con.setAutoCommit(false);
-//			try {
-//				
-//				// 1. 보내는 사람의 계좌 정보를 불러온 후 계좌 잔액을 갱신
-//				tMgr.Transfer_Refresh(d_account);
-//				sql = ("UPDATE ACCOUNTS SET ACCOUNT_LAST_DATE = NOW(),"
-//						+ "ACCOUNT_BALANCE = ? WHERE ACCOUNT_NUM = ?" );
-//				pstmt = con.prepareStatement(sql);
-//				pstmt.setInt(1,	bean.getACCOUNT_BALANCE()-transferCash);
-//				pstmt.setInt(2, bean.getACCOUNT_NUM());
-//				pstmt.executeUpdate(sql);
-//				pstmt.close();
-//				
-//				// 2. 받는 사람의 계좌 정보를 불러온 후 계좌 잔액을 갱신
-//				
-//				tMgr.Transfer_Refresh(t_account);
-//				sql2 = ("UPDATE ACCOUNTS SET "
-//						+"ACCOUNT_LAST_DATE = NOW(), "
-//						+ "ACCOUNT_BALANCE = ? "
-//						+ "WHERE ACCOUNT_NUM= ?" );
-//				pstmt = con.prepareStatement(sql2);
-//				pstmt.setInt(1,	bean.getACCOUNT_BALANCE()+transferCash);
-//				pstmt.setInt(2, bean.getACCOUNT_NUM());
-//				pstmt.executeUpdate(sql2);
-//				pstmt.close();
-//				
-//				// 3. 보내는 사람과 받는 사람의 계좌 잔액을 불러온 후 거래 내역 추가
-//				
-//				sql3 = ("SELECT  ACCOUNT_BALANCE "
-//						+ "FROM ACCOUNTS "
-//						+ "WHERE ACCOUNT_NUM = ? OR ACCOUNT_NUM = ?");
-//				pstmt = con.prepareStatement(sql3);
-//				pstmt.setInt(1, d_account);
-//				pstmt.setInt(2, t_account);
-//				rs = pstmt.executeQuery();
-//				if(rs.next()) {
-//					d_balance = rs.getInt(1);
-//					t_balance = rs.getInt(2);
-//				}
-//				pstmt.close();
-//				rs.close();
-//				
-//				sql4 = ("INSERT INTO TRANSFER VALUES (NULL, ?, ?, ?, NOW(), ?, ?, ?, ?)");
-//				pstmt = con.prepareStatement(sql4);
-//				pstmt.setInt(1, d_account);
-//				pstmt.setInt(2, transferCash);
-//				pstmt.setInt(3, t_account);
-//				pstmt.setString(4, tBean.transfer_Category);
-//				pstmt.setString(5, tBean.transfer_Memo);
-//				pstmt.setInt(6, d_balance);
-//				pstmt.setInt(7, t_balance);
-//				pstmt.close();
-//				
-//				con.commit();
-//				
-//			} catch (Exception e) {
-//				con.rollback();
-//				e.printStackTrace();
-//			}
-//			
-//			int cnt = pstmt.executeUpdate();
-//			if (cnt == 1) {
-//				flag = true;
-//			}
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			pool.freeConnection(con, pstmt, rs);
-//			
-//		}
-//		return flag;
-//	}
 
 	public boolean Transfer_Transaction(TransferBean tBean, int d_account, int t_account, int transferCash) {
 		Connection con = null;
@@ -284,36 +192,6 @@ public class TransferMgr {
 		}
 		return flag;
 	}
-
-//	public AccountsBean Transfer_Refresh(int account) {
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		String sql = null;
-//		AccountsBean aBean = null;
-//		try {
-//			con = pool.getConnection();
-//			sql = "SELECT ACCOUNT_LAST_DATE, ACCOUNT_BALANCE "
-//					+ "FROM ACCOUNTS "
-//					+ "WHERE ACCOUNT_NUM=?"; 
-//			pstmt = con.prepareStatement(sql);
-//			pstmt.setInt(1,account);
-//			rs = pstmt.executeQuery();
-//			
-//			if (rs.next()) {
-//				aBean = new AccountsBean();
-//				aBean.setACCOUNT_LAST_DATE(rs.getTimestamp(1));
-//				System.out.println("테스트 시간: "+rs.getTimestamp(1));
-//				aBean.setACCOUNT_BALANCE(rs.getInt(2));
-//				System.out.println("테스트 계좌잔고: "+rs.getInt(2));
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			pool.freeConnection(con, pstmt, rs);
-//		}
-//		return aBean;
-//	}
 
 	// 리프레시 메소드
 	public AccountsBean Account_refresh(int account) { // 계좌에 대한 정보를 갱신하는 메소드
@@ -504,37 +382,6 @@ public class TransferMgr {
 		System.out.println("가져온 일일 이체 한도는 " + limits);
 		return limits;
 	}
-	
-//	public boolean isAccountPublic(AccountsBean bean, int account) {
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		String sql = null;
-//		boolean flag = false;
-//		try {
-//			con = pool.getConnection();
-//			sql = "SELECT al.DAILY_TRANSFER_LIMITS " + "FROM ACCOUNT_LIMITS al " + "WHERE al.ACCOUNT_NUM = ?";
-//			pstmt = con.prepareStatement(sql);
-//			pstmt.setInt(1, bean.getACCOUNT_NUM());
-//			rs = pstmt.executeQuery();
-//			if (rs.next()) {
-//				
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			pool.freeConnection(con, pstmt, rs);
-//		}
-//		
-//		}
-//	}
 }
-//	
-//	public static void main(String[] args) {
-//		TransferMgr tMgr = new TransferMgr();
-//		AccountsBean aBean = new AccountsBean();
-//		MemberBean mBean = new MemberBean();
-//		mBean.setMEMBER_ID("test1");
-//		tMgr.changeMemberStatus(mBean);
-//	}
+
 
