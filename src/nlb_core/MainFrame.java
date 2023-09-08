@@ -309,7 +309,8 @@ public class MainFrame {
 		autoTransBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AutoTransferFrame atFrame = new AutoTransferFrame(mbean,abean);
+				int selectnum = selectedAccountNum();
+				AutoTransferFrame atFrame = new AutoTransferFrame(mbean,abean,selectnum);
 				atFrame.getFrame().setVisible(true);
 			}
 		});
