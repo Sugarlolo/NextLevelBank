@@ -25,24 +25,29 @@ public class HistoryMgr {
 			Vector<HistoryBean> vlist = new Vector<HistoryBean>();
 			try {
 				con = pool.getConnection();
-				sql ="SELECT t.*, a.ACCOUNT_BALANCE "
-						+ "FROM TRANSFER t LEFT OUTER JOIN ACCOUNTS a "
-						+ "ON t.TRANSFER_DO_ACCOUNT = a.ACCOUNT_NUM "
-						+ "WHERE t.TRANSFER_DO_ACCOUNT ="
-						+ "(SELECT ACCOUNT_NUM FROM ACCOUNTS WHERE ACCOUNT_NUM=?) " 
-						+ "AND t.TRANSFER_DATE > DATE_SUB(NOW(),INTERVAL "+days+" DAY)";
+				sql = "SELECT t.*, " +
+			        	  "   CASE WHEN t.TRANSFER_DO_ACCOUNT = ? THEN t.TRANSFER_DO_BALANCE " +
+			              "   WHEN t.TRANSFER_TAKE_ACCOUNT = ? THEN t.TRANSFER_TAKE_BALANCE " +
+			              "    ELSE 0 " +
+			              "    END AS MY_ACCOUNT_BALANCE " +
+			              "FROM TRANSFER t " +
+			              "WHERE (t.TRANSFER_DO_ACCOUNT = ? OR t.TRANSFER_TAKE_ACCOUNT = ?) " +
+			              "AND t.TRANSFER_DATE > DATE_SUB(NOW(), INTERVAL "+days+ " DAY)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, account);
+				pstmt.setInt(2, account);
+				pstmt.setInt(3, account);
+				pstmt.setInt(4, account);
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
 					HistoryBean bean = new HistoryBean();
-					bean.setTransfer_No(rs.getInt("Transfer_No"));
-					bean.setTransfer_Date(rs.getString("Transfer_Date"));
-					bean.setTransfer_Take_Account(rs.getInt("Transfer_Take_Account"));
-					bean.setTransfer_Memo(rs.getString("Transfer_Memo"));
-					bean.setTransfer_Category(rs.getString("Transfer_Category"));
-					bean.setTransfer_Balance(rs.getInt("Transfer_Balance"));
-					bean.setTransfer_Do_Balance(rs.getInt("Transfer_Do_Balance"));
+					bean.setTransfer_No(rs.getInt(1));
+					bean.setTransfer_Date(rs.getString(5));
+					bean.setTransfer_Take_Account(rs.getInt(4));
+					bean.setTransfer_Memo(rs.getString(7));
+					bean.setTransfer_Category(rs.getString(6));
+					bean.setTransfer_Balance(rs.getInt(3));
+					bean.setTransfer_Do_Balance(rs.getInt(10));
 					vlist.addElement(bean);
 				}
 			} catch (Exception e) {

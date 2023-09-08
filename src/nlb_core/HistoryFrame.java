@@ -9,6 +9,7 @@ import beans.AccountsBean;
 import beans.HistoryBean;
 import database.HistoryMgr;
 import database.MemberMgr;
+import nlb_core.MainFrame.SharedData;
 import beans.MemberBean;
 
 import java.awt.BorderLayout;
@@ -123,6 +124,7 @@ public class HistoryFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				MainFrame mf = new MainFrame(mBean);
+				SharedData.setFlag(0);
 				mf.getFrame().setVisible(true);
 			}
 		});
