@@ -68,15 +68,16 @@ public class AutoTransferFrame {
 	}
 
 	
-	public AutoTransferFrame(MemberBean mbean,AccountsBean abean) {
+	public AutoTransferFrame(MemberBean mbean,AccountsBean abean,int selectnum) {
 		this.mBean = mbean;
 		this.aBean = abean;
+		this.memberAccountNum = selectnum;
 		initialize();
 	}
 
 	private void initialize() {
 		MainFrame mf = new MainFrame(mBean);
-		memberAccountNum = mf.selectedAccountNum();
+		System.out.println("자동이체프레임"+memberAccountNum);
 		frmAutotransferframe = new JFrame();
 		frmAutotransferframe.setSize(500, 800); // 프레임 사이즈
 		int centerX = (screenSize.width - frmAutotransferframe.getWidth()) / 2; // 창 중앙에 frame
