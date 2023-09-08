@@ -32,7 +32,7 @@ public class HistoryMgr {
 			              "    END AS MY_ACCOUNT_BALANCE " +
 			              "FROM TRANSFER t " +
 			              "WHERE (t.TRANSFER_DO_ACCOUNT = ? OR t.TRANSFER_TAKE_ACCOUNT = ?) " +
-			              "AND t.TRANSFER_DATE > DATE_SUB(NOW(), INTERVAL "+days+ " DAY)";
+			              "AND t.TRANSFER_DATE > DATE_SUB(NOW(), INTERVAL "+days+" DAY)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, account);
 				pstmt.setInt(2, account);
