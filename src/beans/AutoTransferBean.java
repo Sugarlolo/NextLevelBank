@@ -5,8 +5,14 @@ public class AutoTransferBean {
 	private int DoccountNum;
 	private int transBalance;
 	private int transferDate;
+	private String MEMBER_NAME;
 	
-	
+	public String getMEMBER_NAME() {
+		return MEMBER_NAME;
+	}
+	public void setMEMBER_NAME(String mEMBER_NAME) {
+		MEMBER_NAME = mEMBER_NAME;
+	}
 	public int getTransBalance() {
 		return transBalance;
 	}

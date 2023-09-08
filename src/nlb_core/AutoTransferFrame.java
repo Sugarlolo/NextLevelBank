@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -20,6 +21,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.AbstractDocument;
 
@@ -33,14 +35,20 @@ import database.AutoTransferMgr;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 
 public class AutoTransferFrame {
-
+	private DefaultListModel<String> model;
+	private JList<String> AccountsList;
 	private JFrame frmAutotransferframe;
 	private JTextField transBalanceTF;
 	private JTextField withdrawAccountTF;
 	private int selectedAccountNum;
+	private int memberAccountNum;
 	private AccountsBean aBean;
+	private int listIDX;
+	private Vector<AutoTransferBean> accountlist = new Vector<AutoTransferBean>();
+	
 	private AutoTransferBean aTBean = new AutoTransferBean();
 	private MemberBean mBean;
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 창의 중앙 좌표 계산
@@ -68,7 +76,7 @@ public class AutoTransferFrame {
 
 	private void initialize() {
 		MainFrame mf = new MainFrame(mBean);
-		selectedAccountNum = mf.selectedAccountNum();
+		memberAccountNum = mf.selectedAccountNum();
 		frmAutotransferframe = new JFrame();
 		frmAutotransferframe.setSize(500, 800); // 프레임 사이즈
 		int centerX = (screenSize.width - frmAutotransferframe.getWidth()) / 2; // 창 중앙에 frame
@@ -87,12 +95,16 @@ public class AutoTransferFrame {
 		titleLbl.setBounds(30, 20, 200, 40);
 		panel.add(titleLbl);
 		
-		JScrollPane checkSP = new JScrollPane();
+		JScrollPane checkSP = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		checkSP.setBounds(30, 370, 430, 300);
 		panel.add(checkSP);
 		
-		JList AccountsList = new JList();
-		AccountsList.setFont(new Font("나눔바른고딕", Font.BOLD, 12));
+		model = new DefaultListModel<>();
+		AccountsList = new JList<>(model);
+		AccountsList.setFont(new Font("나눔바른고딕", Font.BOLD, 14));
+		AccountsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // accountList 하나만 선택 될 수 있도록
+		AccountsList.setSelectionBackground(new Color(255, 225, 0));
 		checkSP.setViewportView(AccountsList);
 		
 		JLabel registLbl = new JLabel("자동이체 등록");
@@ -111,7 +123,7 @@ public class AutoTransferFrame {
 		cancelBtn.setBounds(30, 686, 430, 53);
 		panel.add(cancelBtn);
 		
-		JLabel transAccountLbl = new JLabel("자동이체 이체 계좌번호 : "+selectedAccountNum);
+		JLabel transAccountLbl = new JLabel("자동이체 이체 계좌번호 : "+memberAccountNum);
 		transAccountLbl.setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
 		transAccountLbl.setBounds(40, 120, 396, 15);
 		panel.add(transAccountLbl);
@@ -156,17 +168,11 @@ public class AutoTransferFrame {
 		RegistBtn.setBounds(30, 250, 430, 53);
 		panel.add(RegistBtn);
 		
-		
+		//자동이체 등록 액션리스너
 		RegistBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int cmbxDateNum = 0;
-				
-				System.out.println(withdrawAccountTF.getText());
-				System.out.println(transBalanceTF.getText());
-				System.out.println(transDateCmbx.getSelectedItem());
-				
-				
 				String cmbxSelectedValue = (String) transDateCmbx.getSelectedItem(); // 콤보박스에서 선택된 값을 가져옴
 				// 숫자 부분만 추출
 				String[] parts = cmbxSelectedValue.split("[^0-9]+");
@@ -178,12 +184,14 @@ public class AutoTransferFrame {
 				
 				boolean flag = false;
 				aTBean.setTakeccountNum(Integer.parseInt(withdrawAccountTF.getText()));
-				aTBean.setDoccountNum(Integer.parseInt(transBalanceTF.getText()));
-				aTBean.setTransBalance(centerY);
+				aTBean.setDoccountNum(memberAccountNum);
+				aTBean.setTransBalance(Integer.parseInt(transBalanceTF.getText()));
 				aTBean.setTransferDate(cmbxDateNum);
 				flag = aTMgr.inserAutoTransfer(aTBean);
 				if(flag) {
 					JOptionPane.showMessageDialog(frmAutotransferframe,"자동이체 등록 성공하였습니다.","안내",JOptionPane.INFORMATION_MESSAGE);
+					deleteAccountList();
+					showAccountList();
 				}
 				else{
 					JOptionPane.showMessageDialog(frmAutotransferframe,"자동이체 등록 실패하였습니다.","경고",JOptionPane.WARNING_MESSAGE);
@@ -193,10 +201,54 @@ public class AutoTransferFrame {
 			}
 		});
 		
+		//자동이체 해지 버튼 액션리스너
+		cancelBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//System.out.println(selectedAccountNum());
+				aTBean.setTakeccountNum(selectedAccountNum());
+				aTBean.setDoccountNum(memberAccountNum);
+				boolean flag = false;
+				flag = aTMgr.deleteAutoTransfer(aTBean);
+				if(flag) {
+					JOptionPane.showMessageDialog(frmAutotransferframe, "자동이체 해지가 완료되었습니다.","안내",JOptionPane.INFORMATION_MESSAGE);
+					deleteAccountList();
+					showAccountList();
+				}else {
+					JOptionPane.showMessageDialog(frmAutotransferframe, "자동이체 해지를 실패하였습니다.","경고",JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		
+		showAccountList();
+		
 		frmAutotransferframe.setResizable(false);
 		//frmAutotransferframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
+	public int selectedAccountNum() {
+		listIDX = AccountsList.getSelectedIndex();
+		listIDX /=4;
+		selectedAccountNum = accountlist.get(listIDX).getTakeccountNum();
+		
+		return selectedAccountNum;
+	}
+	public void showAccountList() {
+		listIDX = 0;
+		aTBean.setDoccountNum(memberAccountNum);
+		accountlist = aTMgr.selectAutoTransfer(aTBean);
+		for(AutoTransferBean autotransferbean : accountlist) {
+			listIDX++;
+			model.addElement("자동이체 입금 계좌 : "+autotransferbean.getTakeccountNum() + " 이름 :"+autotransferbean.getMEMBER_NAME());
+			model.addElement("출금 계좌 : "+ autotransferbean.getDoccountNum());
+			model.addElement("자동이체 금액 : "+autotransferbean.getTransBalance() +" 자동이체일 : "+autotransferbean.getTransferDate());
+			model.addElement(" ");
+		}
+	}	
+	public void deleteAccountList() {
+		model.clear();
+
+	}
+
 	public JFrame getFrame() {
 		return frmAutotransferframe;
 	}
